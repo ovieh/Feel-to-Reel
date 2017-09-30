@@ -1,2 +1,2 @@
 # Movie-Feels
-Silent Sonics Group Group
+Silent Sonics Group Project
