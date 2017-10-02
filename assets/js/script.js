@@ -1,6 +1,6 @@
-$(document).on("click", "SUBMIT BUTTON", displayMovies);
+$(document).on("click", "SUBMIT BUTTON", whichMovies);
 
-function displayMovies () {
+function whichMovies () {
 
 // AJAX call to the Movie Database API
 
@@ -50,9 +50,42 @@ if (emotion === anger) {
 
 } else if (emotion === contempt) {
 
+	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + documentary + "%2C%20" + history;
+
+} else if (emotion === disgust) {
+
+	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + scienceFiction;
+
+} else if (emotion === fear) {
+
+	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + horror + "%2C%20" + mystery;
+
+} else if (emotion === neutral) {
+
+	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + drama;
+
+
+
+} else if (emotion === sadness) {
+
+	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + romance + "%2C%20" + drama;
+
+
+
+} else if (emotion === surprise) {
+
+	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + fantasy + "%2C%20" + adventure;
 	
 
+
+} else {
+
+	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + comedy + "%2C%20" + music;
+
 }
+
+ajaxCall ();
+
 }
 
 // AJAX Call to the Movie Database API
