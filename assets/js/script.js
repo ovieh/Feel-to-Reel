@@ -1,10 +1,14 @@
-$(document).on("click", "SUBMIT BUTTON", whichMovies);
+// Empty variable to hold URL which will change depending on emotion detected
+
+var queryURL = "";
+
+$(document).on("click", "#submit", whichMovies);
 
 function whichMovies () {
 
-// AJAX call to the Movie Database API
+$("#test-div").empty();
 
-$("#movie-view").empty();
+var emotion = "contempt";
 
 
 //// Which genre will match with which emotion? 
@@ -34,49 +38,39 @@ var romance = "10749";
 var scienceFiction = "878";
 var thriller = "53";
 
-// Empty variable to hold URL which will change depending on emotion detected
-
-var queryURL = "";
-
 // Movie Database API key
 
-var = movieAPI = "aed8a1ce3108479482ae5d0e4cbb536a";
+var movieAPI = "aed8a1ce3108479482ae5d0e4cbb536a";
 
 // If statements that determine which URL will be called
 
-if (emotion === anger) {
+if (emotion === "anger") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + action + "%2C%20" + crime + "%2C%20" + thriller; 
 
-} else if (emotion === contempt) {
+} else if (emotion === "contempt") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + documentary + "%2C%20" + history;
 
-} else if (emotion === disgust) {
+} else if (emotion === "disgust") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + scienceFiction;
 
-} else if (emotion === fear) {
+} else if (emotion === "fear") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + horror + "%2C%20" + mystery;
 
-} else if (emotion === neutral) {
+} else if (emotion === "neutral") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + drama;
 
-
-
-} else if (emotion === sadness) {
+} else if (emotion === "sadness") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + romance + "%2C%20" + drama;
 
-
-
-} else if (emotion === surprise) {
+} else if (emotion === "surprise") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + fantasy + "%2C%20" + adventure;
-	
-
 
 } else {
 
@@ -95,9 +89,11 @@ function ajaxCall () {
 	$.ajax({
 		url: queryURL,
 		method: 'GET'
-	}).done(function(response) {
+	}).done(function(response) {;
 
-		console.log(response);
+		// for safekeeping
 
-	}
+		// var firstTitle = response.results[0].title;
+
+	})
 }
