@@ -78,7 +78,12 @@ button.onclick = function () {
     })
     .done(function (data) {
       alert("success");
-      console.log(data);
+      var scores = data[0].scores;
+      var arr = [1,2,3];
+      // Returns the highest index in the emotion object in emotion object
+      var highEmotion = Object.keys(scores).reduce((a,b) => { return scores[a] > scores[b] ? a : b});
+
+      console.log(highEmotion);
     })
     .fail(function () {
       alert("error");
