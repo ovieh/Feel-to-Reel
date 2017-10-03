@@ -12,15 +12,51 @@
 var video = document.querySelector('video');
 var canvas = window.canvas = document.querySelector('canvas');
 canvas.width = 480;
-canvas.height = 0;
+canvas.height = 360;
+var dataURL;
 
+
+//I think this takes a still and displays it
 var button = document.querySelector('button');
-button.onclick = function() {
+button.onclick = function () {
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   canvas.getContext('2d').
-    drawImage(video, 0, 0, canvas.width, canvas.height);
+  drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  dataURL = canvas.toDataURL();
+
+  var params = {
+    // Request parameters
+  };
+  
+  $.ajax({
+      // NOTE: You must use the same location in your REST call as you used to obtain your subscription keys.
+      //   For example, if you obtained your subscription keys from westcentralus, replace "westus" in the 
+      //   URL below with "westcentralus".
+      url: "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize?" + $.param(params),
+      beforeSend: function (xhrObj) {
+        // Request headers
+        xhrObj.setRequestHeader("Content-Type", "application/json");
+  
+        // NOTE: Replace the "Ocp-Apim-Subscription-Key" value with a valid subscription key.
+        xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "d8c7aa1767df41c0aa08d36223895b0c");
+      },
+      type: "POST",
+      // Request body
+      // data: '{"url": "http://vandammethatface.com/images/face.png"}',
+      data: [dataURL]
+    })
+    .done(function (data) {
+      alert("success");
+      console.log(data);
+    })
+    .fail(function () {
+      alert("error");
+    });
+  
 };
+console.log(dataURL);
 
 var constraints = {
   audio: false,
@@ -37,4 +73,6 @@ function handleError(error) {
 }
 
 navigator.mediaDevices.getUserMedia(constraints).
-    then(handleSuccess).catch(handleError);
+then(handleSuccess).catch(handleError);
+
+
