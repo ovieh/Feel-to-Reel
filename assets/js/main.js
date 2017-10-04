@@ -75,13 +75,21 @@ button.onclick = function () {
       // data: '{"url": canvas.toDataURL()}',
       data: makeblob(dataURL),
       processData: false,
-      
+
     })
     .done(function (data) {
       alert("success");
-      var scores = data[0].scores;
-      // Returns the highest index in the emotion object in emotion object
-      var highEmotion = Object.keys(scores).reduce((a,b) => { return scores[a] > scores[b] ? a : b});
+      if (typeof data[0] !== "undefined") {
+        var scores = data[0].scores;
+        // Returns the highest index in the emotion object in emotion object
+        var highEmotion = Object.keys(scores).reduce((a, b) => {
+          return scores[a] > scores[b] ? a : b
+        });
+      }
+      else {
+        alert("Please take another picture");
+      }
+
 
       console.log(highEmotion);
     })
