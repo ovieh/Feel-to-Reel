@@ -12,7 +12,7 @@
 var video = document.querySelector('video');
 var canvas = window.canvas = document.querySelector('canvas');
 canvas.width = 480;
-canvas.height = 360;
+canvas.height = 0;
 var dataURL;
 
 
@@ -79,7 +79,6 @@ button.onclick = function () {
     .done(function (data) {
       alert("success");
       var scores = data[0].scores;
-      var arr = [1,2,3];
       // Returns the highest index in the emotion object in emotion object
       var highEmotion = Object.keys(scores).reduce((a,b) => { return scores[a] > scores[b] ? a : b});
 
