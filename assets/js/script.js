@@ -2,14 +2,11 @@
 
 var queryURL = "";
 
-$(document).on("click", "#submit", whichMovies);
+$(document).on("click", "#takeSnapshot", whichMovies);
 
 function whichMovies () {
 
 $("#test-div").empty();
-
-var emotion = "contempt";
-
 
 //// Which genre will match with which emotion? 
 // anger = action, crime, thriller
@@ -44,31 +41,31 @@ var movieAPI = "aed8a1ce3108479482ae5d0e4cbb536a";
 
 // If statements that determine which URL will be called
 
-if (emotion === "anger") {
+if (highEmotion === "anger") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + action + "%2C%20" + crime + "%2C%20" + thriller; 
 
-} else if (emotion === "contempt") {
+} else if (highEmotion === "contempt") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + documentary + "%2C%20" + history;
 
-} else if (emotion === "disgust") {
+} else if (highEmotion === "disgust") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + scienceFiction;
 
-} else if (emotion === "fear") {
+} else if (highEmotion === "fear") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + horror + "%2C%20" + mystery;
 
-} else if (emotion === "neutral") {
+} else if (highEmotion === "neutral") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + drama;
 
-} else if (emotion === "sadness") {
+} else if (highEmotion === "sadness") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + romance + "%2C%20" + drama;
 
-} else if (emotion === "surprise") {
+} else if (highEmotion === "surprise") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + fantasy + "%2C%20" + adventure;
 
@@ -89,11 +86,28 @@ function ajaxCall () {
 	$.ajax({
 		url: queryURL,
 		method: 'GET'
-	}).done(function(response) {;
+	}).done(function(response) {
 
-		// for safekeeping
+		var results = response.results;
 
-		// var firstTitle = response.results[0].title;
+		console.log(results);
 
+		// for (var i = 0; i < 10; i++) {
+
+		// 	var movieDiv = $("<div>");
+
+  //   		var poster = $("<img>");
+
+  //   		reactionImage.addClass("gif");
+
+  //   		reactionImage.attr("src", results[i].images.fixed_height_still.url);
+
+  //   		reactionDiv.append(reactionImage);
+  //   		reactionDiv.append(p);
+
+  //   		reactionDiv.addClass("float-left m-2");
+
+  //   		$("#gif-view").prepend(reactionDiv);
+		// }
 	})
 }

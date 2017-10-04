@@ -14,6 +14,7 @@ var canvas = window.canvas = document.querySelector('canvas');
 canvas.width = 480;
 canvas.height = 0;
 var dataURL;
+var highEmotion = "";
 
 
 //I think this takes a still and displays it
