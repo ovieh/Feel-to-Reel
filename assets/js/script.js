@@ -19,8 +19,6 @@ function whichMovies () {
 
 $("#test-div").empty();
 
-console.log("my file: " + highEmotion);
-
 //// Which genre will match with which emotion? 
 // anger = action, crime, thriller
 // contempt = documentary, history
@@ -104,28 +102,28 @@ function ajaxCall () {
 
 		console.log(results);
 
-		for (var i = 0; i < 10; i++) {
+		// for (var i = 0; i < 10; i++) {
 
-			var movieDiv = $("<div>");
+		// 	var movieDiv = $("<div>");
 
-    		var poster = $("<img>");
+  //   		var poster = $("<img>");
 
-    		poster.addClass("poster");
+  //   		poster.addClass("poster");
 
-    		poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
+  //   		poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
 
-    		movieDiv.append(poster);
+  //   		movieDiv.append(poster);
 
-    		var title = $("<p>").text(results[i].title);
+  //   		var title = $("<p>").text(results[i].title);
 
-    		movieDiv.append(title);
+  //   		movieDiv.append(title);
 
-    		var plotSummary = $("<p>").text(results[i].overview);
+  //   		var plotSummary = $("<p>").text(results[i].overview);
 
-    		movieDiv.append(plotSummary);
+  //   		movieDiv.append(plotSummary);
 
-    		$("#test-div").append(movieDiv);
-		}
+  //   		$("#test-div").append(movieDiv);
+		// }
 	})
 }
 
