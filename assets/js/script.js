@@ -7,6 +7,7 @@ canvas.width = 480;
 canvas.height = 0;
 var dataURL;
 var highEmotion = "";
+var localstream;
 
 // Empty variable to hold URL which will change depending on emotion detected
 
@@ -172,6 +173,7 @@ button.onclick = function () {
     return new Blob([uInt8Array], {
       type: contentType
     });
+
   };
 
   // console.log(dataURL);
@@ -206,6 +208,10 @@ button.onclick = function () {
         var highEmotion = Object.keys(scores).reduce((a, b) => {
           return scores[a] > scores[b] ? a : b
         });
+        
+        //Shuts video off
+        vidOff();
+        
       }
       else {
         alert("Please take another picture");
@@ -229,6 +235,7 @@ var constraints = {
 function handleSuccess(stream) {
   window.stream = stream; // make stream available to browser console
   video.srcObject = stream;
+  localstream = stream;
 }
 
 function handleError(error) {
@@ -237,3 +244,9 @@ function handleError(error) {
 
 navigator.mediaDevices.getUserMedia(constraints).
 then(handleSuccess).catch(handleError);
+
+var vidOff = () => {
+  video.pause();
+  video.src = "";
+  localstream.getTracks()[0].stop();
+}
