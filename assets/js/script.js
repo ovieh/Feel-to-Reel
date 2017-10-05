@@ -13,7 +13,6 @@ var localstream;
 
 var queryURL = "";
 
-$(document).on("click", "#takeSnapshot", whichMovies);
 
 function whichMovies () {
 
@@ -82,10 +81,12 @@ if (highEmotion == "anger") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + fantasy + "%2C%20" + adventure;
 
-} else {
+} else if (highEmotion == "happiness") {
 
 	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + comedy + "%2C%20" + music;
 
+}else{
+  console.log("No emotion!!!");
 }
 
 ajaxCall ();
@@ -93,9 +94,7 @@ ajaxCall ();
 }
 
 // AJAX Call to the Movie Database API
-
 function ajaxCall () {
-
 	$.ajax({
 		url: queryURL,
 		method: 'GET'
@@ -205,13 +204,13 @@ button.onclick = function () {
       if (typeof data[0] !== "undefined") {
         var scores = data[0].scores;
         // Returns the highest index in the emotion object in emotion object
-        var highEmotion = Object.keys(scores).reduce((a, b) => {
+        highEmotion = Object.keys(scores).reduce((a, b) => {
           return scores[a] > scores[b] ? a : b
         });
         
         //Shuts video off
-        vidOff();
-        
+        // vidOff();
+        whichMovies();
       }
       else {
         alert("Please take another picture");
@@ -245,8 +244,64 @@ function handleError(error) {
 navigator.mediaDevices.getUserMedia(constraints).
 then(handleSuccess).catch(handleError);
 
+
 var vidOff = () => {
   video.pause();
   video.src = "";
   localstream.getTracks()[0].stop();
 }
+
+/*
+---------------------------Display---------------------------
+-------------------------------------------------------------
+*/
+function displayLoading(){
+  console.log("test");
+  $("titleDiv").text("");
+  $("mediaDiv").html("");
+  $("buttonDiv").html("");
+
+  //Tittle
+  var hDiv = $("<h1>").addClass("center-align").text("Feel to Reel");
+  $("#titleDiv").append(hDiv);
+
+  //Video and canvas
+  var vidDiv = $("<video>");
+  var canDiv = $("<canvas>");
+
+  $("#mediaDiv").append(vidDiv);
+  $("#mediaDiv").append(canDiv);
+
+  //Creating the buttons
+  var camBtn = $("<button>").html("<i class='small material-icons'>camera_alt</i>");
+  var vidBtn = $("<button>").html("<i class='small material-icons'>videocam</i>");
+  
+  camBtn.addClass("btn waves-effect");
+  vidBtn.addClass("btn waves-effect");
+
+  camBtn.attr("id", "snapshotBtn");
+  vidBtn.attr("id", "videoBtn");
+
+  $("#buttonDiv").append(vidBtn);
+  $("#buttonDiv").append(camBtn);
+}
+
+$(document).ready(function(){
+
+  //$(document).on("click", "#snapshotBtn", whichMovies);
+  $("#videoBtn").hide();
+  $(document).on("click", "#snapshotBtn", function(){
+    $("video").hide();
+    $(this).hide();
+    $("#videoBtn").show();
+    $("canvas").show(); 
+    vidOff();
+  });
+  $(document).on("click", "#videoBtn", function(){
+    $("canvas").hide();
+    $(this).hide();
+    $("#snapshotBtn").show()
+    $("video").show();
+  });
+})
+
