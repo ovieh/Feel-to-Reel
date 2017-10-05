@@ -209,7 +209,7 @@ button.onclick = function () {
         });
         
         //Shuts video off
-        vidOff();
+        // vidOff();
         
       }
       else {
@@ -293,6 +293,7 @@ $(document).ready(function(){
     $(this).hide();
     $("#videoBtn").show();
     $("canvas").show(); 
+    vidOff();
   });
   $(document).on("click", "#videoBtn", function(){
     $("canvas").hide();
