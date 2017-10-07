@@ -8,7 +8,7 @@ canvas.height = 0;
 var dataURL;
 var highEmotion = "";
 var localstream;
-
+var results;
 // Initialize Firebae
 var config = {
   apiKey: "AIzaSyAynPxThM6T3tphifpPEvBGMdDb4xRHkRQ",
@@ -134,7 +134,7 @@ function ajaxCall() {
     method: 'GET'
   }).done(function (response) {
 
-    var results = response.results;
+    results = response.results;
 
     console.log(results);
 
@@ -147,9 +147,10 @@ function ajaxCall() {
 
       poster.addClass("responsive-img poster modal-trigger");
 
-      poster.attr("src", "https://image.tmdb.org/t/p/w640" + results[i].poster_path);
+    	poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
+      poster.attr("data-value", i);
+    	movieDiv.append(poster);
 
-      movieDiv.append(poster);
 
       var title = $("<h2>").text(results[i].title);
 
@@ -164,7 +165,8 @@ function ajaxCall() {
   })
 
 }
-
+function displayModal(x){
+}
 /*
  *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
  *
@@ -344,7 +346,10 @@ $(document).ready(function(){
   });
   //Modal
   $(document).on("click",".poster", function(){
-    $("#modal1").modal("open");
+
+      $("#modal1").modal("open");
+      displayModal($(this).attr("data-value"));
+
   });
 
 })
