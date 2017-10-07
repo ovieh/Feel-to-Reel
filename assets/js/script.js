@@ -27,7 +27,7 @@ var queryURL = "";
 
 function whichMovies () {
 
-$("#test-div").empty();
+$("#movieList").empty();
 
 console.log("my file: " + highEmotion);
 
@@ -135,7 +135,7 @@ function ajaxCall () {
 
     		movieDiv.append(plotSummary);
 
-    		$("#test-div").append(movieDiv);
+    		$("#movieList").append(movieDiv);
 		}
 	})
 }
