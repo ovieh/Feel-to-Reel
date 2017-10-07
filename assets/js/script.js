@@ -9,6 +9,17 @@ var dataURL;
 var highEmotion = "";
 var localstream;
 
+// Initialize Firebae
+var config = {
+  apiKey: "AIzaSyAynPxThM6T3tphifpPEvBGMdDb4xRHkRQ",
+  authDomain: "feel-to-reel.firebaseapp.com",
+  databaseURL: "https://feel-to-reel.firebaseio.com",
+  projectId: "feel-to-reel",
+  storageBucket: "feel-to-reel.appspot.com",
+  messagingSenderId: "817122802812"
+};
+firebase.initializeApp(config);
+
 // Empty variable to hold URL which will change depending on emotion detected
 
 var queryURL = "";
@@ -296,12 +307,14 @@ $(document).ready(function(){
     $("#videoBtn").show();
     $("canvas").show(); 
     vidOff();
+    
   });
   $(document).on("click", "#videoBtn", function(){
     $("canvas").hide();
     $(this).hide();
     $("#snapshotBtn").show()
     $("video").show();
+    
   });
 })
 
