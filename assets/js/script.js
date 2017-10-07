@@ -115,27 +115,27 @@ function ajaxCall () {
 
 		console.log(results);
 
-		for (var i = 0; i < 10; i++) {
+		for (var i = 0; i < 9; i++) {
 
 			var movieDiv = $("<div>");
+      movieDiv.addClass("col s4 m4");
+    	var poster = $("<img>");
 
-    		var poster = $("<img>");
+    	poster.addClass("responsive-img");
 
-    		poster.addClass("poster");
+    	poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
 
-    		poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
+    	movieDiv.append(poster);
 
-    		movieDiv.append(poster);
+    	var title = $("<p>").text(results[i].title);
 
-    		var title = $("<p>").text(results[i].title);
+    	movieDiv.append(title);
 
-    		movieDiv.append(title);
+    	var plotSummary = $("<p>").text(results[i].overview);
 
-    		var plotSummary = $("<p>").text(results[i].overview);
+    	movieDiv.append(plotSummary);
 
-    		movieDiv.append(plotSummary);
-
-    		$("#movieList").append(movieDiv);
+    	$("#movieList").append(movieDiv);
 		}
 	})
 }
