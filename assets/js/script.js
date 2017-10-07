@@ -52,13 +52,7 @@ var queryURL = "";
 
 function whichMovies() {
 
-<<<<<<< HEAD
 $("#movieList").empty();
-=======
-  $("#test-div").empty();
-
-  console.log("my file: " + highEmotion);
->>>>>>> 47d24a7db18c27b9852c6ac8f579a10b2397117a
 
   //// Which genre will match with which emotion? 
   // anger = action, crime, thriller
@@ -140,57 +134,35 @@ function ajaxCall() {
     method: 'GET'
   }).done(function (response) {
 
-    var results = response.results;
+var results = response.results;
 
-    console.log(results);
+   console.log(results);
 
-<<<<<<< HEAD
-		for (var i = 0; i < 9; i++) {
-=======
-    for (var i = 0; i < 10; i++) {
->>>>>>> 47d24a7db18c27b9852c6ac8f579a10b2397117a
+        for (var i = 0; i < 9; i++) {
 
-      var movieDiv = $("<div>");
+            var movieDiv = $("<div>");
+      movieDiv.addClass("col s4 m4");
+        var poster = $("<img>");
 
-      var poster = $("<img>");
+       poster.addClass("responsive-img poster modal-trigge");
 
-      poster.addClass("poster");
+       poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
 
-      poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
+       movieDiv.append(poster);
 
-      movieDiv.append(poster);
+       var title = $("<p>").text(results[i].title);
 
-      var title = $("<p>").text(results[i].title);
+       movieDiv.append(title);
 
-<<<<<<< HEAD
-        title.addClass("left");
+       var plotSummary = $("<p>").text(results[i].overview);
 
-    		movieDiv.append(title);
-=======
-      movieDiv.append(title);
->>>>>>> 47d24a7db18c27b9852c6ac8f579a10b2397117a
+       movieDiv.append(plotSummary);
 
-      var plotSummary = $("<p>").text(results[i].overview);
+       $("#movieList").append(movieDiv);
+        }
+    })
 
-      movieDiv.append(plotSummary);
-
-<<<<<<< HEAD
-        movieDiv.addClass("left");
-
-    		$("#movieList").append(movieDiv);
-		}
-	})
-=======
-      $("#test-div").append(movieDiv);
-    }
-  })
->>>>>>> 47d24a7db18c27b9852c6ac8f579a10b2397117a
 }
-
-  $(document).ready(function(){
-    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-    $('.modal').modal();
-  });
 
 /*
  *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
@@ -300,6 +272,7 @@ function handleSuccess(stream) {
 }
 
 function handleError(error) {
+
   console.log('navigator.getUserMedia error: ', error);
 }
 
@@ -348,7 +321,8 @@ function displayLoading() {
   $("#buttonDiv").append(camBtn);
 }
 
-$(document).ready(function () {
+$(document).ready(function(){
+  $(".modal").modal()
 
   //$(document).on("click", "#snapshotBtn", whichMovies);
   $("#videoBtn").hide();
@@ -365,6 +339,11 @@ $(document).ready(function () {
     $(this).hide();
     $("#snapshotBtn").show()
     $("video").show();
-
+    
   });
+  //Modal
+  $(document).on("click",".poster", function(){
+      $("#modal1").modal("open");
+  });
+
 })
