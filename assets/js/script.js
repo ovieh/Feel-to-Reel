@@ -24,7 +24,7 @@ firebase.initializeApp(config);
 var provider = new firebase.auth.GithubAuthProvider();
 
 //Prompt user for sign in
-firebase.auth().signInWithPopup(provider);
+firebase.auth().signInWithRedirect(provider);
 
 firebase.auth().getRedirectResult().then(function (result) {
   if (result.credential) {
