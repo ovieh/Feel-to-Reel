@@ -20,6 +20,12 @@ var config = {
 };
 firebase.initializeApp(config);
 
+// Creates instance of Github provider object
+var provider = new firebase.auth.GithubAuthProvider();
+
+//Prompt user for sign in
+firebase.auth().signInWithRedirect(provider);
+
 // Empty variable to hold URL which will change depending on emotion detected
 
 var queryURL = "";
