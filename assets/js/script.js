@@ -26,124 +26,143 @@ var provider = new firebase.auth.GithubAuthProvider();
 //Prompt user for sign in
 firebase.auth().signInWithPopup(provider);
 
+firebase.auth().getRedirectResult().then(function (result) {
+  if (result.credential) {
+    // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+    var token = result.credential.accessToken;
+    // ...
+  }
+  // The signed-in user info.
+  var user = result.user;
+}).catch(function (error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // The email of the user's account used.
+  var email = error.email;
+  // The firebase.auth.AuthCredential type that was used.
+  var credential = error.credential;
+  // ...
+});
+
 // Empty variable to hold URL which will change depending on emotion detected
 
 var queryURL = "";
 
 
-function whichMovies () {
+function whichMovies() {
 
-$("#test-div").empty();
+  $("#test-div").empty();
 
-console.log("my file: " + highEmotion);
+  console.log("my file: " + highEmotion);
 
-//// Which genre will match with which emotion? 
-// anger = action, crime, thriller
-// contempt = documentary, history
-// disgust = science fiction
-// fear = horror, mystery
-// neutral = drama
-// sadness = romance, drama
-// surprise = fantasy, adventure
-// happiness = comedy, music
+  //// Which genre will match with which emotion? 
+  // anger = action, crime, thriller
+  // contempt = documentary, history
+  // disgust = science fiction
+  // fear = horror, mystery
+  // neutral = drama
+  // sadness = romance, drama
+  // surprise = fantasy, adventure
+  // happiness = comedy, music
 
-// Variables holding the genre IDs needed for the API call
+  // Variables holding the genre IDs needed for the API call
 
-var action = "28";
-var adventure = "12";
-var comedy = "35";
-var crime = "80";
-var documentary = "99";
-var drama = "18";
-var fantasy = "14";
-var history = "36";
-var horror = "27";
-var music = "10402";
-var mystery = "9648";
-var romance = "10749";
-var scienceFiction = "878";
-var thriller = "53";
+  var action = "28";
+  var adventure = "12";
+  var comedy = "35";
+  var crime = "80";
+  var documentary = "99";
+  var drama = "18";
+  var fantasy = "14";
+  var history = "36";
+  var horror = "27";
+  var music = "10402";
+  var mystery = "9648";
+  var romance = "10749";
+  var scienceFiction = "878";
+  var thriller = "53";
 
-// Movie Database API key
+  // Movie Database API key
 
-var movieAPI = "aed8a1ce3108479482ae5d0e4cbb536a";
+  var movieAPI = "aed8a1ce3108479482ae5d0e4cbb536a";
 
-// If statements that determine which URL will be called
+  // If statements that determine which URL will be called
 
-if (highEmotion == "anger") {
+  if (highEmotion == "anger") {
 
-	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + action + "%2C%20" + crime + "%2C%20" + thriller; 
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + action + "%2C%20" + crime + "%2C%20" + thriller;
 
-} else if (highEmotion == "contempt") {
+  } else if (highEmotion == "contempt") {
 
-	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + documentary + "%2C%20" + history;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + documentary + "%2C%20" + history;
 
-} else if (highEmotion == "disgust") {
+  } else if (highEmotion == "disgust") {
 
-	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + scienceFiction;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + scienceFiction;
 
-} else if (highEmotion == "fear") {
+  } else if (highEmotion == "fear") {
 
-	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + horror + "%2C%20" + mystery;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + horror + "%2C%20" + mystery;
 
-} else if (highEmotion == "neutral") {
+  } else if (highEmotion == "neutral") {
 
-	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + drama;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + drama;
 
-} else if (highEmotion == "sadness") {
+  } else if (highEmotion == "sadness") {
 
-	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + romance + "%2C%20" + drama;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + romance + "%2C%20" + drama;
 
-} else if (highEmotion == "surprise") {
+  } else if (highEmotion == "surprise") {
 
-	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + fantasy + "%2C%20" + adventure;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + fantasy + "%2C%20" + adventure;
 
-} else if (highEmotion == "happiness") {
+  } else if (highEmotion == "happiness") {
 
-	queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + comedy + "%2C%20" + music;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + comedy + "%2C%20" + music;
 
-}else{
-  console.log("No emotion!!!");
-}
+  } else {
+    console.log("No emotion!!!");
+  }
 
-ajaxCall ();
+  ajaxCall();
 
 }
 
 // AJAX Call to the Movie Database API
-function ajaxCall () {
-	$.ajax({
-		url: queryURL,
-		method: 'GET'
-	}).done(function(response) {
+function ajaxCall() {
+  $.ajax({
+    url: queryURL,
+    method: 'GET'
+  }).done(function (response) {
 
-		var results = response.results;
+    var results = response.results;
 
-		console.log(results);
+    console.log(results);
 
-		for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 10; i++) {
 
-			var movieDiv = $("<div>");
+      var movieDiv = $("<div>");
 
-    		var poster = $("<img>");
+      var poster = $("<img>");
 
-    		poster.addClass("poster");
+      poster.addClass("poster");
 
-    		poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
+      poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
 
-    		movieDiv.append(poster);
+      movieDiv.append(poster);
 
-    		var title = $("<p>").text(results[i].title);
+      var title = $("<p>").text(results[i].title);
 
-    		movieDiv.append(title);
+      movieDiv.append(title);
 
-    		var plotSummary = $("<p>").text(results[i].overview);
+      var plotSummary = $("<p>").text(results[i].overview);
 
-    		movieDiv.append(plotSummary);
+      movieDiv.append(plotSummary);
 
-    		$("#test-div").append(movieDiv);
-		}
-	})
+      $("#test-div").append(movieDiv);
+    }
+  })
 }
 
 /*
@@ -224,12 +243,11 @@ button.onclick = function () {
         highEmotion = Object.keys(scores).reduce((a, b) => {
           return scores[a] > scores[b] ? a : b
         });
-        
+
         //Shuts video off
         // vidOff();
         whichMovies();
-      }
-      else {
+      } else {
         alert("Please take another picture");
       }
 
@@ -272,7 +290,7 @@ var vidOff = () => {
 ---------------------------Display---------------------------
 -------------------------------------------------------------
 */
-function displayLoading(){
+function displayLoading() {
   console.log("test");
   $("titleDiv").text("");
   $("mediaDiv").html("");
@@ -292,7 +310,7 @@ function displayLoading(){
   //Creating the buttons
   var camBtn = $("<button>").html("<i class='small material-icons'>camera_alt</i>");
   var vidBtn = $("<button>").html("<i class='small material-icons'>videocam</i>");
-  
+
   camBtn.addClass("btn waves-effect");
   vidBtn.addClass("btn waves-effect");
 
@@ -303,24 +321,23 @@ function displayLoading(){
   $("#buttonDiv").append(camBtn);
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
 
   //$(document).on("click", "#snapshotBtn", whichMovies);
   $("#videoBtn").hide();
-  $(document).on("click", "#snapshotBtn", function(){
+  $(document).on("click", "#snapshotBtn", function () {
     $("video").hide();
     $(this).hide();
     $("#videoBtn").show();
-    $("canvas").show(); 
+    $("canvas").show();
     vidOff();
-    
+
   });
-  $(document).on("click", "#videoBtn", function(){
+  $(document).on("click", "#videoBtn", function () {
     $("canvas").hide();
     $(this).hide();
     $("#snapshotBtn").show()
     $("video").show();
-    
+
   });
 })
-
