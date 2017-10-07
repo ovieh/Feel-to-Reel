@@ -24,7 +24,7 @@ firebase.initializeApp(config);
 var provider = new firebase.auth.GithubAuthProvider();
 
 //Prompt user for sign in
-firebase.auth().signInWithRedirect(provider);
+firebase.auth().signInWithPopup(provider);
 
 // Empty variable to hold URL which will change depending on emotion detected
 
