@@ -52,7 +52,8 @@ var queryURL = "";
 
 function whichMovies() {
 
-  $("#test-div").empty();
+$("#movieList").empty();
+
 
   console.log("my file: " + highEmotion);
 
@@ -140,29 +141,30 @@ function ajaxCall() {
 
     console.log(results);
 
-    for (var i = 0; i < 10; i++) {
+		for (var i = 0; i < 9; i++) {
 
-      var movieDiv = $("<div>");
+			var movieDiv = $("<div>");
+      movieDiv.addClass("col s4 m4");
+    	var poster = $("<img>");
 
-      var poster = $("<img>");
+    	poster.addClass("responsive-img poster modal-trigge");
 
-      poster.addClass("poster");
+    	poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
 
-      poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
+    	movieDiv.append(poster);
 
-      movieDiv.append(poster);
+    	var title = $("<p>").text(results[i].title);
 
-      var title = $("<p>").text(results[i].title);
+    	movieDiv.append(title);
 
-      movieDiv.append(title);
+    	var plotSummary = $("<p>").text(results[i].overview);
 
-      var plotSummary = $("<p>").text(results[i].overview);
+    	movieDiv.append(plotSummary);
 
-      movieDiv.append(plotSummary);
+    	$("#movieList").append(movieDiv);
+		}
+	})
 
-      $("#test-div").append(movieDiv);
-    }
-  })
 }
 
 /*
@@ -273,6 +275,7 @@ function handleSuccess(stream) {
 }
 
 function handleError(error) {
+
   console.log('navigator.getUserMedia error: ', error);
 }
 
@@ -321,7 +324,8 @@ function displayLoading() {
   $("#buttonDiv").append(camBtn);
 }
 
-$(document).ready(function () {
+$(document).ready(function(){
+  $(".modal").modal()
 
   //$(document).on("click", "#snapshotBtn", whichMovies);
   $("#videoBtn").hide();
@@ -338,6 +342,11 @@ $(document).ready(function () {
     $(this).hide();
     $("#snapshotBtn").show()
     $("video").show();
-
+    
   });
+  //Modal
+  $(document).on("click",".poster", function(){
+      $("#modal1").modal("open");
+  });
+
 })
