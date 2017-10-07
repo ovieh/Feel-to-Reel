@@ -175,9 +175,13 @@ function displayModal(x) {
 
       $(".card-content").append(title);
 
-      var releaseDate = $("<p>").text("Release Date: " + results[x].release_date);
+      var releaseDate = results[x].release_date;
 
-      $(".card-content").append(releaseDate);
+      var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
+
+      var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
+
+      $(".card-content").append(releaseDateConvertedDisplay);
 
       var plotSummary = $("<p>").text(results[x].overview);
 
