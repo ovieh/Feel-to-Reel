@@ -151,21 +151,38 @@ function ajaxCall() {
       poster.attr("data-value", i);
     	movieDiv.append(poster);
 
-
-      var title = $("<h2>").text(results[i].title);
-
-      $(".modal-content").append(title);
-
-      var plotSummary = $("<p>").text(results[i].overview);
-
-      $(".modal-content").append(plotSummary);
-
       $("#movieList").append(movieDiv);
+
     }
   })
 
 }
-function displayModal(x){
+function displayModal(x) {
+
+      $(".card-content").empty();
+
+      $(".card-image").empty();
+
+      var backdropImage = $("<img>");
+
+      backdropImage.addClass("responsive-img backdrop-image");
+
+      backdropImage.attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
+
+      $(".card-image").html(backdropImage);
+
+      var title = $("<h4>").text(results[x].title);
+
+      $(".card-content").append(title);
+
+      var releaseDate = $("<p>").text("Release Date: " + results[x].release_date);
+
+      $(".card-content").append(releaseDate);
+
+      var plotSummary = $("<p>").text(results[x].overview);
+
+      $(".card-content").append(plotSummary);
+
 }
 /*
  *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
