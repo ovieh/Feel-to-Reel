@@ -52,7 +52,7 @@ var queryURL = "";
 
 function whichMovies() {
 
-$("#movieList").empty();
+  $("#movieList").empty();
 
   //// Which genre will match with which emotion? 
   // anger = action, crime, thriller
@@ -134,33 +134,34 @@ function ajaxCall() {
     method: 'GET'
   }).done(function (response) {
 
-var results = response.results;
+    var results = response.results;
 
-   console.log(results);
+    console.log(results);
 
-        for (var i = 0; i < 9; i++) {
+    for (var i = 0; i < 9; i++) {
 
-            var movieDiv = $("<div>");
+      var movieDiv = $("<div>");
+
       movieDiv.addClass("col s4 m4");
-        var poster = $("<img>");
+      var poster = $("<img>");
 
-       poster.addClass("responsive-img poster modal-trigge");
+      poster.addClass("responsive-img poster modal-trigger");
 
-       poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
+      poster.attr("src", "https://image.tmdb.org/t/p/w640" + results[i].poster_path);
 
-       movieDiv.append(poster);
+      movieDiv.append(poster);
 
-       var title = $("<p>").text(results[i].title);
+      var title = $("<h2>").text(results[i].title);
 
-       movieDiv.append(title);
+      $(".modal-content").append(title);
 
-       var plotSummary = $("<p>").text(results[i].overview);
+      var plotSummary = $("<p>").text(results[i].overview);
 
-       movieDiv.append(plotSummary);
+      $(".modal-content").append(plotSummary);
 
-       $("#movieList").append(movieDiv);
-        }
-    })
+      $("#movieList").append(movieDiv);
+    }
+  })
 
 }
 
@@ -234,10 +235,10 @@ button.onclick = function () {
       processData: false,
 
     })
-    .done(function (data) {
-      alert("success");
-      if (typeof data[0] !== "undefined") {
-        var scores = data[0].scores;
+  .done(function (data) {
+    alert("success");
+    if (typeof data[0] !== "undefined") {
+      var scores = data[0].scores;
         // Returns the highest index in the emotion object in emotion object
         highEmotion = Object.keys(scores).reduce((a, b) => {
           return scores[a] > scores[b] ? a : b
@@ -253,9 +254,9 @@ button.onclick = function () {
 
       console.log(highEmotion);
     })
-    .fail(function () {
-      alert("error");
-    });
+  .fail(function () {
+    alert("error");
+  });
 
 };
 console.log(dataURL);
@@ -343,7 +344,7 @@ $(document).ready(function(){
   });
   //Modal
   $(document).on("click",".poster", function(){
-      $("#modal1").modal("open");
+    $("#modal1").modal("open");
   });
 
 })
