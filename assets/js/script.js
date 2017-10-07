@@ -27,7 +27,7 @@ var queryURL = "";
 
 function whichMovies () {
 
-$("#test-div").empty();
+$("#movieList").empty();
 
 //// Which genre will match with which emotion? 
 // anger = action, crime, thriller
@@ -113,30 +113,39 @@ function ajaxCall () {
 
 		console.log(results);
 
-		// for (var i = 0; i < 10; i++) {
+		for (var i = 0; i < 9; i++) {
 
-		// 	var movieDiv = $("<div>");
+			var movieDiv = $("<div>");
 
-  //   		var poster = $("<img>");
+    		var poster = $("<img>");
 
-  //   		poster.addClass("poster");
+    		poster.addClass("poster");
 
-  //   		poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
+    		poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
 
-  //   		movieDiv.append(poster);
+    		movieDiv.append(poster);
 
-  //   		var title = $("<p>").text(results[i].title);
+    		var title = $("<p>").text(results[i].title);
 
-  //   		movieDiv.append(title);
+        title.addClass("left");
 
-  //   		var plotSummary = $("<p>").text(results[i].overview);
+    		movieDiv.append(title);
 
-  //   		movieDiv.append(plotSummary);
+    		var plotSummary = $("<p>").text(results[i].overview);
 
-  //   		$("#test-div").append(movieDiv);
-		// }
+    		movieDiv.append(plotSummary);
+
+        movieDiv.addClass("left");
+
+    		$("#movieList").append(movieDiv);
+		}
 	})
 }
+
+  $(document).ready(function(){
+    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
 
 /*
  *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
