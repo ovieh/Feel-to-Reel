@@ -121,7 +121,7 @@ function ajaxCall () {
       movieDiv.addClass("col s4 m4");
     	var poster = $("<img>");
 
-    	poster.addClass("responsive-img");
+    	poster.addClass("responsive-img poster modal-trigge");
 
     	poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
 
@@ -249,6 +249,7 @@ function handleSuccess(stream) {
 }
 
 function handleError(error) {
+
   console.log('navigator.getUserMedia error: ', error);
 }
 
@@ -298,7 +299,7 @@ function displayLoading(){
 }
 
 $(document).ready(function(){
-
+  $(".modal").modal()
   //$(document).on("click", "#snapshotBtn", whichMovies);
   $("#videoBtn").hide();
   $(document).on("click", "#snapshotBtn", function(){
@@ -316,5 +317,9 @@ $(document).ready(function(){
     $("video").show();
     
   });
-})
+  //Modal
+  $(document).on("click",".poster", function(){
+      $("#modal1").modal("open");
+  });
 
+})
