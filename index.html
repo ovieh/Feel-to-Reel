@@ -1,70 +1,87 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Feel to Reel</title>
-    <!--Import materialize.css-->
-  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-  	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!--Import materialize.css-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!--style.css-->
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<!--Firebase-->
 	<script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	</head>
-<body class="container">
-	<!-- Page Layout here -->
-	<div class="row">
-		<div class="col s12" id="titleDiv">
-			<h1 class="center-align">Feel to Reel</h1>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col s2 m4"></div>
-		<div class="col s8 m4" id="mediaDiv">
-			<video autoplay class="z-depth-5"></video>
-			<canvas class="z-depth-3"></canvas>
-		</div>
-		<div class="col s2 m4"></div>
-	</div>
-	<div class="row">
-		<div class="col s5"></div>
-		<div class="col s2" id="buttonDiv">
-			<button class="btn waves-effect" id="snapshotBtn">
-				<i class="small material-icons">camera_alt</i>
-			</button>
-			<button class="btn waves-effect" id="videoBtn">
-				<i class="small material-icons">videocam</i>
-			</button>
-		</div>
-	</div>
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
 
-	<div class="row" id="movieList">
-	</div>
-	<!-- Modal Structure -->
+<body>
+	<nav>
+		<div class="nav-wrapper blue">
+			<a href="#" class="brand-logo">Feel to Reel</a>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li>
+					<a class="waves-effect waves-light btn grey">Sign-In</a>
+				</li>
 
-	<div id="modal1" class="modal">
-		<div class="col s12">
-  			<div class="card">
-    			<div class="card-image">
-      				<span class="card-title">Card Title</span>
-    			</div>
-    			<div class="card-content">
-    			</div>
-    			<div class="card-action">
-      				<a href="#">This is a link</a>
-    			</div>
-  			</div>
+			</ul>
 		</div>
+	</nav>
+	<div class="container">
+		<!-- Page Layout here -->
+		<!-- <div class="row">
+			<div class="col s12" id="titleDiv">
+				<h1 class="center-align">Feel to Reel</h1>
+			</div>
+		</div> -->
+		<div class="row">
+			<!-- <div class="col s2 m4"></div> -->
+			<!-- <div class="col s8 m4" id="mediaDiv"> -->
+				<video autoplay class="z-depth-5 center"></video>
+				<canvas class="z-depth-3"></canvas>
+			<!-- </div> -->
+			<!-- <div class="col s2 m4"></div> -->
+		</div>
+		<div class="row">
+			<div class="col s5"></div>
+			<div class="col s2" id="buttonDiv">
+				<button class="btn waves-effect" id="snapshotBtn">
+					<i class="small material-icons">camera_alt</i>
+				</button>
+				<button class="btn waves-effect" id="videoBtn">
+					<i class="small material-icons">videocam</i>
+				</button>
+			</div>
+		</div>
+
+		<div class="row" id="movieList">
+		</div>
+		<!-- Modal Structure -->
+
+		<div id="modal1" class="modal">
+			<div class="col s12">
+				<div class="card">
+					<div class="card-image">
+						<span class="card-title">Card Title</span>
+					</div>
+					<div class="card-content">
+					</div>
+					<div class="card-action">
+						<a href="#">This is a link</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
 	</div>
-        
 	<!--Import jQuery before materialize.js-->
 	<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="assets/js/adapter-latest.js"></script>
 	<!-- Compiled and minified JavaScript -->
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 	<script src="assets/js/script.js"></script>
 </body>
+
 </html>
