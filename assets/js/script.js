@@ -20,49 +20,76 @@ var config = {
 };
 firebase.initializeApp(config);
 
-// Creates instance of Github provider object
-var provider = new firebase.auth.GithubAuthProvider();
 
 
-//Prompt user for sign in
-firebase.auth().signInWithPopup(provider);
+let toggleSignIn = () => {
+  if (!firebase.auth().currentUser) {
+    // Creates instance of Github provider object
+    var provider = new firebase.auth.GithubAuthProvider();
 
-firebase.auth().getRedirectResult().then(function (result) {
-  if (result.credential) {
-    // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-    var token = result.credential.accessToken;
-    // ...
-  }
-  // The signed-in user info.
-  var user = result.user;
-}).catch(function (error) {
-  // Handle Errors here.
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  // The email of the user's account used.
-  var email = error.email;
-  // The firebase.auth.AuthCredential type that was used.
-  var credential = error.credential;
-  // ...
-});
-
-//User listener
-
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    var displayName = user.displayName;
-    var email = user.email;
-    var photoURL = user.photoURL;
-    var isAnonymous = user.isAnonymous;
-    var uid = user.uid;
-    var providerData = user.providerData;
-    console.log(displayName);
+    //Prompt user for sign in
+    firebase.auth().signInWithRedirect(provider);
 
   } else {
-    console.log("didn't work");
+    firebase.auth().signOut();
   }
+  document.getElementById('sign-in').disabled = true;
+}
 
-});
+let initApp = () => {
+  firebase.auth().getRedirectResult().then(function (result) {
+    if (result.credential) {
+      // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+      var token = result.credential.accessToken;
+      // ...
+    }
+    // The signed-in user info.
+    var user = result.user;
+  }).catch(function (error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // The email of the user's account used.
+    var email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential;
+    // ...
+  });
+
+  //User listener
+
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      var displayName = user.displayName;
+      var email = user.email;
+      var photoURL = user.photoURL;
+      var isAnonymous = user.isAnonymous;
+      var uid = user.uid;
+      var providerData = user.providerData;
+      console.log(displayName);
+      document.getElementById('sign-in').textContent = 'Sign out';
+
+
+    } else {
+      console.log("didn't work");
+      document.getElementById('sign-in').textContent = 'Sign-In';
+
+    }
+    document.getElementById('sign-in').disabled = false;
+
+
+  });
+  document.getElementById('sign-in').addEventListener('click', toggleSignIn, false);
+  
+}
+
+window.onload = function () {
+  initApp();
+};
+
+
+
+
 
 
 
