@@ -23,6 +23,7 @@ firebase.initializeApp(config);
 // Creates instance of Github provider object
 var provider = new firebase.auth.GithubAuthProvider();
 
+
 //Prompt user for sign in
 firebase.auth().signInWithPopup(provider);
 
@@ -47,15 +48,18 @@ firebase.auth().getRedirectResult().then(function (result) {
 
 //User listener
 
-firbase.auth().onAuthStateChanged((user) => {
-  if(user) {
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
     var displayName = user.displayName;
     var email = user.email;
-    var photoURL =user.photoURL;
+    var photoURL = user.photoURL;
     var isAnonymous = user.isAnonymous;
     var uid = user.uid;
     var providerData = user.providerData;
-   
+    console.log(displayName);
+
+  } else {
+    console.log("didn't work");
   }
 
 });
@@ -164,9 +168,9 @@ function ajaxCall() {
 
       poster.addClass("responsive-img poster modal-trigger");
 
-    	poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
+      poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
       poster.attr("data-value", i);
-    	movieDiv.append(poster);
+      movieDiv.append(poster);
 
       $("#movieList").append(movieDiv);
 
@@ -174,31 +178,32 @@ function ajaxCall() {
   })
 
 }
+
 function displayModal(x) {
 
-      $(".card-content").empty();
+  $(".card-content").empty();
 
-      $(".card-image").empty();
+  $(".card-image").empty();
 
-      var backdropImage = $("<img>");
+  var backdropImage = $("<img>");
 
-      backdropImage.addClass("responsive-img backdrop-image");
+  backdropImage.addClass("responsive-img backdrop-image");
 
-      backdropImage.attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
+  backdropImage.attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
 
-      $(".card-image").html(backdropImage);
+  $(".card-image").html(backdropImage);
 
-      var title = $("<h4>").text(results[x].title);
+  var title = $("<h4>").text(results[x].title);
 
-      $(".card-content").append(title);
+  $(".card-content").append(title);
 
-      var releaseDate = $("<p>").text("Release Date: " + results[x].release_date);
+  var releaseDate = $("<p>").text("Release Date: " + results[x].release_date);
 
-      $(".card-content").append(releaseDate);
+  $(".card-content").append(releaseDate);
 
-      var plotSummary = $("<p>").text(results[x].overview);
+  var plotSummary = $("<p>").text(results[x].overview);
 
-      $(".card-content").append(plotSummary);
+  $(".card-content").append(plotSummary);
 
 }
 /*
@@ -271,10 +276,10 @@ button.onclick = function () {
       processData: false,
 
     })
-  .done(function (data) {
-    alert("success");
-    if (typeof data[0] !== "undefined") {
-      var scores = data[0].scores;
+    .done(function (data) {
+      alert("success");
+      if (typeof data[0] !== "undefined") {
+        var scores = data[0].scores;
         // Returns the highest index in the emotion object in emotion object
         highEmotion = Object.keys(scores).reduce((a, b) => {
           return scores[a] > scores[b] ? a : b
@@ -290,9 +295,9 @@ button.onclick = function () {
 
       console.log(highEmotion);
     })
-  .fail(function () {
-    alert("error");
-  });
+    .fail(function () {
+      alert("error");
+    });
 
 };
 console.log(dataURL);
@@ -333,7 +338,7 @@ function displayLoading() {
   $("mediaDiv").html("");
   $("buttonDiv").html("");
 
-  //Tittle
+  //Title
   var hDiv = $("<h1>").addClass("center-align").text("Feel to Reel");
   $("#titleDiv").append(hDiv);
 
@@ -358,7 +363,7 @@ function displayLoading() {
   $("#buttonDiv").append(camBtn);
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
   $(".modal").modal()
 
   //$(document).on("click", "#snapshotBtn", whichMovies);
@@ -376,13 +381,13 @@ $(document).ready(function(){
     $(this).hide();
     $("#snapshotBtn").show()
     $("video").show();
-    
+
   });
   //Modal
-  $(document).on("click",".poster", function(){
+  $(document).on("click", ".poster", function () {
 
-      $("#modal1").modal("open");
-      displayModal($(this).attr("data-value"));
+    $("#modal1").modal("open");
+    displayModal($(this).attr("data-value"));
 
   });
 
