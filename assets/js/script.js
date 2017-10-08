@@ -181,21 +181,17 @@
 
   function displayModal(x) {
 
-    $(".card-content").empty();
+    $("#card-summary").empty();
 
-    $(".card-image").empty();
+    $("#backdrop-image").empty();
 
-    var backdropImage = $("<img>");
+    $(".card-title-text").text("");
 
-    backdropImage.addClass("responsive-img backdrop-image");
+    $("#backdrop-image").attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
 
-    backdropImage.attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
+    var title = results[x].title;
 
-    $(".card-image").html(backdropImage);
-
-    var title = $("<h4>").text(results[x].title);
-
-    $(".card-content").append(title);
+    $(".card-title-text").append(title);
 
     var releaseDate = results[x].release_date;
 
@@ -203,11 +199,11 @@
 
     var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
 
-    $(".card-content").append(releaseDateConvertedDisplay);
+    $("#card-summary").append(releaseDateConvertedDisplay);
 
     var plotSummary = $("<p>").text(results[x].overview);
 
-    $(".card-content").append(plotSummary);
+    $("#card-summary").append(plotSummary);
 
   }
   /*
@@ -397,15 +393,18 @@
 
     });
 
+
     $("#modal1").on("open", function () {
 
-      $(this).find('.modal').css({
+      $("#modal1").css({
         width:'auto',
         height:'auto',
         'max-height':'100%'
+      })
 
-        console.log(success with modal);
+        console.log("success with modal");
 
       });
+
 
     })
