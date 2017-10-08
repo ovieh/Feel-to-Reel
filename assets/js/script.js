@@ -24,7 +24,7 @@ firebase.initializeApp(config);
 var provider = new firebase.auth.GithubAuthProvider();
 
 //Prompt user for sign in
-firebase.auth().signInWithRedirect(provider);
+firebase.auth().signInWithPopup(provider);
 
 firebase.auth().getRedirectResult().then(function (result) {
   if (result.credential) {
@@ -44,6 +44,23 @@ firebase.auth().getRedirectResult().then(function (result) {
   var credential = error.credential;
   // ...
 });
+
+//User listener
+
+firbase.auth().onAuthStateChanged((user) => {
+  if(user) {
+    var displayName = user.displayName;
+    var email = user.email;
+    var photoURL =user.photoURL;
+    var isAnonymous = user.isAnonymous;
+    var uid = user.uid;
+    var providerData = user.providerData;
+   
+  }
+
+});
+
+
 
 // Empty variable to hold URL which will change depending on emotion detected
 
