@@ -52,10 +52,7 @@ var queryURL = "";
 
 function whichMovies() {
 
-$("#movieList").empty();
-
-
-  console.log("my file: " + highEmotion);
+  $("#movieList").empty();
 
   //// Which genre will match with which emotion? 
   // anger = action, crime, thriller
@@ -141,32 +138,51 @@ function ajaxCall() {
 
     console.log(results);
 
-		for (var i = 0; i < 9; i++) {
+    for (var i = 0; i < 9; i++) {
 
-			var movieDiv = $("<div>");
+      var movieDiv = $("<div>");
+
       movieDiv.addClass("col s4 m4");
-    	var poster = $("<img>");
+      var poster = $("<img>");
 
-    	poster.addClass("responsive-img poster modal-trigge");
+      poster.addClass("responsive-img poster modal-trigger");
 
     	poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
       poster.attr("data-value", i);
     	movieDiv.append(poster);
 
-    	var title = $("<p>").text(results[i].title);
+      $("#movieList").append(movieDiv);
 
-    	movieDiv.append(title);
-
-    	var plotSummary = $("<p>").text(results[i].overview);
-
-    	movieDiv.append(plotSummary);
-
-    	$("#movieList").append(movieDiv);
-		}
-	})
+    }
+  })
 
 }
-function displayModal(x){
+function displayModal(x) {
+
+      $(".card-content").empty();
+
+      $(".card-image").empty();
+
+      var backdropImage = $("<img>");
+
+      backdropImage.addClass("responsive-img backdrop-image");
+
+      backdropImage.attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
+
+      $(".card-image").html(backdropImage);
+
+      var title = $("<h4>").text(results[x].title);
+
+      $(".card-content").append(title);
+
+      var releaseDate = $("<p>").text("Release Date: " + results[x].release_date);
+
+      $(".card-content").append(releaseDate);
+
+      var plotSummary = $("<p>").text(results[x].overview);
+
+      $(".card-content").append(plotSummary);
+
 }
 /*
  *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
@@ -238,10 +254,10 @@ button.onclick = function () {
       processData: false,
 
     })
-    .done(function (data) {
-      alert("success");
-      if (typeof data[0] !== "undefined") {
-        var scores = data[0].scores;
+  .done(function (data) {
+    alert("success");
+    if (typeof data[0] !== "undefined") {
+      var scores = data[0].scores;
         // Returns the highest index in the emotion object in emotion object
         highEmotion = Object.keys(scores).reduce((a, b) => {
           return scores[a] > scores[b] ? a : b
@@ -257,9 +273,9 @@ button.onclick = function () {
 
       console.log(highEmotion);
     })
-    .fail(function () {
-      alert("error");
-    });
+  .fail(function () {
+    alert("error");
+  });
 
 };
 console.log(dataURL);
@@ -347,8 +363,10 @@ $(document).ready(function(){
   });
   //Modal
   $(document).on("click",".poster", function(){
+
       $("#modal1").modal("open");
       displayModal($(this).attr("data-value"));
+
   });
 
 })
