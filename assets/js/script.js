@@ -193,6 +193,10 @@
 
     $(".card-title-text").append(title);
 
+    $("#theaters-link").attr("href", "https://www.fandango.com/search/?q=" + title + "&mode=Movies");
+
+    $("#streaming-link").attr("href", "http://www.canistream.it/search/movie/" + title);
+
     var releaseDate = results[x].release_date;
 
     var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
