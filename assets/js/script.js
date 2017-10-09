@@ -9,6 +9,8 @@ var dataURL;
 var highEmotion = "";
 var localstream;
 var results;
+
+
 // Initialize Firebae
 var config = {
   apiKey: "AIzaSyAynPxThM6T3tphifpPEvBGMdDb4xRHkRQ",
@@ -63,8 +65,6 @@ firebase.auth().onAuthStateChanged((user) => {
   }
 
 });
-
-
 
 // Empty variable to hold URL which will change depending on emotion detected
 
@@ -141,13 +141,12 @@ function whichMovies() {
     queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + comedy + "%2C%20" + music;
 
   } else {
+
     console.log("No emotion!!!");
   }
 
   ajaxCall();
-
 }
-
 // AJAX Call to the Movie Database API
 function ajaxCall() {
   $.ajax({
@@ -158,7 +157,6 @@ function ajaxCall() {
     results = response.results;
 
     console.log(results);
-
     for (var i = 0; i < 9; i++) {
 
       var movieDiv = $("<div>");
@@ -166,21 +164,31 @@ function ajaxCall() {
       movieDiv.addClass("col s4 m4");
       var poster = $("<img>");
 
-      poster.addClass("responsive-img poster modal-trigger");
+      poster.addClass("responsive-img poster modal-trigger hoverable");
 
       poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
       poster.attr("data-value", i);
       movieDiv.append(poster);
 
-      $("#movieList").append(movieDiv);
+      //poster button
+      var posterBtn = $("<a>");
+      var btnIcon = $("<i>");
+      
+      posterBtn.addClass("posterBtn btn-floating waves-effect waves-light blue hoverable");
+      btnIcon.addClass("material-icons");
 
+      posterBtn.attr("data-value", i);
+
+      btnIcon.text("add");
+
+      posterBtn.append(btnIcon);
+      movieDiv.prepend(posterBtn);
+
+      $("#movieList").append(movieDiv);
     }
   })
-
 }
-
 function displayModal(x) {
-
   $(".card-content").empty();
 
   $(".card-image").empty();
@@ -204,7 +212,6 @@ function displayModal(x) {
   var plotSummary = $("<p>").text(results[x].overview);
 
   $(".card-content").append(plotSummary);
-
 }
 /*
  *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
@@ -216,8 +223,7 @@ function displayModal(x) {
 
 
 //I think this takes a still and displays it
-var button = document.querySelector('button');
-button.onclick = function () {
+function takeSnapshot() {
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   canvas.getContext('2d').
@@ -274,9 +280,7 @@ button.onclick = function () {
       // data: '{"url": canvas.toDataURL()}',
       data: makeblob(dataURL),
       processData: false,
-
-    })
-    .done(function (data) {
+  }).done(function (data) {
       alert("success");
       if (typeof data[0] !== "undefined") {
         var scores = data[0].scores;
@@ -291,104 +295,84 @@ button.onclick = function () {
       } else {
         alert("Please take another picture");
       }
-
-
+      hideVideo();
       console.log(highEmotion);
-    })
-    .fail(function () {
+  }).fail(function () {
       alert("error");
-    });
-
+  });
 };
 console.log(dataURL);
 
-var constraints = {
-  audio: false,
-  video: true
+var videoObject = {
+  constraints: {
+    audio: false,
+    video: true
+  },
+  handleSuccess: function(stream){
+    window.stream = stream; // make stream available to browser console
+    video.srcObject = stream;
+    localstream = stream;
+  },
+  handleError: function(error){
+    console.log('navigator.getUserMedia error: ', error);
+  },
+  vidOff: function(){
+    video.pause();
+    video.src = "";
+    localstream.getTracks()[0].stop();
+  },
+  vidOn: function(){
+    navigator.mediaDevices.getUserMedia(this.constraints).
+    then(this.handleSuccess).catch(this.handleError);
+  }
 };
-
-function handleSuccess(stream) {
-  window.stream = stream; // make stream available to browser console
-  video.srcObject = stream;
-  localstream = stream;
-}
-
-function handleError(error) {
-
-  console.log('navigator.getUserMedia error: ', error);
-}
-
-navigator.mediaDevices.getUserMedia(constraints).
-then(handleSuccess).catch(handleError);
-
-
-var vidOff = () => {
-  video.pause();
-  video.src = "";
-  localstream.getTracks()[0].stop();
-}
 
 /*
 ---------------------------Display---------------------------
 -------------------------------------------------------------
 */
-function displayLoading() {
-  console.log("test");
-  $("titleDiv").text("");
-  $("mediaDiv").html("");
-  $("buttonDiv").html("");
-
-  //Title
-  var hDiv = $("<h1>").addClass("center-align").text("Feel to Reel");
-  $("#titleDiv").append(hDiv);
-
-  //Video and canvas
-  var vidDiv = $("<video>");
-  var canDiv = $("<canvas>");
-
-  $("#mediaDiv").append(vidDiv);
-  $("#mediaDiv").append(canDiv);
-
-  //Creating the buttons
-  var camBtn = $("<button>").html("<i class='small material-icons'>camera_alt</i>");
-  var vidBtn = $("<button>").html("<i class='small material-icons'>videocam</i>");
-
-  camBtn.addClass("btn waves-effect");
-  vidBtn.addClass("btn waves-effect");
-
-  camBtn.attr("id", "snapshotBtn");
-  vidBtn.attr("id", "videoBtn");
-
-  $("#buttonDiv").append(vidBtn);
-  $("#buttonDiv").append(camBtn);
+function showVideo(){
+  $("video").show();
+  $("canvas").show();
+  $("#videoBtn").show();
 }
-
+function hideVideo(){
+  $("video").hide();
+  $("canvas").hide();
+  $("#snapshotBtn").hide();
+}
+//When the pag loads
 $(document).ready(function () {
+  hideVideo();
+  //Initialize modals
   $(".modal").modal()
-
-  //$(document).on("click", "#snapshotBtn", whichMovies);
-  $("#videoBtn").hide();
+  //when you click snapshotBtn
   $(document).on("click", "#snapshotBtn", function () {
+    takeSnapshot();
     $("video").hide();
     $(this).hide();
     $("#videoBtn").show();
     $("canvas").show();
-    vidOff();
-
+    videoObject.vidOff();
   });
+  //When you click videoBtn
   $(document).on("click", "#videoBtn", function () {
     $("canvas").hide();
+    $("#movieList").html("");
     $(this).hide();
     $("#snapshotBtn").show()
     $("video").show();
-
+    videoObject.vidOn();
   });
   //Modal
   $(document).on("click", ".poster", function () {
 
     $("#modal1").modal("open");
     displayModal($(this).attr("data-value"));
-
   });
+  $(document).on("click", ".posterBtn", function () {
 
+    $("#modal1").modal("open");
+    displayModal($(this).attr("data-value"));
+  });
 })
