@@ -38,6 +38,7 @@ let toggleSignIn = () => {
 }
 
 let initApp = () => {
+
   firebase.auth().getRedirectResult().then(function (result) {
     if (result.credential) {
       // This gives you a GitHub Access Token. You can use it to access the GitHub API.
@@ -57,10 +58,7 @@ let initApp = () => {
     // ...
   });
 
-
-
   //User listener
-
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       var displayName = user.displayName;
@@ -70,6 +68,7 @@ let initApp = () => {
       var uid = user.uid;
       var providerData = user.providerData;
       console.log(displayName);
+
       btnSignIn.textContent = 'Sign out';
 
       var cameraBtn = document.querySelector('button');
@@ -187,228 +186,232 @@ let initApp = () => {
   btnSignIn.addEventListener('click', toggleSignIn, false);
 
 }
-// Empty variable to hold URL which will change depending on emotion detected
-
-var queryURL = "";
 
 
-function whichMovies() {
 
-  $("#movieList").empty();
 
-  //// Which genre will match with which emotion? 
-  // anger = action, crime, thriller
-  // contempt = documentary, history
-  // disgust = science fiction
-  // fear = horror, mystery
-  // neutral = drama
-  // sadness = romance, drama
-  // surprise = fantasy, adventure
-  // happiness = comedy, music
+  // Empty variable to hold URL which will change depending on emotion detected
 
-  // Variables holding the genre IDs needed for the API call
+  var queryURL = "";
 
-  var action = "28";
-  var adventure = "12";
-  var comedy = "35";
-  var crime = "80";
-  var documentary = "99";
-  var drama = "18";
-  var fantasy = "14";
-  var history = "36";
-  var horror = "27";
-  var music = "10402";
-  var mystery = "9648";
-  var romance = "10749";
-  var scienceFiction = "878";
-  var thriller = "53";
 
-  // Movie Database API key
+  function whichMovies() {
 
-  var movieAPI = "aed8a1ce3108479482ae5d0e4cbb536a";
+    $("#movieList").empty();
 
-  // If statements that determine which URL will be called
+    //// Which genre will match with which emotion? 
+    // anger = action, crime, thriller
+    // contempt = documentary, history
+    // disgust = science fiction
+    // fear = horror, mystery
+    // neutral = drama
+    // sadness = romance, drama
+    // surprise = fantasy, adventure
+    // happiness = comedy, music
 
-  if (highEmotion == "anger") {
+    // Variables holding the genre IDs needed for the API call
 
-    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + action + "%2C%20" + crime + "%2C%20" + thriller;
+    var action = "28";
+    var adventure = "12";
+    var comedy = "35";
+    var crime = "80";
+    var documentary = "99";
+    var drama = "18";
+    var fantasy = "14";
+    var history = "36";
+    var horror = "27";
+    var music = "10402";
+    var mystery = "9648";
+    var romance = "10749";
+    var scienceFiction = "878";
+    var thriller = "53";
 
-  } else if (highEmotion == "contempt") {
+    // Movie Database API key
 
-    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + documentary + "%2C%20" + history;
+    var movieAPI = "aed8a1ce3108479482ae5d0e4cbb536a";
 
-  } else if (highEmotion == "disgust") {
+    // If statements that determine which URL will be called
 
-    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + scienceFiction;
+    if (highEmotion == "anger") {
 
-  } else if (highEmotion == "fear") {
+      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + action + "%2C%20" + crime + "%2C%20" + thriller;
 
-    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + horror + "%2C%20" + mystery;
+    } else if (highEmotion == "contempt") {
 
-  } else if (highEmotion == "neutral") {
+      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + documentary + "%2C%20" + history;
 
-    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + drama;
+    } else if (highEmotion == "disgust") {
 
-  } else if (highEmotion == "sadness") {
+      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + scienceFiction;
 
-    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + romance + "%2C%20" + drama;
+    } else if (highEmotion == "fear") {
 
-  } else if (highEmotion == "surprise") {
+      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + horror + "%2C%20" + mystery;
 
-    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + fantasy + "%2C%20" + adventure;
+    } else if (highEmotion == "neutral") {
 
-  } else if (highEmotion == "happiness") {
+      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + drama;
 
-    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + comedy + "%2C%20" + music;
+    } else if (highEmotion == "sadness") {
 
-  } else {
-    console.log("No emotion!!!");
+      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + romance + "%2C%20" + drama;
+
+    } else if (highEmotion == "surprise") {
+
+      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + fantasy + "%2C%20" + adventure;
+
+    } else if (highEmotion == "happiness") {
+
+      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + comedy + "%2C%20" + music;
+
+    } else {
+      console.log("No emotion!!!");
+    }
+
+    ajaxCall();
+
   }
 
-  ajaxCall();
+  // AJAX Call to the Movie Database API
+  function ajaxCall() {
+    $.ajax({
+      url: queryURL,
+      method: 'GET'
+    }).done(function (response) {
 
-}
+      results = response.results;
 
-// AJAX Call to the Movie Database API
-function ajaxCall() {
-  $.ajax({
-    url: queryURL,
-    method: 'GET'
-  }).done(function (response) {
+      console.log(results);
 
-    results = response.results;
+      for (var i = 0; i < 9; i++) {
 
-    console.log(results);
+        var movieDiv = $("<div>");
 
-    for (var i = 0; i < 9; i++) {
+        movieDiv.addClass("col s4 m4 movie-div");
 
-      var movieDiv = $("<div>");
+        var poster = $("<img>");
 
-      movieDiv.addClass("col s4 m4");
-      var poster = $("<img>");
+        poster.addClass("responsive-img poster modal-trigger");
 
-      poster.addClass("responsive-img poster modal-trigger");
+        poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
 
-      poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
-      poster.attr("data-value", i);
-      movieDiv.append(poster);
+        movieDiv.append(poster);
 
-      $("#movieList").append(movieDiv);
+        var floatingButton = '<a class="btn-floating waves-effect waves-light red movie-button"><i class="material-icons">add</i></a>';
 
-    }
-  })
+        movieDiv.append(floatingButton);
 
-}
+        movieDiv.attr("data-value", i);
 
-function displayModal(x) {
+        $("#movieList").append(movieDiv);
 
-  $(".card-content").empty();
+      }
+    })
 
-  $(".card-image").empty();
+  }
 
-  var backdropImage = $("<img>");
+  function displayModal(x) {
 
-  backdropImage.addClass("responsive-img backdrop-image");
+    $("#card-summary").empty();
 
-  backdropImage.attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
+    $("#backdrop-image").empty();
 
-  $(".card-image").html(backdropImage);
+    $(".card-title-text").text("");
 
-  var title = $("<h4>").text(results[x].title);
+    $("#backdrop-image").attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
 
-  $(".card-content").append(title);
+    var title = results[x].title;
 
-  var releaseDate = $("<p>").text("Release Date: " + results[x].release_date);
+    $(".card-title-text").append(title);
 
-  $(".card-content").append(releaseDate);
+    $("#theaters-link").attr("href", "https://www.fandango.com/search/?q=" + title + "&mode=Movies");
 
-  var plotSummary = $("<p>").text(results[x].overview);
+    $("#streaming-link").attr("href", "http://www.canistream.it/search/movie/" + title);
 
-  $(".card-content").append(plotSummary);
+    var releaseDate = results[x].release_date;
 
-}
-/*
- *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
- *
- *  Use of this source code is governed by a BSD-style license
- *  that can be found in the LICENSE file in the root of the source
- *  tree.
- */
+    var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
 
+    var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
 
-//I think this takes a still and displays it
+    $("#card-summary").append(releaseDateConvertedDisplay);
 
+    var plotSummary = $("<p>").text(results[x].overview);
 
+    $("#card-summary").append(plotSummary);
+  }
 
-var vidOff = () => {
-  video.pause();
-  video.src = "";
-  localstream.getTracks()[0].stop();
-}
+  var vidOff = () => {
+    video.pause();
+    video.src = "";
+    localstream.getTracks()[0].stop();
+  }
 
-/*
----------------------------Display---------------------------
--------------------------------------------------------------
-*/
-function displayLoading() {
-  console.log("test");
-  $("titleDiv").text("");
-  $("mediaDiv").html("");
-  $("buttonDiv").html("");
+  /*
+  ---------------------------Display---------------------------
+  -------------------------------------------------------------
+  */
+  function displayLoading() {
+    console.log("test");
+    $("titleDiv").text("");
+    $("mediaDiv").html("");
+    $("buttonDiv").html("");
 
-  //Title
-  var hDiv = $("<h1>").addClass("center-align").text("Feel to Reel");
-  $("#titleDiv").append(hDiv);
+    //Title
+    var hDiv = $("<h1>").addClass("center-align").text("Feel to Reel");
+    $("#titleDiv").append(hDiv);
 
-  //Video and canvas
-  var vidDiv = $("<video>");
-  var canDiv = $("<canvas>");
+    //Video and canvas
+    var vidDiv = $("<video>");
+    var canDiv = $("<canvas>");
 
-  $("#mediaDiv").append(vidDiv);
-  $("#mediaDiv").append(canDiv);
+    $("#mediaDiv").append(vidDiv);
+    $("#mediaDiv").append(canDiv);
 
-  //Creating the buttons
-  var camBtn = $("<button>").html("<i class='small material-icons'>camera_alt</i>");
-  var vidBtn = $("<button>").html("<i class='small material-icons'>videocam</i>");
+    //Creating the buttons
+    var camBtn = $("<button>").html("<i class='small material-icons'>camera_alt</i>");
+    var vidBtn = $("<button>").html("<i class='small material-icons'>videocam</i>");
 
-  camBtn.addClass("btn waves-effect");
-  vidBtn.addClass("btn waves-effect");
+    camBtn.addClass("btn waves-effect");
+    vidBtn.addClass("btn waves-effect");
 
-  camBtn.attr("id", "snapshotBtn");
-  vidBtn.attr("id", "videoBtn");
+    camBtn.attr("id", "snapshotBtn");
+    vidBtn.attr("id", "videoBtn");
 
-  $("#buttonDiv").append(vidBtn);
-  $("#buttonDiv").append(camBtn);
-}
+    $("#buttonDiv").append(vidBtn);
+    $("#buttonDiv").append(camBtn);
+  }
 
-$(document).ready(function () {
-  $(".modal").modal()
+  $(document).ready(function () {
+    $(".modal").modal()
 
-  //$(document).on("click", "#snapshotBtn", whichMovies);
-  $("#videoBtn").hide();
-  $(document).on("click", "#snapshotBtn", function () {
-    $("video").hide();
-    $(this).hide();
-    $("#videoBtn").show();
-    $("canvas").show();
-    vidOff();
+    //$(document).on("click", "#snapshotBtn", whichMovies);
+    $("#videoBtn").hide();
+    $(document).on("click", "#snapshotBtn", function () {
+      $("video").hide();
+      $(this).hide();
+      $("#videoBtn").show();
+      $("canvas").show();
+      vidOff();
 
-  });
-  $(document).on("click", "#videoBtn", function () {
-    $("canvas").hide();
-    $(this).hide();
-    $("#snapshotBtn").show()
-    $("video").show();
+    });
+    $(document).on("click", "#videoBtn", function () {
+      $("canvas").hide();
+      $(this).hide();
+      $("#snapshotBtn").show()
+      $("video").show();
 
-  });
-  //Modal
-  $(document).on("click", ".poster", function () {
+    });
+    //Modal
+    $(document).on("click", ".movie-button", function () {
 
-    $("#modal1").modal("open");
-    displayModal($(this).attr("data-value"));
+      $("#modal1").modal("open");
 
-  });
+      displayModal($(this).parent().attr("data-value"));
 
+    });
   initApp();
 
+
 })
+

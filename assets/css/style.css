@@ -1,11 +1,17 @@
 .placeholder-camera {
+
 	width: 200px;
 	color: gray;
+
 }
-#imageDiv{
+
+#imageDiv {
+
     background-color: gray;
 }
-.card{
+
+.card {
+
 	margin-top: 0px;
 	margin-bottom: 0px;
 
@@ -13,7 +19,28 @@
 
 .modal {
 
-	max-width: 35% !important;
+	max-width: 45% !important;
+}
+
+.card-title {
+
+	font-size: 100px;
+	font-weight: bolder;
+
+}
+
+.movie-div {
+
+	position: relative;
+
+}
+
+.movie-button {
+
+    position: absolute;
+    bottom: 5%;
+    right: 8%;
+    border-radius: 50%;
 
 }
 
