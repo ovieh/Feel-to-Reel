@@ -163,14 +163,21 @@
 
         var movieDiv = $("<div>");
 
-        movieDiv.addClass("col s4 m4");
+        movieDiv.addClass("col s4 m4 movie-div");
+
         var poster = $("<img>");
 
         poster.addClass("responsive-img poster modal-trigger");
 
         poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
-        poster.attr("data-value", i);
+
         movieDiv.append(poster);
+
+        var floatingButton = '<a class="btn-floating waves-effect waves-light red movie-button"><i class="material-icons">add</i></a>';
+
+        movieDiv.append(floatingButton);
+
+        movieDiv.attr("data-value", i);
 
         $("#movieList").append(movieDiv);
 
@@ -388,27 +395,13 @@
 
     });
     //Modal
-    $(document).on("click", ".poster", function () {
+    $(document).on("click", ".movie-button", function () {
 
       $("#modal1").modal("open");
-      displayModal($(this).attr("data-value"));
 
-
+      displayModal($(this).parent().attr("data-value"));
 
     });
-
-
-    $("#modal1").on("open", function () {
-
-      $("#modal1").css({
-        width:'auto',
-        height:'auto',
-        'max-height':'100%'
-      })
-
-        console.log("success with modal");
-
-      });
 
 
     })
