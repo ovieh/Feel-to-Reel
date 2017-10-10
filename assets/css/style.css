@@ -16,10 +16,17 @@
 	margin-bottom: 0px;
 
 }
-
+video{
+	margin: 0 auto;
+}
 .modal {
+  max-width: 45% !important;
 
-	max-width: 45% !important;
+}
+.posterBtn{
+	position: relative;
+	top: 50px;
+	right: -10px;
 }
 
 .card-title {
