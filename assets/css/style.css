@@ -44,3 +44,43 @@
 
 }
 
+body {
+
+	background-color: #616161;
+
+}
+
+nav .brand-logo {
+
+  font-weight: lighter;
+  font-stretch: condensed;
+  font-size: 2.75rem;
+
+}
+
+.navbar-fixed {
+  height: 66px;
+}
+
+@media only screen and (min-width: 601px) {
+  nav.nav-extended .nav-wrapper {
+    min-height: 74px;
+  }
+  nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
+    height: 74px;
+    line-height: 74px;
+  }
+  .navbar-fixed {
+    height: 74px;
+  }
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
+
+  color: #f44336;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating):hover {
+
+  color: #e57373;
+}
