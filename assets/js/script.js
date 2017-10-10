@@ -390,21 +390,19 @@ function displayModal(x) {
   $("#card-summary").append(plotSummary);
 }
 
-  /*
-  ---------------------------Display---------------------------
-  -------------------------------------------------------------
-  */
-
+  
   $(document).ready(function () {
+    
+    //Initialize modals
     $(".modal").modal();
 
+    //When snapshotBtn is click
     $(document).on("click", "#snapshotBtn", function () {
       $("video").addClass("hide");
       $(this).addClass("hide");
       $("#videoBtn").removeClass("hide");
       $("canvas").removeClass("hide");
       videoObject.vidOff();
-
     });
     $(document).on("click", "#videoBtn", function () {
       $("#movieList").html("");
@@ -423,4 +421,4 @@ function displayModal(x) {
     });
     initApp();
 
-  })
+  });
