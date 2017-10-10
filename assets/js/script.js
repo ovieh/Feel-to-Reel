@@ -397,7 +397,7 @@ function displayModal(x) {
 
   $(document).ready(function () {
     $(".modal").modal();
-    //$(document).on("click", "#snapshotBtn", whichMovies);
+
     $(document).on("click", "#snapshotBtn", function () {
       $("video").addClass("hide");
       $(this).addClass("hide");
