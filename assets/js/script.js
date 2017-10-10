@@ -9,6 +9,29 @@ var dataURL;
 var highEmotion = "";
 var localstream;
 var results;
+var videoObject = {
+  constraints : {
+    audio: false,
+    video: true
+  },
+  handleSuccess: function(stream){
+    window.stream = stream; // make stream available to browser console
+    video.srcObject = stream;
+    localstream = stream;   
+  },
+  handleError: function(error){
+    console.log('navigator.getUserMedia error: ', error);
+  },
+  vidOn: function(){
+    navigator.mediaDevices.getUserMedia(this.constraints).
+    then(this.handleSuccess).catch(this.handleError);
+  },
+  vidOff: function(){
+    video.pause();
+    video.src = "";
+    localstream.getTracks()[0].stop();
+  }
+};
 // Initialize Firebae
 const config = {
   apiKey: "AIzaSyAynPxThM6T3tphifpPEvBGMdDb4xRHkRQ",
@@ -145,34 +168,38 @@ let initApp = () => {
               alert("Please take another picture");
             }
       
-      
             console.log(highEmotion);
           })
           .fail(function () {
             alert("error");
           });
-      
+          //Hide snapshot
+          $("canvas").addClass("hide");
+          console.log("hide");
       };
       console.log(dataURL);
+
+      videoObject.vidOn();
+      //Replaces with videoObject
+
+      // var constraints = {
+      //   audio: false,
+      //   video: true
+      // };
       
-      var constraints = {
-        audio: false,
-        video: true
-      };
+      // function handleSuccess(stream) {
+      //   window.stream = stream; // make stream available to browser console
+      //   video.srcObject = stream;
+      //   localstream = stream;
+      // }
       
-      function handleSuccess(stream) {
-        window.stream = stream; // make stream available to browser console
-        video.srcObject = stream;
-        localstream = stream;
-      }
+      // function handleError(error) {
       
-      function handleError(error) {
+      //   console.log('navigator.getUserMedia error: ', error);
+      // }
       
-        console.log('navigator.getUserMedia error: ', error);
-      }
-      
-      navigator.mediaDevices.getUserMedia(constraints).
-      then(handleSuccess).catch(handleError);
+      // navigator.mediaDevices.getUserMedia(constraints).
+      // then(handleSuccess).catch(handleError);
 
     } else {
       console.log("didn't work");
@@ -297,7 +324,7 @@ let initApp = () => {
 
         movieDiv.append(poster);
 
-        var floatingButton = '<a class="btn-floating waves-effect waves-light red movie-button"><i class="material-icons">add</i></a>';
+        var floatingButton = '<a class="btn-floating waves-effect blue movie-button hoverable"><i class="material-icons">add</i></a>';
 
         movieDiv.append(floatingButton);
 
@@ -321,8 +348,10 @@ let initApp = () => {
     $("#backdrop-image").attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
 
     var title = results[x].title;
-
-    $(".card-title-text").append(title);
+    var bTag = $("<b>");
+    bTag.addClass("flow-text");
+    bTag.append(title);
+    $(".card-title-text").append(bTag);
 
     $("#theaters-link").attr("href", "https://www.fandango.com/search/?q=" + title + "&mode=Movies");
 
@@ -333,74 +362,37 @@ let initApp = () => {
     var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
 
     var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
-
+    releaseDateConvertedDisplay.addClass("flow-text");
     $("#card-summary").append(releaseDateConvertedDisplay);
 
     var plotSummary = $("<p>").text(results[x].overview);
-
+    plotSummary.addClass("flow-text");
     $("#card-summary").append(plotSummary);
-  }
-
-  var vidOff = () => {
-    video.pause();
-    video.src = "";
-    localstream.getTracks()[0].stop();
   }
 
   /*
   ---------------------------Display---------------------------
   -------------------------------------------------------------
   */
-  function displayLoading() {
-    console.log("test");
-    $("titleDiv").text("");
-    $("mediaDiv").html("");
-    $("buttonDiv").html("");
-
-    //Title
-    var hDiv = $("<h1>").addClass("center-align").text("Feel to Reel");
-    $("#titleDiv").append(hDiv);
-
-    //Video and canvas
-    var vidDiv = $("<video>");
-    var canDiv = $("<canvas>");
-
-    $("#mediaDiv").append(vidDiv);
-    $("#mediaDiv").append(canDiv);
-
-    //Creating the buttons
-    var camBtn = $("<button>").html("<i class='small material-icons'>camera_alt</i>");
-    var vidBtn = $("<button>").html("<i class='small material-icons'>videocam</i>");
-
-    camBtn.addClass("btn waves-effect");
-    vidBtn.addClass("btn waves-effect");
-
-    camBtn.attr("id", "snapshotBtn");
-    vidBtn.attr("id", "videoBtn");
-
-    $("#buttonDiv").append(vidBtn);
-    $("#buttonDiv").append(camBtn);
-  }
 
   $(document).ready(function () {
-    $(".modal").modal()
-
+    $(".modal").modal();
     //$(document).on("click", "#snapshotBtn", whichMovies);
-    $("#videoBtn").hide();
     $(document).on("click", "#snapshotBtn", function () {
-      $("video").hide();
-      $(this).hide();
-      $("#videoBtn").show();
-      $("canvas").show();
-      vidOff();
+      $("video").addClass("hide");
+      $(this).addClass("hide");
+      $("#videoBtn").removeClass("hide");
+      $("canvas").removeClass("hide");
+      videoObject.vidOff();
 
     });
     $(document).on("click", "#videoBtn", function () {
-      $("canvas").hide();
-      $(this).hide();
-      $("#snapshotBtn").show()
-      $("video").show();
-
+      $("#movieList").html("");
+      $("canvas").addClass("hide");
+      $(this).addClass("hide");
+      $("#snapshotBtn").removeClass("hide")
+      $("video").removeClass("hide");
+      videoObject.vidOn();
     });
     //Modal
     $(document).on("click", ".movie-button", function () {
