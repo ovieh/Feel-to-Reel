@@ -9,8 +9,12 @@ var dataURL;
 var highEmotion = "";
 var localstream;
 var results;
+<<<<<<< HEAD
 
 
+=======
+var uid;
+>>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 // Initialize Firebae
 var config = {
   apiKey: "AIzaSyAynPxThM6T3tphifpPEvBGMdDb4xRHkRQ",
@@ -22,49 +26,187 @@ var config = {
 };
 firebase.initializeApp(config);
 
-// Creates instance of Github provider object
-var provider = new firebase.auth.GithubAuthProvider();
+// Get a reference to the database service
+const database = firebase.database();
+
+console.log(database);
+
+const btnSignIn = document.getElementById('sign-in');
+
+//Write to Firebase database
+let writeUserData = (uid, emotion) => {
+  firebase.database().ref('users/' + uid).set({
+    uid: uid,
+    emotion: emotion
+  });
+}
 
 
-//Prompt user for sign in
-firebase.auth().signInWithPopup(provider);
+let toggleSignIn = () => {
+  if (!firebase.auth().currentUser) {
+    // Creates instance of Github provider object
+    var provider = new firebase.auth.GithubAuthProvider();
 
-firebase.auth().getRedirectResult().then(function (result) {
-  if (result.credential) {
-    // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-    var token = result.credential.accessToken;
-    // ...
-  }
-  // The signed-in user info.
-  var user = result.user;
-}).catch(function (error) {
-  // Handle Errors here.
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  // The email of the user's account used.
-  var email = error.email;
-  // The firebase.auth.AuthCredential type that was used.
-  var credential = error.credential;
-  // ...
-});
-
-//User listener
-
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    var displayName = user.displayName;
-    var email = user.email;
-    var photoURL = user.photoURL;
-    var isAnonymous = user.isAnonymous;
-    var uid = user.uid;
-    var providerData = user.providerData;
-    console.log(displayName);
+    //Prompt user for sign in
+    firebase.auth().signInWithRedirect(provider);
 
   } else {
-    console.log("didn't work");
+    firebase.auth().signOut();
   }
+  btnSignIn.disabled = true;
+}
 
-});
+let initApp = () => {
+
+  firebase.auth().getRedirectResult().then(function (result) {
+    if (result.credential) {
+      // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+      var token = result.credential.accessToken;
+      // ...
+    }
+    // The signed-in user info.
+    var user = result.user;
+  }).catch(function (error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // The email of the user's account used.
+    var email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential;
+    // ...
+  });
+
+  //User listener
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      var displayName = user.displayName;
+      var email = user.email;
+      var photoURL = user.photoURL;
+      var isAnonymous = user.isAnonymous;
+      uid = user.uid;
+      var providerData = user.providerData;
+
+      btnSignIn.textContent = 'Sign out';
+
+      var cameraBtn = document.querySelector('button');
+      cameraBtn.onclick = function () {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').
+        drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        dataURL = canvas.toDataURL("image/png");
+
+        var makeblob = function (dataURL) {
+          var BASE64_MARKER = ';base64,';
+          if (dataURL.indexOf(BASE64_MARKER) == -1) {
+            var parts = dataURL.split(',');
+            var contentType = parts[0].split(':')[1];
+            var raw = decodeURIComponent(parts[1]);
+            return new Blob([raw], {
+              type: contentType
+            });
+          }
+          var parts = dataURL.split(BASE64_MARKER);
+          var contentType = parts[0].split(':')[1];
+          var raw = window.atob(parts[1]);
+          var rawLength = raw.length;
+
+          var uInt8Array = new Uint8Array(rawLength);
+
+          for (var i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+          }
+
+          return new Blob([uInt8Array], {
+            type: contentType
+          });
+
+        };
+
+        // console.log(dataURL);
+        var params = {
+          // Request parameters
+        };
+
+        $.ajax({
+            // NOTE: You must use the same location in your REST call as you used to obtain your subscription keys.
+            //   For example, if you obtained your subscription keys from westcentralus, replace "westus" in the 
+            //   URL below with "westcentralus".
+            url: "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize?" + $.param(params),
+            beforeSend: function (xhrObj) {
+              // Request headers
+              xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
+
+              // NOTE: Replace the "Ocp-Apim-Subscription-Key" value with a valid subscription key.
+              xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "d8c7aa1767df41c0aa08d36223895b0c");
+            },
+            type: "POST",
+            // Request body
+            // data: '{"url": canvas.toDataURL()}',
+            data: makeblob(dataURL),
+            processData: false,
+
+          })
+          .done(function (data) {
+            alert("success");
+            if (typeof data[0] !== "undefined") {
+              var scores = data[0].scores;
+              // Returns the highest index in the emotion object in emotion object
+              highEmotion = Object.keys(scores).reduce((a, b) => {
+                return scores[a] > scores[b] ? a : b;
+              });
+
+              writeUserData(uid, highEmotion);
+              
+              whichMovies();
+            } else {
+              alert("Please take another picture");
+            }
+
+
+            console.log(highEmotion);
+          })
+          .fail(function () {
+            alert("error");
+          });
+
+      };
+      console.log(dataURL);
+
+      var constraints = {
+        audio: false,
+        video: true
+      };
+
+      function handleSuccess(stream) {
+        window.stream = stream; // make stream available to browser console
+        video.srcObject = stream;
+        localstream = stream;
+      }
+
+      function handleError(error) {
+
+        console.log('navigator.getUserMedia error: ', error);
+      }
+
+      navigator.mediaDevices.getUserMedia(constraints).
+      then(handleSuccess).catch(handleError);
+
+    } else {
+      console.log("didn't work");
+      btnSignIn.textContent = 'Sign-In';
+
+    }
+    btnSignIn.disabled = false;
+
+
+  });
+  btnSignIn.addEventListener('click', toggleSignIn, false);
+
+}
+
 
 // Empty variable to hold URL which will change depending on emotion detected
 
@@ -161,15 +303,17 @@ function ajaxCall() {
 
       var movieDiv = $("<div>");
 
-      movieDiv.addClass("col s4 m4");
+      movieDiv.addClass("col s4 m4 movie-div");
+
       var poster = $("<img>");
 
       poster.addClass("responsive-img poster modal-trigger hoverable");
 
       poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
-      poster.attr("data-value", i);
+
       movieDiv.append(poster);
 
+<<<<<<< HEAD
       //poster button
       var posterBtn = $("<a>");
       var btnIcon = $("<i>");
@@ -178,6 +322,15 @@ function ajaxCall() {
       btnIcon.addClass("material-icons");
 
       posterBtn.attr("data-value", i);
+=======
+      var floatingButton = '<a class="btn-floating waves-effect waves-light red movie-button"><i class="material-icons">add</i></a>';
+
+      movieDiv.append(floatingButton);
+
+      movieDiv.attr("data-value", i);
+
+      $("#movieList").append(movieDiv);
+>>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 
       btnIcon.text("add");
 
@@ -189,28 +342,34 @@ function ajaxCall() {
   })
 }
 function displayModal(x) {
+<<<<<<< HEAD
   $(".card-content").empty();
 
   $(".card-image").empty();
 
   var backdropImage = $("<img>");
+=======
 
-  backdropImage.addClass("responsive-img backdrop-image");
+  $("#card-summary").empty();
+>>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 
-  backdropImage.attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
+  $("#backdrop-image").empty();
 
-  $(".card-image").html(backdropImage);
+  $(".card-title-text").text("");
 
-  var title = $("<h4>").text(results[x].title);
+  $("#backdrop-image").attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
 
-  $(".card-content").append(title);
+  var title = results[x].title;
 
-  var releaseDate = $("<p>").text("Release Date: " + results[x].release_date);
+  $(".card-title-text").append(title);
 
-  $(".card-content").append(releaseDate);
+  $("#theaters-link").attr("href", "https://www.fandango.com/search/?q=" + title + "&mode=Movies");
 
-  var plotSummary = $("<p>").text(results[x].overview);
+  $("#streaming-link").attr("href", "http://www.canistream.it/search/movie/" + title);
 
+  var releaseDate = results[x].release_date;
+
+<<<<<<< HEAD
   $(".card-content").append(plotSummary);
 }
 /*
@@ -245,9 +404,15 @@ function takeSnapshot() {
     var contentType = parts[0].split(':')[1];
     var raw = window.atob(parts[1]);
     var rawLength = raw.length;
+=======
+  var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
 
-    var uInt8Array = new Uint8Array(rawLength);
+  var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
+>>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 
+  $("#card-summary").append(releaseDateConvertedDisplay);
+
+<<<<<<< HEAD
     for (var i = 0; i < rawLength; ++i) {
       uInt8Array[i] = raw.charCodeAt(i);
     }
@@ -326,6 +491,18 @@ var videoObject = {
     then(this.handleSuccess).catch(this.handleError);
   }
 };
+=======
+  var plotSummary = $("<p>").text(results[x].overview);
+
+  $("#card-summary").append(plotSummary);
+}
+
+var vidOff = () => {
+  video.pause();
+  video.src = "";
+  localstream.getTracks()[0].stop();
+}
+>>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 
 /*
 ---------------------------Display---------------------------
@@ -365,12 +542,21 @@ $(document).ready(function () {
     videoObject.vidOn();
   });
   //Modal
-  $(document).on("click", ".poster", function () {
+  $(document).on("click", ".movie-button", function () {
 
     $("#modal1").modal("open");
+<<<<<<< HEAD
     displayModal($(this).attr("data-value"));
   });
   $(document).on("click", ".posterBtn", function () {
+=======
+
+    displayModal($(this).parent().attr("data-value"));
+
+  });
+  initApp();
+
+>>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 
     $("#modal1").modal("open");
     displayModal($(this).attr("data-value"));
