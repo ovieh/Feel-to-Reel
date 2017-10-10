@@ -9,12 +9,31 @@ var dataURL;
 var highEmotion = "";
 var localstream;
 var results;
-<<<<<<< HEAD
+var videoObject = {
+  constraints : {
+    audio: false,
+    video: true
+  },
+  handleSuccess: function(stream){
+    window.stream = stream; // make stream available to browser console
+    video.srcObject = stream;
+    localstream = stream;   
+  },
+  handleError: function(error){
+    console.log('navigator.getUserMedia error: ', error);
+  },
+  vidOn: function(){
+    navigator.mediaDevices.getUserMedia(this.constraints).
+    then(this.handleSuccess).catch(this.handleError);
+  },
+  vidOff: function(){
+    video.pause();
+    video.src = "";
+    localstream.getTracks()[0].stop();
+  }
+};
 
-
-=======
 var uid;
->>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 // Initialize Firebae
 var config = {
   apiKey: "AIzaSyAynPxThM6T3tphifpPEvBGMdDb4xRHkRQ",
@@ -149,10 +168,10 @@ let initApp = () => {
             processData: false,
 
           })
-          .done(function (data) {
-            alert("success");
-            if (typeof data[0] !== "undefined") {
-              var scores = data[0].scores;
+        .done(function (data) {
+          alert("success");
+          if (typeof data[0] !== "undefined") {
+            var scores = data[0].scores;
               // Returns the highest index in the emotion object in emotion object
               highEmotion = Object.keys(scores).reduce((a, b) => {
                 return scores[a] > scores[b] ? a : b;
@@ -166,33 +185,40 @@ let initApp = () => {
             }
 
 
+
             console.log(highEmotion);
           })
-          .fail(function () {
-            alert("error");
-          });
+        .fail(function () {
+          alert("error");
+        });
+          //Hide snapshot
+          $("canvas").addClass("hide");
+          console.log("hide");
+        };
+        console.log(dataURL);
 
-      };
-      console.log(dataURL);
+        videoObject.vidOn();
+      //Replaces with videoObject
 
-      var constraints = {
-        audio: false,
-        video: true
-      };
+      // var constraints = {
+      //   audio: false,
+      //   video: true
+      // };
+      
+      // function handleSuccess(stream) {
+      //   window.stream = stream; // make stream available to browser console
+      //   video.srcObject = stream;
+      //   localstream = stream;
+      // }
+      
+      // function handleError(error) {
 
-      function handleSuccess(stream) {
-        window.stream = stream; // make stream available to browser console
-        video.srcObject = stream;
-        localstream = stream;
-      }
+      //   console.log('navigator.getUserMedia error: ', error);
+      // }
+      
+      // navigator.mediaDevices.getUserMedia(constraints).
+      // then(handleSuccess).catch(handleError);
 
-      function handleError(error) {
-
-        console.log('navigator.getUserMedia error: ', error);
-      }
-
-      navigator.mediaDevices.getUserMedia(constraints).
-      then(handleSuccess).catch(handleError);
 
     } else {
       console.log("didn't work");
@@ -203,9 +229,11 @@ let initApp = () => {
 
 
   });
-  btnSignIn.addEventListener('click', toggleSignIn, false);
+btnSignIn.addEventListener('click', toggleSignIn, false);
 
 }
+
+
 
 
 // Empty variable to hold URL which will change depending on emotion detected
@@ -283,12 +311,13 @@ function whichMovies() {
     queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + comedy + "%2C%20" + music;
 
   } else {
-
     console.log("No emotion!!!");
   }
 
   ajaxCall();
+
 }
+
 // AJAX Call to the Movie Database API
 function ajaxCall() {
   $.ajax({
@@ -299,6 +328,7 @@ function ajaxCall() {
     results = response.results;
 
     console.log(results);
+
     for (var i = 0; i < 9; i++) {
 
       var movieDiv = $("<div>");
@@ -307,22 +337,12 @@ function ajaxCall() {
 
       var poster = $("<img>");
 
-      poster.addClass("responsive-img poster modal-trigger hoverable");
+      poster.addClass("responsive-img poster modal-trigger");
 
       poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
 
       movieDiv.append(poster);
 
-<<<<<<< HEAD
-      //poster button
-      var posterBtn = $("<a>");
-      var btnIcon = $("<i>");
-      
-      posterBtn.addClass("posterBtn btn-floating waves-effect waves-light blue hoverable");
-      btnIcon.addClass("material-icons");
-
-      posterBtn.attr("data-value", i);
-=======
       var floatingButton = '<a class="btn-floating waves-effect waves-light red movie-button"><i class="material-icons">add</i></a>';
 
       movieDiv.append(floatingButton);
@@ -330,28 +350,15 @@ function ajaxCall() {
       movieDiv.attr("data-value", i);
 
       $("#movieList").append(movieDiv);
->>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 
-      btnIcon.text("add");
-
-      posterBtn.append(btnIcon);
-      movieDiv.prepend(posterBtn);
-
-      $("#movieList").append(movieDiv);
     }
   })
+
 }
+
 function displayModal(x) {
-<<<<<<< HEAD
-  $(".card-content").empty();
-
-  $(".card-image").empty();
-
-  var backdropImage = $("<img>");
-=======
 
   $("#card-summary").empty();
->>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 
   $("#backdrop-image").empty();
 
@@ -360,8 +367,11 @@ function displayModal(x) {
   $("#backdrop-image").attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
 
   var title = results[x].title;
+  var bTag = $("<b>");
+  bTag.addClass("flow-text");
+  bTag.append(title);
+  $(".card-title-text").append(bTag);
 
-  $(".card-title-text").append(title);
 
   $("#theaters-link").attr("href", "https://www.fandango.com/search/?q=" + title + "&mode=Movies");
 
@@ -369,196 +379,48 @@ function displayModal(x) {
 
   var releaseDate = results[x].release_date;
 
-<<<<<<< HEAD
-  $(".card-content").append(plotSummary);
-}
-/*
- *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
- *
- *  Use of this source code is governed by a BSD-style license
- *  that can be found in the LICENSE file in the root of the source
- *  tree.
- */
-
-
-//I think this takes a still and displays it
-function takeSnapshot() {
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  canvas.getContext('2d').
-  drawImage(video, 0, 0, canvas.width, canvas.height);
-
-  dataURL = canvas.toDataURL("image/png");
-
-  var makeblob = function (dataURL) {
-    var BASE64_MARKER = ';base64,';
-    if (dataURL.indexOf(BASE64_MARKER) == -1) {
-      var parts = dataURL.split(',');
-      var contentType = parts[0].split(':')[1];
-      var raw = decodeURIComponent(parts[1]);
-      return new Blob([raw], {
-        type: contentType
-      });
-    }
-    var parts = dataURL.split(BASE64_MARKER);
-    var contentType = parts[0].split(':')[1];
-    var raw = window.atob(parts[1]);
-    var rawLength = raw.length;
-=======
   var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
 
   var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
->>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
-
+  releaseDateConvertedDisplay.addClass("flow-text");
   $("#card-summary").append(releaseDateConvertedDisplay);
 
-<<<<<<< HEAD
-    for (var i = 0; i < rawLength; ++i) {
-      uInt8Array[i] = raw.charCodeAt(i);
-    }
-
-    return new Blob([uInt8Array], {
-      type: contentType
-    });
-
-  };
-
-  // console.log(dataURL);
-  var params = {
-    // Request parameters
-  };
-
-  $.ajax({
-      // NOTE: You must use the same location in your REST call as you used to obtain your subscription keys.
-      //   For example, if you obtained your subscription keys from westcentralus, replace "westus" in the 
-      //   URL below with "westcentralus".
-      url: "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize?" + $.param(params),
-      beforeSend: function (xhrObj) {
-        // Request headers
-        xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
-
-        // NOTE: Replace the "Ocp-Apim-Subscription-Key" value with a valid subscription key.
-        xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "d8c7aa1767df41c0aa08d36223895b0c");
-      },
-      type: "POST",
-      // Request body
-      // data: '{"url": canvas.toDataURL()}',
-      data: makeblob(dataURL),
-      processData: false,
-  }).done(function (data) {
-      alert("success");
-      if (typeof data[0] !== "undefined") {
-        var scores = data[0].scores;
-        // Returns the highest index in the emotion object in emotion object
-        highEmotion = Object.keys(scores).reduce((a, b) => {
-          return scores[a] > scores[b] ? a : b
-        });
-
-        //Shuts video off
-        // vidOff();
-        whichMovies();
-      } else {
-        alert("Please take another picture");
-      }
-      hideVideo();
-      console.log(highEmotion);
-  }).fail(function () {
-      alert("error");
-  });
-};
-console.log(dataURL);
-
-var videoObject = {
-  constraints: {
-    audio: false,
-    video: true
-  },
-  handleSuccess: function(stream){
-    window.stream = stream; // make stream available to browser console
-    video.srcObject = stream;
-    localstream = stream;
-  },
-  handleError: function(error){
-    console.log('navigator.getUserMedia error: ', error);
-  },
-  vidOff: function(){
-    video.pause();
-    video.src = "";
-    localstream.getTracks()[0].stop();
-  },
-  vidOn: function(){
-    navigator.mediaDevices.getUserMedia(this.constraints).
-    then(this.handleSuccess).catch(this.handleError);
-  }
-};
-=======
   var plotSummary = $("<p>").text(results[x].overview);
-
+  plotSummary.addClass("flow-text");
   $("#card-summary").append(plotSummary);
 }
 
-var vidOff = () => {
-  video.pause();
-  video.src = "";
-  localstream.getTracks()[0].stop();
-}
->>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
+  /*
+  ---------------------------Display---------------------------
+  -------------------------------------------------------------
+  */
 
-/*
----------------------------Display---------------------------
--------------------------------------------------------------
-*/
-function showVideo(){
-  $("video").show();
-  $("canvas").show();
-  $("#videoBtn").show();
-}
-function hideVideo(){
-  $("video").hide();
-  $("canvas").hide();
-  $("#snapshotBtn").hide();
-}
-//When the pag loads
-$(document).ready(function () {
-  hideVideo();
-  //Initialize modals
-  $(".modal").modal()
-  //when you click snapshotBtn
-  $(document).on("click", "#snapshotBtn", function () {
-    takeSnapshot();
-    $("video").hide();
-    $(this).hide();
-    $("#videoBtn").show();
-    $("canvas").show();
-    videoObject.vidOff();
-  });
-  //When you click videoBtn
-  $(document).on("click", "#videoBtn", function () {
-    $("canvas").hide();
-    $("#movieList").html("");
-    $(this).hide();
-    $("#snapshotBtn").show()
-    $("video").show();
-    videoObject.vidOn();
-  });
-  //Modal
-  $(document).on("click", ".movie-button", function () {
+  $(document).ready(function () {
+    $(".modal").modal();
+    //$(document).on("click", "#snapshotBtn", whichMovies);
+    $(document).on("click", "#snapshotBtn", function () {
+      $("video").addClass("hide");
+      $(this).addClass("hide");
+      $("#videoBtn").removeClass("hide");
+      $("canvas").removeClass("hide");
+      videoObject.vidOff();
 
-    $("#modal1").modal("open");
-<<<<<<< HEAD
-    displayModal($(this).attr("data-value"));
-  });
-  $(document).on("click", ".posterBtn", function () {
-=======
+    });
+    $(document).on("click", "#videoBtn", function () {
+      $("#movieList").html("");
+      $("canvas").addClass("hide");
+      $(this).addClass("hide");
+      $("#snapshotBtn").removeClass("hide")
+      $("video").removeClass("hide");
+      videoObject.vidOn();
+    });
+    //Modal
+    $(document).on("click", ".movie-button", function () {
+      $("#modal1").modal("open");
 
-    displayModal($(this).parent().attr("data-value"));
+      displayModal($(this).parent().attr("data-value"));
 
-  });
-  initApp();
+    });
+    initApp();
 
->>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
-
-    $("#modal1").modal("open");
-    displayModal($(this).attr("data-value"));
-  });
-})
+  })
