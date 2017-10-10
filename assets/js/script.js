@@ -9,6 +9,7 @@ var dataURL;
 var highEmotion = "";
 var localstream;
 var results;
+<<<<<<< HEAD
 var videoObject = {
   constraints : {
     audio: false,
@@ -32,8 +33,11 @@ var videoObject = {
     localstream.getTracks()[0].stop();
   }
 };
+=======
+var uid;
+>>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 // Initialize Firebae
-const config = {
+var config = {
   apiKey: "AIzaSyAynPxThM6T3tphifpPEvBGMdDb4xRHkRQ",
   authDomain: "feel-to-reel.firebaseapp.com",
   databaseURL: "https://feel-to-reel.firebaseio.com",
@@ -43,7 +47,20 @@ const config = {
 };
 firebase.initializeApp(config);
 
+// Get a reference to the database service
+const database = firebase.database();
+
+console.log(database);
+
 const btnSignIn = document.getElementById('sign-in');
+
+//Write to Firebase database
+let writeUserData = (uid, emotion) => {
+  firebase.database().ref('users/' + uid).set({
+    uid: uid,
+    emotion: emotion
+  });
+}
 
 
 let toggleSignIn = () => {
@@ -88,9 +105,8 @@ let initApp = () => {
       var email = user.email;
       var photoURL = user.photoURL;
       var isAnonymous = user.isAnonymous;
-      var uid = user.uid;
+      uid = user.uid;
       var providerData = user.providerData;
-      console.log(displayName);
 
       btnSignIn.textContent = 'Sign out';
 
@@ -100,9 +116,9 @@ let initApp = () => {
         canvas.height = video.videoHeight;
         canvas.getContext('2d').
         drawImage(video, 0, 0, canvas.width, canvas.height);
-      
+
         dataURL = canvas.toDataURL("image/png");
-      
+
         var makeblob = function (dataURL) {
           var BASE64_MARKER = ';base64,';
           if (dataURL.indexOf(BASE64_MARKER) == -1) {
@@ -117,24 +133,24 @@ let initApp = () => {
           var contentType = parts[0].split(':')[1];
           var raw = window.atob(parts[1]);
           var rawLength = raw.length;
-      
+
           var uInt8Array = new Uint8Array(rawLength);
-      
+
           for (var i = 0; i < rawLength; ++i) {
             uInt8Array[i] = raw.charCodeAt(i);
           }
-      
+
           return new Blob([uInt8Array], {
             type: contentType
           });
-      
+
         };
-      
+
         // console.log(dataURL);
         var params = {
           // Request parameters
         };
-      
+
         $.ajax({
             // NOTE: You must use the same location in your REST call as you used to obtain your subscription keys.
             //   For example, if you obtained your subscription keys from westcentralus, replace "westus" in the 
@@ -143,7 +159,7 @@ let initApp = () => {
             beforeSend: function (xhrObj) {
               // Request headers
               xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
-      
+
               // NOTE: Replace the "Ocp-Apim-Subscription-Key" value with a valid subscription key.
               xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "d8c7aa1767df41c0aa08d36223895b0c");
             },
@@ -152,7 +168,7 @@ let initApp = () => {
             // data: '{"url": canvas.toDataURL()}',
             data: makeblob(dataURL),
             processData: false,
-      
+
           })
           .done(function (data) {
             alert("success");
@@ -162,17 +178,25 @@ let initApp = () => {
               highEmotion = Object.keys(scores).reduce((a, b) => {
                 return scores[a] > scores[b] ? a : b;
               });
-      
+
+              writeUserData(uid, highEmotion);
+              
               whichMovies();
             } else {
               alert("Please take another picture");
             }
+<<<<<<< HEAD
       
+=======
+
+
+>>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
             console.log(highEmotion);
           })
           .fail(function () {
             alert("error");
           });
+<<<<<<< HEAD
           //Hide snapshot
           $("canvas").addClass("hide");
           console.log("hide");
@@ -200,6 +224,30 @@ let initApp = () => {
       
       // navigator.mediaDevices.getUserMedia(constraints).
       // then(handleSuccess).catch(handleError);
+=======
+
+      };
+      console.log(dataURL);
+
+      var constraints = {
+        audio: false,
+        video: true
+      };
+
+      function handleSuccess(stream) {
+        window.stream = stream; // make stream available to browser console
+        video.srcObject = stream;
+        localstream = stream;
+      }
+
+      function handleError(error) {
+
+        console.log('navigator.getUserMedia error: ', error);
+      }
+
+      navigator.mediaDevices.getUserMedia(constraints).
+      then(handleSuccess).catch(handleError);
+>>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 
     } else {
       console.log("didn't work");
@@ -217,150 +265,161 @@ let initApp = () => {
 
 
 
-  // Empty variable to hold URL which will change depending on emotion detected
+// Empty variable to hold URL which will change depending on emotion detected
 
-  var queryURL = "";
+var queryURL = "";
 
 
-  function whichMovies() {
+function whichMovies() {
 
-    $("#movieList").empty();
+  $("#movieList").empty();
 
-    //// Which genre will match with which emotion? 
-    // anger = action, crime, thriller
-    // contempt = documentary, history
-    // disgust = science fiction
-    // fear = horror, mystery
-    // neutral = drama
-    // sadness = romance, drama
-    // surprise = fantasy, adventure
-    // happiness = comedy, music
+  //// Which genre will match with which emotion? 
+  // anger = action, crime, thriller
+  // contempt = documentary, history
+  // disgust = science fiction
+  // fear = horror, mystery
+  // neutral = drama
+  // sadness = romance, drama
+  // surprise = fantasy, adventure
+  // happiness = comedy, music
 
-    // Variables holding the genre IDs needed for the API call
+  // Variables holding the genre IDs needed for the API call
 
-    var action = "28";
-    var adventure = "12";
-    var comedy = "35";
-    var crime = "80";
-    var documentary = "99";
-    var drama = "18";
-    var fantasy = "14";
-    var history = "36";
-    var horror = "27";
-    var music = "10402";
-    var mystery = "9648";
-    var romance = "10749";
-    var scienceFiction = "878";
-    var thriller = "53";
+  var action = "28";
+  var adventure = "12";
+  var comedy = "35";
+  var crime = "80";
+  var documentary = "99";
+  var drama = "18";
+  var fantasy = "14";
+  var history = "36";
+  var horror = "27";
+  var music = "10402";
+  var mystery = "9648";
+  var romance = "10749";
+  var scienceFiction = "878";
+  var thriller = "53";
 
-    // Movie Database API key
+  // Movie Database API key
 
-    var movieAPI = "aed8a1ce3108479482ae5d0e4cbb536a";
+  var movieAPI = "aed8a1ce3108479482ae5d0e4cbb536a";
 
-    // If statements that determine which URL will be called
+  // If statements that determine which URL will be called
 
-    if (highEmotion == "anger") {
+  if (highEmotion == "anger") {
 
-      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + action + "%2C%20" + crime + "%2C%20" + thriller;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + action + "%2C%20" + crime + "%2C%20" + thriller;
 
-    } else if (highEmotion == "contempt") {
+  } else if (highEmotion == "contempt") {
 
-      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + documentary + "%2C%20" + history;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + documentary + "%2C%20" + history;
 
-    } else if (highEmotion == "disgust") {
+  } else if (highEmotion == "disgust") {
 
-      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + scienceFiction;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + scienceFiction;
 
-    } else if (highEmotion == "fear") {
+  } else if (highEmotion == "fear") {
 
-      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + horror + "%2C%20" + mystery;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + horror + "%2C%20" + mystery;
 
-    } else if (highEmotion == "neutral") {
+  } else if (highEmotion == "neutral") {
 
-      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + drama;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + drama;
 
-    } else if (highEmotion == "sadness") {
+  } else if (highEmotion == "sadness") {
 
-      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + romance + "%2C%20" + drama;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + romance + "%2C%20" + drama;
 
-    } else if (highEmotion == "surprise") {
+  } else if (highEmotion == "surprise") {
 
-      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + fantasy + "%2C%20" + adventure;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + fantasy + "%2C%20" + adventure;
 
-    } else if (highEmotion == "happiness") {
+  } else if (highEmotion == "happiness") {
 
-      queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + comedy + "%2C%20" + music;
+    queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + movieAPI + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + comedy + "%2C%20" + music;
 
-    } else {
-      console.log("No emotion!!!");
-    }
-
-    ajaxCall();
-
+  } else {
+    console.log("No emotion!!!");
   }
 
-  // AJAX Call to the Movie Database API
-  function ajaxCall() {
-    $.ajax({
-      url: queryURL,
-      method: 'GET'
-    }).done(function (response) {
+  ajaxCall();
 
-      results = response.results;
+}
 
-      console.log(results);
+// AJAX Call to the Movie Database API
+function ajaxCall() {
+  $.ajax({
+    url: queryURL,
+    method: 'GET'
+  }).done(function (response) {
 
-      for (var i = 0; i < 9; i++) {
+    results = response.results;
 
-        var movieDiv = $("<div>");
+    console.log(results);
 
-        movieDiv.addClass("col s4 m4 movie-div");
+    for (var i = 0; i < 9; i++) {
 
-        var poster = $("<img>");
+      var movieDiv = $("<div>");
 
-        poster.addClass("responsive-img poster modal-trigger");
+      movieDiv.addClass("col s4 m4 movie-div");
 
-        poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
+      var poster = $("<img>");
 
-        movieDiv.append(poster);
+      poster.addClass("responsive-img poster modal-trigger");
 
+      poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
+
+      movieDiv.append(poster);
+
+<<<<<<< HEAD
         var floatingButton = '<a class="btn-floating waves-effect blue movie-button hoverable"><i class="material-icons">add</i></a>';
+=======
+      var floatingButton = '<a class="btn-floating waves-effect waves-light red movie-button"><i class="material-icons">add</i></a>';
+>>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 
-        movieDiv.append(floatingButton);
+      movieDiv.append(floatingButton);
 
-        movieDiv.attr("data-value", i);
+      movieDiv.attr("data-value", i);
 
-        $("#movieList").append(movieDiv);
+      $("#movieList").append(movieDiv);
 
-      }
-    })
+    }
+  })
 
-  }
+}
 
-  function displayModal(x) {
+function displayModal(x) {
 
-    $("#card-summary").empty();
+  $("#card-summary").empty();
 
-    $("#backdrop-image").empty();
+  $("#backdrop-image").empty();
 
-    $(".card-title-text").text("");
+  $(".card-title-text").text("");
 
-    $("#backdrop-image").attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
+  $("#backdrop-image").attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
 
+<<<<<<< HEAD
     var title = results[x].title;
     var bTag = $("<b>");
     bTag.addClass("flow-text");
     bTag.append(title);
     $(".card-title-text").append(bTag);
+=======
+  var title = results[x].title;
 
-    $("#theaters-link").attr("href", "https://www.fandango.com/search/?q=" + title + "&mode=Movies");
+  $(".card-title-text").append(title);
+>>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 
-    $("#streaming-link").attr("href", "http://www.canistream.it/search/movie/" + title);
+  $("#theaters-link").attr("href", "https://www.fandango.com/search/?q=" + title + "&mode=Movies");
 
-    var releaseDate = results[x].release_date;
+  $("#streaming-link").attr("href", "http://www.canistream.it/search/movie/" + title);
 
-    var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
+  var releaseDate = results[x].release_date;
 
+  var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
+
+<<<<<<< HEAD
     var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
     releaseDateConvertedDisplay.addClass("flow-text");
     $("#card-summary").append(releaseDateConvertedDisplay);
@@ -396,14 +455,87 @@ let initApp = () => {
     });
     //Modal
     $(document).on("click", ".movie-button", function () {
+=======
+  var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
 
-      $("#modal1").modal("open");
+  $("#card-summary").append(releaseDateConvertedDisplay);
 
-      displayModal($(this).parent().attr("data-value"));
+  var plotSummary = $("<p>").text(results[x].overview);
 
-    });
+  $("#card-summary").append(plotSummary);
+}
+
+var vidOff = () => {
+  video.pause();
+  video.src = "";
+  localstream.getTracks()[0].stop();
+}
+
+/*
+---------------------------Display---------------------------
+-------------------------------------------------------------
+*/
+function displayLoading() {
+  console.log("test");
+  $("titleDiv").text("");
+  $("mediaDiv").html("");
+  $("buttonDiv").html("");
+
+  //Title
+  var hDiv = $("<h1>").addClass("center-align").text("Feel to Reel");
+  $("#titleDiv").append(hDiv);
+
+  //Video and canvas
+  var vidDiv = $("<video>");
+  var canDiv = $("<canvas>");
+
+  $("#mediaDiv").append(vidDiv);
+  $("#mediaDiv").append(canDiv);
+
+  //Creating the buttons
+  var camBtn = $("<button>").html("<i class='small material-icons'>camera_alt</i>");
+  var vidBtn = $("<button>").html("<i class='small material-icons'>videocam</i>");
+
+  camBtn.addClass("btn waves-effect");
+  vidBtn.addClass("btn waves-effect");
+
+  camBtn.attr("id", "snapshotBtn");
+  vidBtn.attr("id", "videoBtn");
+
+  $("#buttonDiv").append(vidBtn);
+  $("#buttonDiv").append(camBtn);
+}
+
+$(document).ready(function () {
+  $(".modal").modal()
+
+  //$(document).on("click", "#snapshotBtn", whichMovies);
+  $("#videoBtn").hide();
+  $(document).on("click", "#snapshotBtn", function () {
+    $("video").hide();
+    $(this).hide();
+    $("#videoBtn").show();
+    $("canvas").show();
+    vidOff();
+
+  });
+  $(document).on("click", "#videoBtn", function () {
+    $("canvas").hide();
+    $(this).hide();
+    $("#snapshotBtn").show()
+    $("video").show();
+
+  });
+  //Modal
+  $(document).on("click", ".movie-button", function () {
+>>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
+
+    $("#modal1").modal("open");
+
+    displayModal($(this).parent().attr("data-value"));
+
+  });
   initApp();
 
 
 })
-
