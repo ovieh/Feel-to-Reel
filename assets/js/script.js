@@ -192,12 +192,15 @@ let initApp = () => {
           alert("error");
         });
 
+
+
         };
         console.log(dataURL);
 
         videoObject.vidOn();
         $("canvas").addClass("hide");
         console.log("hide");
+
       //Replaces with videoObject
 
       // var constraints = {
@@ -387,10 +390,9 @@ function displayModal(x) {
 
   var plotSummary = $("<p>").text(results[x].overview);
   plotSummary.addClass("flow-text");
-  $("#card-summary").append(plotSummary);
-}
-  
-$(document).ready(function () {
+  $("#card-summary").append(plotSummary);  
+
+  $(document).ready(function () {
     
   //Initialize modals
   $(".modal").modal();
@@ -420,3 +422,4 @@ $(document).ready(function () {
   initApp();
 
 });
+
