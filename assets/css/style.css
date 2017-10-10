@@ -20,18 +20,13 @@ video{
 	margin: 0 auto;
 }
 .modal {
-<<<<<<< HEAD
-	max-width: 35% !important;
+  max-width: 45% !important;
 
 }
 .posterBtn{
 	position: relative;
 	top: 50px;
 	right: -10px;
-}
-=======
-
-	max-width: 45% !important;
 }
 
 .card-title {
@@ -96,4 +91,3 @@ nav .brand-logo {
 
   color: #e57373;
 }
->>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05

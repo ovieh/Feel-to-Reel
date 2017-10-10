@@ -191,13 +191,13 @@ let initApp = () => {
         .fail(function () {
           alert("error");
         });
-          //Hide snapshot
-          $("canvas").addClass("hide");
-          console.log("hide");
+
         };
         console.log(dataURL);
 
         videoObject.vidOn();
+        $("canvas").addClass("hide");
+        console.log("hide");
       //Replaces with videoObject
 
       // var constraints = {
@@ -389,36 +389,34 @@ function displayModal(x) {
   plotSummary.addClass("flow-text");
   $("#card-summary").append(plotSummary);
 }
-
   
-  $(document).ready(function () {
+$(document).ready(function () {
     
-    //Initialize modals
-    $(".modal").modal();
+  //Initialize modals
+  $(".modal").modal();
 
-    //When snapshotBtn is click
-    $(document).on("click", "#snapshotBtn", function () {
-      $("video").addClass("hide");
-      $(this).addClass("hide");
-      $("#videoBtn").removeClass("hide");
-      $("canvas").removeClass("hide");
-      videoObject.vidOff();
-    });
-    $(document).on("click", "#videoBtn", function () {
-      $("#movieList").html("");
-      $("canvas").addClass("hide");
-      $(this).addClass("hide");
-      $("#snapshotBtn").removeClass("hide")
-      $("video").removeClass("hide");
-      videoObject.vidOn();
-    });
-    //Modal
-    $(document).on("click", ".movie-button", function () {
-      $("#modal1").modal("open");
-
-      displayModal($(this).parent().attr("data-value"));
-
-    });
-    initApp();
-
+  //When snapshotBtn is click
+  $(document).on("click", "#snapshotBtn", function () {
+    $("video").addClass("hide");
+    $(this).addClass("hide");
+    $("#videoBtn").removeClass("disabled");
+    $("canvas").removeClass("hide");
+    videoObject.vidOff();
   });
+  $(document).on("click", "#videoBtn", function () {
+    $("#movieList").html("");
+    $("canvas").addClass("hide");
+    $(this).addClass("disabled");
+    $("#snapshotBtn").removeClass("hide")
+    $("video").removeClass("hide");
+    videoObject.vidOn();
+  });
+  //Modal
+  $(document).on("click", ".movie-button", function () {
+    $("#modal1").modal("open");
+    displayModal($(this).parent().attr("data-value"));
+  });
+  
+  initApp();
+
+});
