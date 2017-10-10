@@ -9,7 +9,6 @@ var dataURL;
 var highEmotion = "";
 var localstream;
 var results;
-<<<<<<< HEAD
 var videoObject = {
   constraints : {
     audio: false,
@@ -33,9 +32,8 @@ var videoObject = {
     localstream.getTracks()[0].stop();
   }
 };
-=======
+
 var uid;
->>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 // Initialize Firebae
 var config = {
   apiKey: "AIzaSyAynPxThM6T3tphifpPEvBGMdDb4xRHkRQ",
@@ -170,10 +168,10 @@ let initApp = () => {
             processData: false,
 
           })
-          .done(function (data) {
-            alert("success");
-            if (typeof data[0] !== "undefined") {
-              var scores = data[0].scores;
+        .done(function (data) {
+          alert("success");
+          if (typeof data[0] !== "undefined") {
+            var scores = data[0].scores;
               // Returns the highest index in the emotion object in emotion object
               highEmotion = Object.keys(scores).reduce((a, b) => {
                 return scores[a] > scores[b] ? a : b;
@@ -185,25 +183,21 @@ let initApp = () => {
             } else {
               alert("Please take another picture");
             }
-<<<<<<< HEAD
-      
-=======
 
 
->>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
+
             console.log(highEmotion);
           })
-          .fail(function () {
-            alert("error");
-          });
-<<<<<<< HEAD
+        .fail(function () {
+          alert("error");
+        });
           //Hide snapshot
           $("canvas").addClass("hide");
           console.log("hide");
-      };
-      console.log(dataURL);
+        };
+        console.log(dataURL);
 
-      videoObject.vidOn();
+        videoObject.vidOn();
       //Replaces with videoObject
 
       // var constraints = {
@@ -218,36 +212,13 @@ let initApp = () => {
       // }
       
       // function handleError(error) {
-      
+
       //   console.log('navigator.getUserMedia error: ', error);
       // }
       
       // navigator.mediaDevices.getUserMedia(constraints).
       // then(handleSuccess).catch(handleError);
-=======
 
-      };
-      console.log(dataURL);
-
-      var constraints = {
-        audio: false,
-        video: true
-      };
-
-      function handleSuccess(stream) {
-        window.stream = stream; // make stream available to browser console
-        video.srcObject = stream;
-        localstream = stream;
-      }
-
-      function handleError(error) {
-
-        console.log('navigator.getUserMedia error: ', error);
-      }
-
-      navigator.mediaDevices.getUserMedia(constraints).
-      then(handleSuccess).catch(handleError);
->>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 
     } else {
       console.log("didn't work");
@@ -258,7 +229,7 @@ let initApp = () => {
 
 
   });
-  btnSignIn.addEventListener('click', toggleSignIn, false);
+btnSignIn.addEventListener('click', toggleSignIn, false);
 
 }
 
@@ -372,11 +343,7 @@ function ajaxCall() {
 
       movieDiv.append(poster);
 
-<<<<<<< HEAD
-        var floatingButton = '<a class="btn-floating waves-effect blue movie-button hoverable"><i class="material-icons">add</i></a>';
-=======
       var floatingButton = '<a class="btn-floating waves-effect waves-light red movie-button"><i class="material-icons">add</i></a>';
->>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 
       movieDiv.append(floatingButton);
 
@@ -399,17 +366,12 @@ function displayModal(x) {
 
   $("#backdrop-image").attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
 
-<<<<<<< HEAD
-    var title = results[x].title;
-    var bTag = $("<b>");
-    bTag.addClass("flow-text");
-    bTag.append(title);
-    $(".card-title-text").append(bTag);
-=======
   var title = results[x].title;
+  var bTag = $("<b>");
+  bTag.addClass("flow-text");
+  bTag.append(title);
+  $(".card-title-text").append(bTag);
 
-  $(".card-title-text").append(title);
->>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
 
   $("#theaters-link").attr("href", "https://www.fandango.com/search/?q=" + title + "&mode=Movies");
 
@@ -419,15 +381,14 @@ function displayModal(x) {
 
   var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
 
-<<<<<<< HEAD
-    var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
-    releaseDateConvertedDisplay.addClass("flow-text");
-    $("#card-summary").append(releaseDateConvertedDisplay);
+  var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
+  releaseDateConvertedDisplay.addClass("flow-text");
+  $("#card-summary").append(releaseDateConvertedDisplay);
 
-    var plotSummary = $("<p>").text(results[x].overview);
-    plotSummary.addClass("flow-text");
-    $("#card-summary").append(plotSummary);
-  }
+  var plotSummary = $("<p>").text(results[x].overview);
+  plotSummary.addClass("flow-text");
+  $("#card-summary").append(plotSummary);
+}
 
   /*
   ---------------------------Display---------------------------
@@ -455,87 +416,11 @@ function displayModal(x) {
     });
     //Modal
     $(document).on("click", ".movie-button", function () {
-=======
-  var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
+      $("#modal1").modal("open");
 
-  $("#card-summary").append(releaseDateConvertedDisplay);
+      displayModal($(this).parent().attr("data-value"));
 
-  var plotSummary = $("<p>").text(results[x].overview);
+    });
+    initApp();
 
-  $("#card-summary").append(plotSummary);
-}
-
-var vidOff = () => {
-  video.pause();
-  video.src = "";
-  localstream.getTracks()[0].stop();
-}
-
-/*
----------------------------Display---------------------------
--------------------------------------------------------------
-*/
-function displayLoading() {
-  console.log("test");
-  $("titleDiv").text("");
-  $("mediaDiv").html("");
-  $("buttonDiv").html("");
-
-  //Title
-  var hDiv = $("<h1>").addClass("center-align").text("Feel to Reel");
-  $("#titleDiv").append(hDiv);
-
-  //Video and canvas
-  var vidDiv = $("<video>");
-  var canDiv = $("<canvas>");
-
-  $("#mediaDiv").append(vidDiv);
-  $("#mediaDiv").append(canDiv);
-
-  //Creating the buttons
-  var camBtn = $("<button>").html("<i class='small material-icons'>camera_alt</i>");
-  var vidBtn = $("<button>").html("<i class='small material-icons'>videocam</i>");
-
-  camBtn.addClass("btn waves-effect");
-  vidBtn.addClass("btn waves-effect");
-
-  camBtn.attr("id", "snapshotBtn");
-  vidBtn.attr("id", "videoBtn");
-
-  $("#buttonDiv").append(vidBtn);
-  $("#buttonDiv").append(camBtn);
-}
-
-$(document).ready(function () {
-  $(".modal").modal()
-
-  //$(document).on("click", "#snapshotBtn", whichMovies);
-  $("#videoBtn").hide();
-  $(document).on("click", "#snapshotBtn", function () {
-    $("video").hide();
-    $(this).hide();
-    $("#videoBtn").show();
-    $("canvas").show();
-    vidOff();
-
-  });
-  $(document).on("click", "#videoBtn", function () {
-    $("canvas").hide();
-    $(this).hide();
-    $("#snapshotBtn").show()
-    $("video").show();
-
-  });
-  //Modal
-  $(document).on("click", ".movie-button", function () {
->>>>>>> cb1323028b5a009ff236d9d8dbb5449dccc0ab05
-
-    $("#modal1").modal("open");
-
-    displayModal($(this).parent().attr("data-value"));
-
-  });
-  initApp();
-
-
-})
+  })
