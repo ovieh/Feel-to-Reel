@@ -15,16 +15,18 @@
 </head>
 
 <body>
-	<nav>
-		<div class="nav-wrapper blue">
-			<a href="#" class="brand-logo center">Feel to Reel</a>
-			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li>
-					<a class="waves-effect waves-light btn grey" id="sign-in"><i class="small material-icons left">account_circle</i>Sign-In</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
+	<div class="navbar-fixed">
+		<nav>
+			<div class="nav-wrapper grey darken-4">
+				<a href="#" class="brand-logo center">Feel to Reel</a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li>
+						<a class="waves-effect waves-light btn red" id="sign-in"><i class="small material-icons left">account_circle</i>Sign-In</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</div>
 	<div class="container">
 		<!-- Page Layout here -->
 		<!-- <div class="row">
@@ -36,49 +38,47 @@
 			<!-- <div class="col s2 m4"></div> -->
 			<!-- <div class="col s8 m4" id="mediaDiv"> -->
 
-			<video autoplay class="z-depth-5 center"></video>
-			<canvas class="z-depth-3"></canvas>
-			<!-- </div> -->
-			<!-- <div class="col s2 m4"></div> -->
-		</div>
-		<div class="row">
-			<div class="col s5"></div>
-			<div class="col s2" id="buttonDiv">
-				<button class="btn waves-effect" id="snapshotBtn">
-					<i class="small material-icons">camera_alt</i>
-				</button>
-				<button class="btn waves-effect" id="videoBtn">
-					<i class="small material-icons">videocam</i>
-				</button>
-
+				<video autoplay class="z-depth-5 center"></video>
+				<canvas class="z-depth-3"></canvas>
+				<!-- </div> -->
+				<!-- <div class="col s2 m4"></div> -->
 			</div>
+			<div class="row">
+				<div class="col s5"></div>
+				<div class="col s2" id="buttonDiv">
+					<button class="btn waves-effect red" id="snapshotBtn">
+						<i class="small material-icons">camera_alt</i>
+					</button>
+					<button class="btn waves-effect red" id="videoBtn">
+						<i class="small material-icons">videocam</i>
+					</button>
 
-			<div class="row" id="movieList">
-			</div>
-			<!-- Modal Structure -->
+				</div>
 
-			<div id="modal1" class="modal">
-				<div class="col s12">
-					<div class="card sticky-action">
-						<div class="card-image waves-effect waves-block waves-light">
-							<img class="activator" id="backdrop-image" src="">
-						</div>
-						<div class="card-content">
-							<span class="card-title activator grey-text text-darken-4"><span class="card-title-text">Card Title</span><i class="material-icons right">more_vert</i></span>
+				<div class="row" id="movieList">
+				</div>
+				<!-- Modal Structure -->
 
+				<div id="modal1" class="modal">
+						<div class="card sticky-action grey lighten-5">
+							<div class="card-image waves-effect waves-block waves-light">
+								<img class="activator" id="backdrop-image" src="">
+							</div>
+							<div class="card-content">
+								<span class="card-title activator grey-text text-darken-4"><span class="card-title-text">Card Title</span><i class="material-icons right">more_vert</i></span>
+
+							</div>
+							<div class="card-action">
+								<a id="theaters-link" href="" target="_blank">Find in theaters</a>
+								<a id="streaming-link" href="" target="_blank">Find it streaming</a>
+							</div>
+							<div class="card-reveal grey lighten-5">
+								<span class="card-title grey-text text-darken-4"><span class="card-title-text">Card Title</span><i class="material-icons right">close</i></span>
+								<p id="card-summary"></p>
+							</div>
 						</div>
-						<div class="card-action">
-							<a id="theaters-link" href="" target="_blank">Find in theaters</a>
-							<a id="streaming-link" href="" target="_blank">Find it streaming</a>
-						</div>
-						<div class="card-reveal">
-							<span class="card-title grey-text text-darken-4"><span class="card-title-text">Card Title</span><i class="material-icons right">close</i></span>
-							<p id="card-summary"></p>
-						</div>
-					</div>
 				</div>
 			</div>
-		</div>
 
 
 	</div>
@@ -91,4 +91,5 @@
 	<script src="assets/js/script.js"></script>
 </body>
 
-</html>
+
+	</html>
