@@ -1,13 +1,13 @@
 (function () {
-	'use strict';
+	//'use strict';
 
 	// Put variables in global scope to make them available to the browser console.
 	var video = document.querySelector('video');
 	var canvas = window.canvas = document.querySelector('canvas');
 	canvas.width = 480;
 	canvas.height = 0;
-	var dataURL;
 	var highEmotion = null;
+	var dataURL;
 	var localstream;
 	var results;
 	var uid;
@@ -49,8 +49,6 @@
 	// Get a reference to the database service
 	const database = firebase.database();
 
-	console.log(database);
-
 	const btnSignIn = document.getElementById('sign-in');
 
 	//Write to Firebase database
@@ -74,17 +72,27 @@
 		}
 		btnSignIn.disabled = true;
 	}
-	const usersRef = database.ref('users/');
 
-	usersRef.on("value", (snapshot) => {
-		const user = snapshot.child(uid).val();
-		highEmotion = user.emotion;
-		console.log(highEmotion);
-	}, function (error) {
-		console.log("Error: " + error.code);
-	});
+	//setEmotion(highEmotion);
 
+	// const usersRef = database.ref('users/');
+	// usersRef.on("value", (snapshot) => {
+	// 	const user = snapshot.child(uid).val();
+	// 	let emotion = user.emotion;
+	// 	setEmotion(emotion);
+	// 	console.log(highEmotion);
 
+	// }, function (error) {
+	// 	console.log("Error: " + error.code);
+	// });
+
+	function setEmotion(emotion) {
+		console.log(emotion);
+		highEmotion = emotion;
+		return highEmotion;
+	}
+	setEmotion(highEmotion);
+	console.log(highEmotion);
 
 	let initApp = () => {
 
@@ -117,10 +125,21 @@
 				uid = user.uid;
 				var providerData = user.providerData;
 
-				console.log(uid);
 				//Loads movies if user is logged in
 				if (highEmotion !== null) {
-					whichMovies();
+					whichMovies(highEmotion);
+				} else {
+					const usersRef = database.ref('users/');
+					usersRef.on("value", (snapshot) => {
+						const user = snapshot.child(uid).val();
+						let emotion = user.emotion;
+						setEmotion(emotion);
+						whichMovies(highEmotion);
+						console.log(highEmotion);
+
+					}, function (error) {
+						console.log("Error: " + error.code);
+					});
 				}
 				btnSignIn.textContent = 'Sign out';
 
@@ -192,24 +211,18 @@
 								highEmotion = Object.keys(scores).reduce((a, b) => {
 									return scores[a] > scores[b] ? a : b;
 								});
-
 								writeUserData(uid, highEmotion);
 
-								whichMovies();
+								whichMovies(highEmotion);
 							} else {
 								alert("Please take another picture");
 							}
-
-
-
-							console.log(highEmotion);
 						})
 						.fail(function () {
 							alert("error");
 						});
 
 				};
-				console.log(dataURL);
 
 				videoObject.vidOn();
 				$("canvas").addClass("hide");
@@ -248,17 +261,10 @@
 		btnSignIn.addEventListener('click', toggleSignIn, false);
 
 	}
-
-
-
-
 	// Empty variable to hold URL which will change depending on emotion detected
-
 	var queryURL = "";
 
-
-	function whichMovies() {
-
+	function whichMovies(highEmotion) {
 		$("#movieList").empty();
 
 		//// Which genre will match with which emotion? 
