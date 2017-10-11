@@ -4,7 +4,11 @@
 	color: gray;
 
 }
-
+#loadingDiv{
+  position:absolute; 
+  top: 20%;
+  margin-left: 50%;
+}
 #imageDiv {
 
     background-color: gray;

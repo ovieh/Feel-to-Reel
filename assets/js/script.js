@@ -315,9 +315,18 @@ function whichMovies() {
   } else {
     console.log("No emotion!!!");
   }
-
-  ajaxCall();
-
+  //Loading img
+  setTimeout(
+  function() 
+  {
+    ajaxCall();
+  }, 2000);
+  loadingGif();
+  setTimeout(
+  function() 
+  {
+    loadingGif();
+  }, 2000);
 }
 
 // AJAX Call to the Movie Database API
@@ -327,6 +336,7 @@ function ajaxCall() {
     method: 'GET'
   }).done(function (response) {
 
+    movieListEnter();
     results = response.results;
 
     console.log(results);
@@ -393,13 +403,42 @@ function displayModal(x) {
 
 }
 
+//Animation
+function movieListEnter(){
+  var movieListDiv = $("#movieListCol");
+  var snapshot = $("canvas")
+  movieListDiv.removeClass("hide");
+  snapshot.fadeOut(1.5);
+  TweenLite.from(movieListDiv, 3, {y: 200});
+}
+function movieListExit(){
+  var movieListDiv = $("#movieListCol");
+  var videoDiv = $("video");
+  var snapshotBtn = $("#snapshotBtn");
+
+  TweenLite.to(movieListDiv, 3, {css:{opacity:0}, y: -200});
+  TweenLite.to(videoDiv, 3, {css:{opacity:1}});
+  TweenLite.to(snapshotBtn, 3, {css:{opacity:1}});
+  
+}
+function loadingGif(){
+  console.log("Loading!!");
+  var loadingDiv = $("#loadingDiv");
+  if(loadingDiv.hasClass("hide")){
+    loadingDiv.removeClass("hide");
+  }else{
+    loadingDiv.addClass("hide");
+  }
+
+}
+
+
 $(document).ready(function () {
     
   //Initialize modals
   $(".modal").modal();
   //start slider
   $('.slider').slider();
-
   //When snapshotBtn is click
   $(document).on("click", "#snapshotBtn", function () {
     $("video").addClass("hide");
@@ -412,8 +451,7 @@ $(document).ready(function () {
     $("#movieList").html("");
     $("canvas").addClass("hide");
     $(this).addClass("disabled");
-    $("#snapshotBtn").removeClass("hide")
-    $("video").removeClass("hide");
+    movieListExit();
     videoObject.vidOn();
   });
   //Modal
@@ -422,8 +460,10 @@ $(document).ready(function () {
     displayModal($(this).parent().attr("data-value"));
   });
   $(document).on("click", "#infoBtn", function(){
+    
     $("#modal2").modal("open");
   });
+
   initApp();
 
 });
