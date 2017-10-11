@@ -73,26 +73,11 @@
 		btnSignIn.disabled = true;
 	}
 
-	//setEmotion(highEmotion);
-
-	// const usersRef = database.ref('users/');
-	// usersRef.on("value", (snapshot) => {
-	// 	const user = snapshot.child(uid).val();
-	// 	let emotion = user.emotion;
-	// 	setEmotion(emotion);
-	// 	console.log(highEmotion);
-
-	// }, function (error) {
-	// 	console.log("Error: " + error.code);
-	// });
 
 	function setEmotion(emotion) {
-		console.log(emotion);
 		highEmotion = emotion;
 		return highEmotion;
 	}
-	setEmotion(highEmotion);
-	console.log(highEmotion);
 
 	let initApp = () => {
 
@@ -135,7 +120,6 @@
 						let emotion = user.emotion;
 						setEmotion(emotion);
 						whichMovies(highEmotion);
-						console.log(highEmotion);
 
 					}, function (error) {
 						console.log("Error: " + error.code);
