@@ -1,65 +1,105 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/4.5.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/4.5.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/4.5.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/4.5.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/4.5.0/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
+<head>
+	<title>Feel to Reel</title>
+	<!--Import materialize.css-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!--style.css-->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<!--Firebase-->
+	<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+</head>
 
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+<body>
+
+	<div class="navbar-fixed">
+		<nav>
+			<div class="nav-wrapper grey darken-4">
+				<a href="index.html" class="brand-logo center">Feel to Reel</a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li>
+						<a class="waves-effect waves-light btn red disabled" id="videoBtn">
+							<i class="small material-icons center">videocam</i>
+						</a>
+					</li>
+					<li>
+						<a class="waves-effect waves-light btn red" id="sign-in">
+							<i class="small material-icons left">account_circle
+							</i>Sign-In</i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+	<div class="container">
+		<!-- Page Layout here -->
+		<div class="row">
+			<div class="col s3"></div>
+
+			<!--Video camvas and snapshot col-->
+
+			<div class="col s6">
+				<video autoplay class="z-depth-5"></video>
+				<canvas class="z-depth-5 hide"></canvas>
+				<div class="center">
+					<button class="btn waves-effect red center-align" id="snapshotBtn">
+						<i class="small material-icons">camera_alt</i>
+					</button>
+				</div>
+				<div class="col s3"></div>
+			</div>
+			<div class="col s3"></div>
+			<!--Movie recomendation row-->
+			<div class="row">
+				<div class="col s12" id="movieList"></div>
+			</div>
+		</div>
+		<!-- Modal Structure -->
+		<div id="modal1" class="modal">
+			<div class="card sticky-action grey lighten-5">
+				<div class="card-image waves-effect waves-block waves-light">
+					<img class="activator" id="backdrop-image" src="">
+				</div>
+				<div class="card-content">
+					<span class="card-title activator grey-text text-darken-4">
+						<span class="card-title-text">Card Title</span>
+						<i class="material-icons right">arrow_drop_up</i>
+					</span>
+
+				</div>
+				<div class="card-action">
+					<a id="theaters-link" href="" target="_blank">Find in theaters</a>
+					<a id="streaming-link" href="" target="_blank">Find it streaming</a>
+				</div>
+				<div class="card-reveal grey lighten-5">
+					<span class="card-title grey-text text-darken-4">
+						<span class="card-title-text">Card Title</span>
+						<i class="material-icons right">arrow_drop_down</i>
+					</span>
+					<p id="card-summary"></p>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!--animation js-->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenMax.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.6.1/lodash.min.js"></script>
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="assets/js/adapter-latest.js"></script>
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<script src="assets/js/script.js"></script>
+
+</body>
+
+
 </html>
