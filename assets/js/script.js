@@ -391,10 +391,14 @@ function displayModal(x) {
   plotSummary.addClass("flow-text");
   $("#card-summary").append(plotSummary);  
 
-  $(document).ready(function () {
+}
+
+$(document).ready(function () {
     
   //Initialize modals
   $(".modal").modal();
+  //start slider
+  $('.slider').slider();
 
   //When snapshotBtn is click
   $(document).on("click", "#snapshotBtn", function () {
@@ -417,8 +421,9 @@ function displayModal(x) {
     $("#modal1").modal("open");
     displayModal($(this).parent().attr("data-value"));
   });
-  
+  $(document).on("click", "#infoBtn", function(){
+    $("#modal2").modal("open");
+  });
   initApp();
 
 });
-

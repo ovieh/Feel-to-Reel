@@ -69,6 +69,16 @@ nav .brand-logo {
   height: 66px;
 }
 
+/* change color of modal2 for tutorial
+li.active{
+  background-color: #;
+}*/
+
+.slider .indicators .indicator-item.active {
+
+  background-color: #f44336;
+}
+
 @media only screen and (min-width: 601px) {
   nav.nav-extended .nav-wrapper {
     min-height: 74px;
