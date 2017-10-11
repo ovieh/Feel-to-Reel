@@ -199,7 +199,7 @@
 
 								whichMovies(highEmotion);
 							} else {
-								alert("Please take another picture");
+								alert("Please take another picture! Make sure you're facing forward and your entire face is in frame.");
 							}
 						})
 						.fail(function () {
@@ -320,6 +320,7 @@
 			console.log("No emotion!!!");
 		}
 
+    console.log(highEmotion);
 		ajaxCall();
 
 	}
