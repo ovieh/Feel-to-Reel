@@ -197,7 +197,6 @@ let initApp = () => {
 
         videoObject.vidOn();
         $("canvas").addClass("hide");
-        console.log("hide");
       //Replaces with videoObject
 
       // var constraints = {
