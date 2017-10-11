@@ -169,7 +169,7 @@ let initApp = () => {
 
           })
         .done(function (data) {
-          alert("success");
+
           if (typeof data[0] !== "undefined") {
             var scores = data[0].scores;
               // Returns the highest index in the emotion object in emotion object
@@ -181,7 +181,11 @@ let initApp = () => {
               
               whichMovies();
             } else {
-              alert("Please take another picture");
+              $("#modal3").modal("open");
+              videoObject.vidOn();
+              $("canvas").addClass("hide");
+              $("video").removeClass("hide");
+              $("#snapshotBtn").removeClass("hide");
             }
 
 
@@ -189,7 +193,7 @@ let initApp = () => {
             console.log(highEmotion);
           })
         .fail(function () {
-          alert("error");
+          console.log("error");
         });
 
 
@@ -409,17 +413,19 @@ function movieListEnter(){
   var snapshot = $("canvas")
   movieListDiv.removeClass("hide");
   snapshot.fadeOut(1.5);
-  TweenLite.from(movieListDiv, 3, {y: 200});
+  TweenLite.from(movieListDiv, 2, {y: 200});
 }
 function movieListExit(){
   var movieListDiv = $("#movieListCol");
   var videoDiv = $("video");
   var snapshotBtn = $("#snapshotBtn");
+  videoDiv.removeClass("hide");
+  snapshotBtn.removeClass("hide");
 
-  TweenLite.to(movieListDiv, 3, {css:{opacity:0}, y: -200});
+  TweenLite.to(movieListDiv, 1, {css:{opacity:0}});
+  TweenLite.to(movieListDiv, .5, {y: 200});
   TweenLite.to(videoDiv, 3, {css:{opacity:1}});
-  TweenLite.to(snapshotBtn, 3, {css:{opacity:1}});
-  
+  TweenLite.to(snapshotBtn,.5, {css:{opacity:1, delay:2}});
 }
 function loadingGif(){
   console.log("Loading!!");
@@ -448,7 +454,6 @@ $(document).ready(function () {
     videoObject.vidOff();
   });
   $(document).on("click", "#videoBtn", function () {
-    $("#movieList").html("");
     $("canvas").addClass("hide");
     $(this).addClass("disabled");
     movieListExit();

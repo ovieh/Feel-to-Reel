@@ -6,7 +6,7 @@
 }
 #loadingDiv{
   position:absolute; 
-  top: 20%;
+  top: 30%;
   margin-left: 50%;
 }
 #imageDiv {
@@ -20,8 +20,8 @@
 	margin-bottom: 0px;
 
 }
-video{
-	margin: 0 auto;
+video, canvas{
+	margin: 30px auto 10px auto;
 }
 .modal {
   max-width: 45% !important;
