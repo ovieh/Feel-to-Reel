@@ -344,8 +344,11 @@ function ajaxCall() {
     results = response.results;
 
     console.log(results);
-
     for (var i = 0; i < 9; i++) {
+
+      if(i % 3 === 0){
+        var movieListRow = $("<div>").addClass("row");
+      }
 
       var movieDiv = $("<div>");
 
@@ -365,7 +368,13 @@ function ajaxCall() {
 
       movieDiv.attr("data-value", i);
 
-      $("#movieList").append(movieDiv);
+      movieListRow.append(movieDiv);
+
+      if(i % 3 === 0){
+        console.log("new row");
+        $("#movieList").append(movieListRow);
+
+      }
 
     }
   })
@@ -414,6 +423,8 @@ function movieListEnter(){
   movieListDiv.removeClass("hide");
   snapshot.fadeOut(1.5);
   TweenLite.from(movieListDiv, 2, {y: 200});
+  TweenLite.to(movieListDiv, 2, {css:{opacity:1}});
+
 }
 function movieListExit(){
   var movieListDiv = $("#movieListCol");
@@ -438,9 +449,15 @@ function loadingGif(){
 
 }
 
-
 $(document).ready(function () {
-    
+  //Hide movieList
+  var movieListDiv = $("#movieListCol");
+  TweenLite.to(movieListDiv,.01, {css:{opacity:0}});  
+  setTimeout(
+  function() 
+  {
+    ajaxCall();
+  }, 1);
   //Initialize modals
   $(".modal").modal();
   //start slider
