@@ -500,4 +500,3 @@ $(document).ready(function () {
 
 });
 }()); //IFFE
-
