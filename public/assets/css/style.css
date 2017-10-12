@@ -1,0 +1,102 @@
+.placeholder-camera {
+
+	width: 200px;
+	color: gray;
+
+}
+#loadingDiv{
+  position:absolute; 
+  top: 30%;
+  margin-left: 50%;
+}
+#imageDiv {
+
+    background-color: gray;
+}
+
+.card {
+
+	margin-top: 0px;
+	margin-bottom: 0px;
+
+}
+video, canvas{
+	margin: 30px auto 10px auto;
+}
+.modal {
+  max-width: 45% !important;
+
+}
+.posterBtn{
+	position: relative;
+	top: 50px;
+	right: -10px;
+}
+.card-title {
+
+	font-size: 100px;
+	font-weight: bolder;
+
+}
+
+.movie-div {
+
+	position: relative;
+
+}
+
+.movie-button {
+
+    position: absolute;
+    bottom: 5%;
+    right: 8%;
+    border-radius: 50%;
+
+}
+
+body {
+
+	background-color: #616161;
+
+}
+
+nav .brand-logo {
+
+  font-weight: lighter;
+  font-stretch: condensed;
+  font-size: 2.75rem;
+
+}
+
+.navbar-fixed {
+  height: 66px;
+}
+
+
+.slider .indicators .indicator-item.active {
+
+  background-color: #f44336;
+}
+
+@media only screen and (min-width: 601px) {
+  nav.nav-extended .nav-wrapper {
+    min-height: 74px;
+  }
+  nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
+    height: 74px;
+    line-height: 74px;
+  }
+  .navbar-fixed {
+    height: 74px;
+  }
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
+
+  color: #f44336;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating):hover {
+
+  color: #e57373;
+}

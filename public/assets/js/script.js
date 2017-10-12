@@ -378,97 +378,52 @@
 		bTag.append(title);
 		$(".card-title-text").append(bTag);
 
-  $("#theaters-link").attr("href", "https://www.fandango.com/search/?q=" + title + "&mode=Movies");
 
-  $("#streaming-link").attr("href", "http://www.canistream.it/search/movie/" + title);
+		$("#theaters-link").attr("href", "https://www.fandango.com/search/?q=" + title + "&mode=Movies");
 
-  var releaseDate = results[x].release_date;
+		$("#streaming-link").attr("href", "http://www.canistream.it/search/movie/" + title);
 
-  var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
+		var releaseDate = results[x].release_date;
 
-  var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
-  releaseDateConvertedDisplay.addClass("flow-text");
-  $("#card-summary").append(releaseDateConvertedDisplay);
+		var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
 
-  var plotSummary = $("<p>").text(results[x].overview);
-  plotSummary.addClass("flow-text");
-  $("#card-summary").append(plotSummary);  
+		var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
+		releaseDateConvertedDisplay.addClass("flow-text");
+		$("#card-summary").append(releaseDateConvertedDisplay);
 
-}
+		var plotSummary = $("<p>").text(results[x].overview);
+		plotSummary.addClass("flow-text");
+		$("#card-summary").append(plotSummary);
+	}
 
-//Animation
-function movieListEnter(){
-  var movieListDiv = $("#movieListCol");
-  var snapshot = $("canvas")
-  movieListDiv.removeClass("hide");
-  snapshot.fadeOut(1.5);
-  TweenLite.from(movieListDiv, 2, {y: 200});
-  TweenLite.to(movieListDiv, 2, {css:{opacity:1}});
+	$(document).ready(function () {
 
-}
-function movieListExit(){
-  var movieListDiv = $("#movieListCol");
-  var videoDiv = $("video");
-  var snapshotBtn = $("#snapshotBtn");
-  videoDiv.removeClass("hide");
-  snapshotBtn.removeClass("hide");
+		//Initialize modals
+		$(".modal").modal();
 
-  TweenLite.to(movieListDiv, 1, {css:{opacity:0}});
-  TweenLite.to(movieListDiv, .5, {y: 200});
-  TweenLite.to(videoDiv, 3, {css:{opacity:1}});
-  TweenLite.to(snapshotBtn,.5, {css:{opacity:1, delay:2}});
-}
-function loadingGif(){
-  console.log("Loading!!");
-  var loadingDiv = $("#loadingDiv");
-  if(loadingDiv.hasClass("hide")){
-    loadingDiv.removeClass("hide");
-  }else{
-    loadingDiv.addClass("hide");
-  }
+		//When snapshotBtn is click
+		$(document).on("click", "#snapshotBtn", function () {
+			$("video").addClass("hide");
+			$(this).addClass("hide");
+			$("#videoBtn").removeClass("disabled");
+			$("canvas").removeClass("hide");
+			videoObject.vidOff();
+		});
+		$(document).on("click", "#videoBtn", function () {
+			$("#movieList").html("");
+			$("canvas").addClass("hide");
+			$(this).addClass("disabled");
+			$("#snapshotBtn").removeClass("hide")
+			$("video").removeClass("hide");
+			videoObject.vidOn();
+		});
+		//Modal
+		$(document).on("click", ".movie-button", function () {
+			$("#modal1").modal("open");
+			displayModal($(this).parent().attr("data-value"));
+		});
 
-}
+		initApp();
 
-$(document).ready(function () {
-  //Hide movieList
-  var movieListDiv = $("#movieListCol");
-  TweenLite.to(movieListDiv,.01, {css:{opacity:0}});  
-  setTimeout(
-  function() 
-  {
-    movieListDiv.removeClass("hide");
-  }, 1);
-  //Initialize modals
-  $(".modal").modal();
-  //start slider
-  $('.slider').slider();
-  //When snapshotBtn is click
-  $(document).on("click", "#snapshotBtn", function () {
-    TweenLite.to($("movie"),.01, {css:{opacity:0}});  
-    $(this).addClass("hide");
-    $("#videoBtn").removeClass("disabled");
-    $("canvas").removeClass("hide");
-    videoObject.vidOff();
-  });
-  $(document).on("click", "#videoBtn", function () {
-    TweenLite.to($("canvas"),.01, {css:{opacity:0}});  
-    $(this).addClass("disabled");
-    movieListExit();
-    videoObject.vidOn();
-  });
-  //Modal
-  $(document).on("click", ".movie-button", function () {
-    $("#modal1").modal("open");
-    displayModal($(this).parent().attr("data-value"));
-  });
-  $(document).on("click", "#infoBtn", function(){
-    
-    $("#modal2").modal("open");
-  });
-
-  initApp();
-
-});
 	});
 }()); //IFFE
-
