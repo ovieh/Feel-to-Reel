@@ -112,15 +112,18 @@
 
 				//Loads movies if user is logged in
 				if (highEmotion !== null) {
-					whichMovies(highEmotion);
-				} else {
+          whichMovies(highEmotion);
+        } else {
 					const usersRef = database.ref('users/');
 					usersRef.on("value", (snapshot) => {
 						const user = snapshot.child(uid).val();
 						let emotion = user.emotion;
 						setEmotion(emotion);
 						whichMovies(highEmotion);
-
+            
+            videoAnimation();
+            buttonAnimation();
+            MovieListAnimation();
 					}, function (error) {
 						console.log("Error: " + error.code);
 					});
@@ -188,7 +191,6 @@
 
 						})
 						.done(function (data) {
-							alert("success");
 							if (typeof data[0] !== "undefined") {
 								var scores = data[0].scores;
 								// Returns the highest index in the emotion object in emotion object
@@ -199,18 +201,21 @@
 
 								whichMovies(highEmotion);
 							} else {
-								alert("Please take another picture");
+
+                $("#modal3").modal("open");
+                MovieListAnimation();
+                videoObject.vidOn();
 							}
 						})
 						.fail(function () {
-							alert("error");
+							console.log("error");
 						});
 
 				};
 
 				videoObject.vidOn();
-				$("canvas").addClass("hide");
-				console.log("hide");
+        canvasAnimation();
+
 				//Replaces with videoObject
 
 				// var constraints = {
@@ -333,7 +338,7 @@
 
 			results = response.results;
 
-			console.log(results);
+			//console.log(results);
 
 			for (var i = 0; i < 9; i++) {
 
@@ -397,63 +402,88 @@
 }
 
 //Animation
-function movieListEnter(){
+function MovieListAnimation(){
   var movieListDiv = $("#movieListCol");
-  var snapshot = $("canvas")
-  movieListDiv.removeClass("hide");
-  snapshot.fadeOut(1.5);
-  TweenLite.from(movieListDiv, 2, {y: 200});
-  TweenLite.to(movieListDiv, 2, {css:{opacity:1}});
 
+  if(movieListDiv.hasClass("hide")){
+    movieListDiv.removeClass("hide");
+    TweenLite.to(movieListDiv, 3, {css:{opacity:1}});
+    TweenLite.fromTo(movieListDiv, 2, {y:200},{y: 0});
+  }else{
+    setTimeout(function(){movieListDiv.addClass("hide");}, 1000);
+    TweenLite.to(movieListDiv, 1, {css:{opacity:0}});
+    TweenLite.to(movieListDiv, 1, {y: 200});
+  }
 }
-function movieListExit(){
-  var movieListDiv = $("#movieListCol");
+function videoAnimation(){
+  
   var videoDiv = $("video");
-  var snapshotBtn = $("#snapshotBtn");
-  videoDiv.removeClass("hide");
-  snapshotBtn.removeClass("hide");
 
-  TweenLite.to(movieListDiv, 1, {css:{opacity:0}});
-  TweenLite.to(movieListDiv, .5, {y: 200});
-  TweenLite.to(videoDiv, 3, {css:{opacity:1}});
-  TweenLite.to(snapshotBtn,.5, {css:{opacity:1, delay:2}});
+  if(videoDiv.hasClass("hide")){
+    videoDiv.removeClass("hide");
+    TweenLite.to(videoDiv, 2, {css:{opacity:1}});
+  }else{
+    setTimeout(function(){videoDiv.addClass("hide");}, 1);
+    TweenLite.to(videoDiv, 2, {css:{opacity:1}});
+  }
+}
+function canvasAnimation(){
+  
+  var canvasDiv = $("canvas");
+
+  if(canvasDiv.hasClass("hide")){
+    canvasDiv.removeClass("hide");
+    TweenLite.to(canvasDiv, 2, {css:{opacity:1}});
+  }else{
+    setTimeout(function(){canvasDiv.addClass("hide");}, 500);
+    TweenLite.to(canvasDiv, 1, {css:{opacity:1}});
+  }
 }
 function loadingGif(){
-  console.log("Loading!!");
   var loadingDiv = $("#loadingDiv");
   if(loadingDiv.hasClass("hide")){
     loadingDiv.removeClass("hide");
   }else{
     loadingDiv.addClass("hide");
   }
-
 }
+function buttonAnimation(){
+  var snapBtn = $("#snapshotBtn");
+  var videoBtn = $("#videoBtn");
 
+  if(snapBtn.hasClass("hide")){
+    snapBtn.removeClass("hide");
+    videoBtn.addClass("disabled");
+  }else{
+    snapBtn.addClass("hide");
+    videoBtn.removeClass("disabled");
+  }
+}
 $(document).ready(function () {
-  //Hide movieList
-  var movieListDiv = $("#movieListCol");
-  TweenLite.to(movieListDiv,.01, {css:{opacity:0}});  
-  setTimeout(
-  function() 
-  {
-    movieListDiv.removeClass("hide");
-  }, 1);
+
   //Initialize modals
   $(".modal").modal();
   //start slider
   $('.slider').slider();
   //When snapshotBtn is click
   $(document).on("click", "#snapshotBtn", function () {
-    TweenLite.to($("movie"),.01, {css:{opacity:0}});  
-    $(this).addClass("hide");
-    $("#videoBtn").removeClass("disabled");
-    $("canvas").removeClass("hide");
     videoObject.vidOff();
+    buttonAnimation();
+    loadingGif();
+    videoAnimation();
+    canvasAnimation();
+    setTimeout(function(){
+      MovieListAnimation();
+    }, 2500);
+    setTimeout(function(){
+      canvasAnimation();
+      loadingGif();
+    }, 2000);
   });
   $(document).on("click", "#videoBtn", function () {
-    TweenLite.to($("canvas"),.01, {css:{opacity:0}});  
-    $(this).addClass("disabled");
-    movieListExit();
+    buttonAnimation();
+    MovieListAnimation();
+    videoAnimation();
     videoObject.vidOn();
   });
   //Modal
@@ -469,6 +499,5 @@ $(document).ready(function () {
   initApp();
 
 });
-	});
 }()); //IFFE
 
