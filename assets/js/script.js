@@ -113,6 +113,8 @@
 				//Loads movies if user is logged in
 				if (highEmotion !== null) {
           whichMovies(highEmotion);
+          console.log("whichMovies2222222222");
+
         } else {
 					const usersRef = database.ref('users/');
 					usersRef.on("value", (snapshot) => {
@@ -124,13 +126,15 @@
             videoAnimation();
             buttonAnimation();
             MovieListAnimation();
+            canvasAnimation();
+            console.log("emotion from last time");
 					}, function (error) {
 						console.log("Error: " + error.code);
 					});
 				}
 				btnSignIn.textContent = 'Sign out';
 
-				var cameraBtn = document.querySelector('button');
+				var cameraBtn = document.querySelector("#snapshotBtn");
 				cameraBtn.onclick = function () {
 					canvas.width = video.videoWidth;
 					canvas.height = video.videoHeight;
@@ -138,6 +142,18 @@
 					drawImage(video, 0, 0, canvas.width, canvas.height);
 
 					dataURL = canvas.toDataURL("image/png");
+          //New code
+          console.log("new pic");
+          loadingGif();
+          videoObject.vidOff();
+          videoAnimation();
+          canvasAnimation();
+          setTimeout(function(){
+            loadingGif();
+            MovieListAnimation();
+            canvasAnimation();
+            console.log("now");
+          }, 2000);
 
 					var makeblob = function (dataURL) {
 						var BASE64_MARKER = ';base64,';
@@ -198,12 +214,12 @@
 									return scores[a] > scores[b] ? a : b;
 								});
 								writeUserData(uid, highEmotion);
-
 								whichMovies(highEmotion);
+                buttonAnimation();
 							} else {
-
+                console.log("33333");
                 $("#modal3").modal("open");
-                MovieListAnimation();
+                TweenMax.killAll();
                 videoObject.vidOn();
 							}
 						})
@@ -212,9 +228,6 @@
 						});
 
 				};
-
-				videoObject.vidOn();
-        canvasAnimation();
 
 				//Replaces with videoObject
 
@@ -255,7 +268,7 @@
 
 	function whichMovies(highEmotion) {
 		$("#movieList").empty();
-
+    console.log("444444");
 		//// Which genre will match with which emotion? 
 		// anger = action, crime, thriller
 		// contempt = documentary, history
@@ -383,121 +396,109 @@
 		bTag.append(title);
 		$(".card-title-text").append(bTag);
 
-  $("#theaters-link").attr("href", "https://www.fandango.com/search/?q=" + title + "&mode=Movies");
+    $("#theaters-link").attr("href", "https://www.fandango.com/search/?q=" + title + "&mode=Movies");
 
-  $("#streaming-link").attr("href", "http://www.canistream.it/search/movie/" + title);
+    $("#streaming-link").attr("href", "http://www.canistream.it/search/movie/" + title);
 
-  var releaseDate = results[x].release_date;
+    var releaseDate = results[x].release_date;
 
-  var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
+    var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
 
-  var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
-  releaseDateConvertedDisplay.addClass("flow-text");
-  $("#card-summary").append(releaseDateConvertedDisplay);
+    var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
+    releaseDateConvertedDisplay.addClass("flow-text");
+    $("#card-summary").append(releaseDateConvertedDisplay);
 
-  var plotSummary = $("<p>").text(results[x].overview);
-  plotSummary.addClass("flow-text");
-  $("#card-summary").append(plotSummary);  
+    var plotSummary = $("<p>").text(results[x].overview);
+    plotSummary.addClass("flow-text");
+    $("#card-summary").append(plotSummary);  
 
-}
-
-//Animation
-function MovieListAnimation(){
-  var movieListDiv = $("#movieListCol");
-
-  if(movieListDiv.hasClass("hide")){
-    movieListDiv.removeClass("hide");
-    TweenLite.to(movieListDiv, 3, {css:{opacity:1}});
-    TweenLite.fromTo(movieListDiv, 2, {y:200},{y: 0});
-  }else{
-    setTimeout(function(){movieListDiv.addClass("hide");}, 1000);
-    TweenLite.to(movieListDiv, 1, {css:{opacity:0}});
-    TweenLite.to(movieListDiv, 1, {y: 200});
   }
-}
-function videoAnimation(){
-  
-  var videoDiv = $("video");
 
-  if(videoDiv.hasClass("hide")){
-    videoDiv.removeClass("hide");
-    TweenLite.to(videoDiv, 2, {css:{opacity:1}});
-  }else{
-    setTimeout(function(){videoDiv.addClass("hide");}, 1);
-    TweenLite.to(videoDiv, 2, {css:{opacity:1}});
-  }
-}
-function canvasAnimation(){
-  
-  var canvasDiv = $("canvas");
+  //Animation
+  function MovieListAnimation(){
+    var movieListDiv = $("#movieListCol");
 
-  if(canvasDiv.hasClass("hide")){
-    canvasDiv.removeClass("hide");
-    TweenLite.to(canvasDiv, 2, {css:{opacity:1}});
-  }else{
-    setTimeout(function(){canvasDiv.addClass("hide");}, 500);
-    TweenLite.to(canvasDiv, 1, {css:{opacity:1}});
+    if(movieListDiv.hasClass("hide")){
+      movieListDiv.removeClass("hide");
+      TweenLite.to(movieListDiv, 3, {css:{opacity:1}});
+      TweenLite.fromTo(movieListDiv, 2, {y:200},{y: 0});
+    }else{
+      setTimeout(function(){movieListDiv.addClass("hide");}, 1000);
+      TweenLite.to(movieListDiv, 1, {css:{opacity:0}});
+      TweenLite.to(movieListDiv, 1, {y: 200});
+    }
   }
-}
-function loadingGif(){
-  var loadingDiv = $("#loadingDiv");
-  if(loadingDiv.hasClass("hide")){
-    loadingDiv.removeClass("hide");
-  }else{
-    loadingDiv.addClass("hide");
-  }
-}
-function buttonAnimation(){
-  var snapBtn = $("#snapshotBtn");
-  var videoBtn = $("#videoBtn");
-
-  if(snapBtn.hasClass("hide")){
-    snapBtn.removeClass("hide");
-    videoBtn.addClass("disabled");
-  }else{
-    snapBtn.addClass("hide");
-    videoBtn.removeClass("disabled");
-  }
-}
-$(document).ready(function () {
-
-  //Initialize modals
-  $(".modal").modal();
-  //start slider
-  $('.slider').slider();
-  //When snapshotBtn is click
-  $(document).on("click", "#snapshotBtn", function () {
-    videoObject.vidOff();
-    buttonAnimation();
-    loadingGif();
-    videoAnimation();
-    canvasAnimation();
-    setTimeout(function(){
-      MovieListAnimation();
-    }, 2500);
-    setTimeout(function(){
-      canvasAnimation();
-      loadingGif();
-    }, 2000);
-  });
-  $(document).on("click", "#videoBtn", function () {
-    buttonAnimation();
-    MovieListAnimation();
-    videoAnimation();
-    videoObject.vidOn();
-  });
-  //Modal
-  $(document).on("click", ".movie-button", function () {
-    $("#modal1").modal("open");
-    displayModal($(this).parent().attr("data-value"));
-  });
-  $(document).on("click", "#infoBtn", function(){
+  function videoAnimation(){
     
-    $("#modal2").modal("open");
+    var videoDiv = $("video");
+
+    if(videoDiv.hasClass("hide")){
+      videoDiv.removeClass("hide");
+      TweenLite.to(videoDiv, 2, {css:{opacity:1}});
+    }else{
+      setTimeout(function(){videoDiv.addClass("hide");}, 1);
+      TweenLite.to(videoDiv, 2, {css:{opacity:1}});
+    }
+  }
+  function canvasAnimation(){
+    
+    var canvasDiv = $("canvas");
+
+    if(canvasDiv.hasClass("hide")){
+      canvasDiv.removeClass("hide");
+      TweenLite.to(canvasDiv, 2, {css:{opacity:1}});
+    }else{
+      setTimeout(function(){canvasDiv.addClass("hide");}, 500);
+      TweenLite.to(canvasDiv, 1, {css:{opacity:1}});
+    }
+  }
+  function loadingGif(){
+    var loadingDiv = $("#loadingDiv");
+    if(loadingDiv.hasClass("hide")){
+      loadingDiv.removeClass("hide");
+    }else{
+      loadingDiv.addClass("hide");
+    }
+  }
+  function buttonAnimation(){
+    var snapBtn = $("#snapshotBtn");
+    var videoBtn = $("#videoBtn");
+
+    if(snapBtn.hasClass("hide")){
+      snapBtn.removeClass("hide");
+      videoBtn.addClass("disabled");
+    }else{
+      snapBtn.addClass("hide");
+      videoBtn.removeClass("disabled");
+    }
+  }
+  $(document).ready(function () {
+
+    //Initialize modals
+    $(".modal").modal();
+    //start slider
+    $('.slider').slider();
+    //When snapshotBtn is click
+    $(document).on("click", "#snapshotBtn", function () {
+
+    });
+    $(document).on("click", "#videoBtn", function () {
+      buttonAnimation();
+      MovieListAnimation();
+      videoAnimation();
+      videoObject.vidOn();
+    });
+    //Modal
+    $(document).on("click", ".movie-button", function () {
+      $("#modal1").modal("open");
+      displayModal($(this).parent().attr("data-value"));
+    });
+    $(document).on("click", "#infoBtn", function(){
+      
+      $("#modal2").modal("open");
+    });
+
+    initApp();
   });
 
-  initApp();
-
-});
 }()); //IFFE
-
