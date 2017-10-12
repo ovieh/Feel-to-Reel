@@ -456,7 +456,7 @@ $(document).ready(function () {
   setTimeout(
   function() 
   {
-    ajaxCall();
+    movieListDiv.removeClass("hide");
   }, 1);
   //Initialize modals
   $(".modal").modal();
@@ -464,14 +464,14 @@ $(document).ready(function () {
   $('.slider').slider();
   //When snapshotBtn is click
   $(document).on("click", "#snapshotBtn", function () {
-    $("video").addClass("hide");
+    TweenLite.to($("movie"),.01, {css:{opacity:0}});  
     $(this).addClass("hide");
     $("#videoBtn").removeClass("disabled");
     $("canvas").removeClass("hide");
     videoObject.vidOff();
   });
   $(document).on("click", "#videoBtn", function () {
-    $("canvas").addClass("hide");
+    TweenLite.to($("canvas"),.01, {css:{opacity:0}});  
     $(this).addClass("disabled");
     movieListExit();
     videoObject.vidOn();
