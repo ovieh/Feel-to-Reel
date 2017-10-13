@@ -357,7 +357,7 @@
 
 				var movieDiv = $("<div>");
 
-				movieDiv.addClass("col s4 m4 movie-div");
+				movieDiv.addClass("col s12 m4 movie-div");
 
 				var poster = $("<img>");
 
@@ -473,6 +473,8 @@
     }
   }
   $(document).ready(function () {
+    //Side-nav
+    $(".button-collapse").sideNav();
 
     //Initialize modals
     $(".modal").modal();
