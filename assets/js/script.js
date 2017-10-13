@@ -11,6 +11,7 @@
 	var localstream;
 	var results;
 	var uid;
+  var userReturning = false;
 	var videoObject = {
 		constraints: {
 			audio: false,
@@ -121,12 +122,14 @@
 						const user = snapshot.child(uid).val();
 						let emotion = user.emotion;
 						setEmotion(emotion);
-						whichMovies(highEmotion);
-            
-            videoAnimation();
-            buttonAnimation();
-            MovieListAnimation();
-            canvasAnimation();
+            if(userReturning === false){
+              whichMovies(highEmotion);
+              videoAnimation();
+              buttonAnimation();
+              MovieListAnimation();
+              canvasAnimation();
+              userReturning = true;
+            }
             console.log("emotion from last time");
 					}, function (error) {
 						console.log("Error: " + error.code);
