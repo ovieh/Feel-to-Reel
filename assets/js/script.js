@@ -11,7 +11,7 @@
 	var localstream;
 	var results;
 	var uid;
-  var userReturning = false;
+  var userAlreadyLogin = false;
 	var videoObject = {
 		constraints: {
 			audio: false,
@@ -114,23 +114,26 @@
 				//Loads movies if user is logged in
 				if (highEmotion !== null) {
           whichMovies(highEmotion);
-          console.log("whichMovies2222222222");
 
         } else {
 					const usersRef = database.ref('users/');
 					usersRef.on("value", (snapshot) => {
 						const user = snapshot.child(uid).val();
-						let emotion = user.emotion;
+              
+            if(user === null){
+              videoObject.vidOn();
+            }
+
+            let emotion = user.emotion;
 						setEmotion(emotion);
-            if(userReturning === false){
+            if(userAlreadyLogin === false){
               whichMovies(highEmotion);
               videoAnimation();
               buttonAnimation();
               MovieListAnimation();
               canvasAnimation();
-              userReturning = true;
+              userAlreadyLogin = true;
             }
-            console.log("emotion from last time");
 					}, function (error) {
 						console.log("Error: " + error.code);
 					});
@@ -145,18 +148,6 @@
 					drawImage(video, 0, 0, canvas.width, canvas.height);
 
 					dataURL = canvas.toDataURL("image/png");
-          //New code
-          console.log("new pic");
-          loadingGif();
-          videoObject.vidOff();
-          videoAnimation();
-          canvasAnimation();
-          setTimeout(function(){
-            loadingGif();
-            MovieListAnimation();
-            canvasAnimation();
-            console.log("now");
-          }, 2000);
 
 					var makeblob = function (dataURL) {
 						var BASE64_MARKER = ';base64,';
@@ -208,6 +199,7 @@
 							data: makeblob(dataURL),
 							processData: false,
 
+
 						})
 						.done(function (data) {
 							if (typeof data[0] !== "undefined") {
@@ -218,12 +210,19 @@
 								});
 								writeUserData(uid, highEmotion);
 								whichMovies(highEmotion);
+                //New code
                 buttonAnimation();
+                loadingGif();
+                videoObject.vidOff();
+                videoAnimation();
+                canvasAnimation();
+                setTimeout(function(){
+                  MovieListAnimation();
+                  canvasAnimation();
+                }, 1500);
+                setTimeout(function(){loadingGif();}, 2000);
 							} else {
-                console.log("33333");
                 $("#modal3").modal("open");
-                TweenMax.killAll();
-                videoObject.vidOn();
 							}
 						})
 						.fail(function () {
@@ -271,7 +270,6 @@
 
 	function whichMovies(highEmotion) {
 		$("#movieList").empty();
-    console.log("444444");
 		//// Which genre will match with which emotion? 
 		// anger = action, crime, thriller
 		// contempt = documentary, history
@@ -351,7 +349,6 @@
 			url: queryURL,
 			method: 'GET'
 		}).done(function (response) {
-
 			results = response.results;
 
 			//console.log(results);
@@ -481,10 +478,7 @@
     $(".modal").modal();
     //start slider
     $('.slider').slider();
-    //When snapshotBtn is click
-    $(document).on("click", "#snapshotBtn", function () {
 
-    });
     $(document).on("click", "#videoBtn", function () {
       buttonAnimation();
       MovieListAnimation();
