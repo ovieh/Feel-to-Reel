@@ -11,7 +11,7 @@
 	var localstream;
 	var results;
 	var uid;
-  var userAlreadyLogin = false;
+	var userAlreadyLogin = false;
 	var videoObject = {
 		constraints: {
 			audio: false,
@@ -113,27 +113,27 @@
 
 				//Loads movies if user is logged in
 				if (highEmotion !== null) {
-          whichMovies(highEmotion);
+					whichMovies(highEmotion);
 
-        } else {
+				} else {
 					const usersRef = database.ref('users/');
 					usersRef.on("value", (snapshot) => {
 						const user = snapshot.child(uid).val();
-              
-            if(user === null){
-              videoObject.vidOn();
-            }
 
-            let emotion = user.emotion;
+						if (user === null) {
+							videoObject.vidOn();
+						}
+
+						let emotion = user.emotion;
 						setEmotion(emotion);
-            if(userAlreadyLogin === false){
-              whichMovies(highEmotion);
-              videoAnimation();
-              buttonAnimation();
-              MovieListAnimation();
-              canvasAnimation();
-              userAlreadyLogin = true;
-            }
+						if (userAlreadyLogin === false) {
+							whichMovies(highEmotion);
+							videoAnimation();
+							buttonAnimation();
+							MovieListAnimation();
+							canvasAnimation();
+							userAlreadyLogin = true;
+						}
 					}, function (error) {
 						console.log("Error: " + error.code);
 					});
@@ -210,19 +210,21 @@
 								});
 								writeUserData(uid, highEmotion);
 								whichMovies(highEmotion);
-                //New code
-                buttonAnimation();
-                loadingGif();
-                videoObject.vidOff();
-                videoAnimation();
-                canvasAnimation();
-                setTimeout(function(){
-                  MovieListAnimation();
-                  canvasAnimation();
-                }, 1500);
-                setTimeout(function(){loadingGif();}, 2000);
+								//New code
+								buttonAnimation();
+								loadingGif();
+								videoObject.vidOff();
+								videoAnimation();
+								canvasAnimation();
+								setTimeout(function () {
+									MovieListAnimation();
+									canvasAnimation();
+								}, 1500);
+								setTimeout(function () {
+									loadingGif();
+								}, 2000);
 							} else {
-                $("#modal3").modal("open");
+								$("#modal3").modal("open");
 							}
 						})
 						.fail(function () {
@@ -254,8 +256,10 @@
 
 
 			} else {
-				console.log("didn't work");
 				btnSignIn.textContent = 'Sign-In';
+				// Display First Time User Tutorial 
+				$("#modal2").modal("open");
+				
 
 			}
 			btnSignIn.disabled = false;
@@ -396,108 +400,148 @@
 		bTag.append(title);
 		$(".card-title-text").append(bTag);
 
-    $("#theaters-link").attr("href", "https://www.fandango.com/search/?q=" + title + "&mode=Movies");
+		$("#theaters-link").attr("href", "https://www.fandango.com/search/?q=" + title + "&mode=Movies");
 
-    $("#streaming-link").attr("href", "http://www.canistream.it/search/movie/" + title);
+		$("#streaming-link").attr("href", "http://www.canistream.it/search/movie/" + title);
 
-    var releaseDate = results[x].release_date;
+		var releaseDate = results[x].release_date;
 
-    var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
+		var releaseDateConverted = moment(releaseDate).format("MMMM D, YYYY");
 
-    var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
-    releaseDateConvertedDisplay.addClass("flow-text");
-    $("#card-summary").append(releaseDateConvertedDisplay);
+		var releaseDateConvertedDisplay = $("<p>").text("Release Date: " + releaseDateConverted);
+		releaseDateConvertedDisplay.addClass("flow-text");
+		$("#card-summary").append(releaseDateConvertedDisplay);
 
-    var plotSummary = $("<p>").text(results[x].overview);
-    plotSummary.addClass("flow-text");
-    $("#card-summary").append(plotSummary);  
+		var plotSummary = $("<p>").text(results[x].overview);
+		plotSummary.addClass("flow-text");
+		$("#card-summary").append(plotSummary);
 
-  }
+	}
 
-  //Animation
-  function MovieListAnimation(){
-    var movieListDiv = $("#movieListCol");
+	//Animation
+	function MovieListAnimation() {
+		var movieListDiv = $("#movieListCol");
 
-    if(movieListDiv.hasClass("hide")){
-      movieListDiv.removeClass("hide");
-      TweenLite.to(movieListDiv, 3, {css:{opacity:1}});
-      TweenLite.fromTo(movieListDiv, 2, {y:200},{y: 0});
-    }else{
-      setTimeout(function(){movieListDiv.addClass("hide");}, 1000);
-      TweenLite.to(movieListDiv, 1, {css:{opacity:0}});
-      TweenLite.to(movieListDiv, 1, {y: 200});
-    }
-  }
-  function videoAnimation(){
-    
-    var videoDiv = $("video");
+		if (movieListDiv.hasClass("hide")) {
+			movieListDiv.removeClass("hide");
+			TweenLite.to(movieListDiv, 3, {
+				css: {
+					opacity: 1
+				}
+			});
+			TweenLite.fromTo(movieListDiv, 2, {
+				y: 200
+			}, {
+				y: 0
+			});
+		} else {
+			setTimeout(function () {
+				movieListDiv.addClass("hide");
+			}, 1000);
+			TweenLite.to(movieListDiv, 1, {
+				css: {
+					opacity: 0
+				}
+			});
+			TweenLite.to(movieListDiv, 1, {
+				y: 200
+			});
+		}
+	}
 
-    if(videoDiv.hasClass("hide")){
-      videoDiv.removeClass("hide");
-      TweenLite.to(videoDiv, 2, {css:{opacity:1}});
-    }else{
-      setTimeout(function(){videoDiv.addClass("hide");}, 1);
-      TweenLite.to(videoDiv, 2, {css:{opacity:1}});
-    }
-  }
-  function canvasAnimation(){
-    
-    var canvasDiv = $("canvas");
+	function videoAnimation() {
 
-    if(canvasDiv.hasClass("hide")){
-      canvasDiv.removeClass("hide");
-      TweenLite.to(canvasDiv, 2, {css:{opacity:1}});
-    }else{
-      setTimeout(function(){canvasDiv.addClass("hide");}, 500);
-      TweenLite.to(canvasDiv, 1, {css:{opacity:1}});
-    }
-  }
-  function loadingGif(){
-    var loadingDiv = $("#loadingDiv");
-    if(loadingDiv.hasClass("hide")){
-      loadingDiv.removeClass("hide");
-    }else{
-      loadingDiv.addClass("hide");
-    }
-  }
-  function buttonAnimation(){
-    var snapBtn = $("#snapshotBtn");
-    var videoBtn = $("#videoBtn");
+		var videoDiv = $("video");
 
-    if(snapBtn.hasClass("hide")){
-      snapBtn.removeClass("hide");
-      videoBtn.addClass("disabled");
-    }else{
-      snapBtn.addClass("hide");
-      videoBtn.removeClass("disabled");
-    }
-  }
-  $(document).ready(function () {
-    //Side-nav
-    $(".button-collapse").sideNav();
+		if (videoDiv.hasClass("hide")) {
+			videoDiv.removeClass("hide");
+			TweenLite.to(videoDiv, 2, {
+				css: {
+					opacity: 1
+				}
+			});
+		} else {
+			setTimeout(function () {
+				videoDiv.addClass("hide");
+			}, 1);
+			TweenLite.to(videoDiv, 2, {
+				css: {
+					opacity: 1
+				}
+			});
+		}
+	}
 
-    //Initialize modals
-    $(".modal").modal();
-    //start slider
-    $('.slider').slider();
+	function canvasAnimation() {
 
-    $(document).on("click", "#videoBtn", function () {
-      buttonAnimation();
-      MovieListAnimation();
-      videoAnimation();
-      videoObject.vidOn();
-    });
-    //Modal
-    $(document).on("click", ".movie-button", function () {
-      $("#modal1").modal("open");
-      displayModal($(this).parent().attr("data-value"));
-    });
-    $(document).on("click", "#infoBtn", function(){
-      
-      $("#modal2").modal("open");
-    });
+		var canvasDiv = $("canvas");
 
-    initApp();
-  });
+		if (canvasDiv.hasClass("hide")) {
+			canvasDiv.removeClass("hide");
+			TweenLite.to(canvasDiv, 2, {
+				css: {
+					opacity: 1
+				}
+			});
+		} else {
+			setTimeout(function () {
+				canvasDiv.addClass("hide");
+			}, 500);
+			TweenLite.to(canvasDiv, 1, {
+				css: {
+					opacity: 1
+				}
+			});
+		}
+	}
+
+	function loadingGif() {
+		var loadingDiv = $("#loadingDiv");
+		if (loadingDiv.hasClass("hide")) {
+			loadingDiv.removeClass("hide");
+		} else {
+			loadingDiv.addClass("hide");
+		}
+	}
+
+	function buttonAnimation() {
+		var snapBtn = $("#snapshotBtn");
+		var videoBtn = $("#videoBtn");
+
+		if (snapBtn.hasClass("hide")) {
+			snapBtn.removeClass("hide");
+			videoBtn.addClass("disabled");
+		} else {
+			snapBtn.addClass("hide");
+			videoBtn.removeClass("disabled");
+		}
+	}
+	$(document).ready(function () {
+		//Side-nav
+		$(".button-collapse").sideNav();
+
+		//Initialize modals
+		$(".modal").modal();
+		//start slider
+		$('.slider').slider();
+
+		$(document).on("click", "#videoBtn", function () {
+			buttonAnimation();
+			MovieListAnimation();
+			videoAnimation();
+			videoObject.vidOn();
+		});
+		//Modal
+		$(document).on("click", ".movie-button", function () {
+			$("#modal1").modal("open");
+			displayModal($(this).parent().attr("data-value"));
+		});
+		$(document).on("click", "#infoBtn", function () {
+
+			$("#modal2").modal("open");
+		});
+
+		initApp();
+	});
 
 }()); //IFFE
