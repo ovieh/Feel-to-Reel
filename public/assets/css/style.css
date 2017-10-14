@@ -4,6 +4,10 @@
 	color: gray;
 
 }
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
 #loadingDiv{
   position:absolute; 
   top: 30%;
@@ -19,6 +23,9 @@
 	margin-top: 0px;
 	margin-bottom: 0px;
 
+}
+.modal{
+  width: 45% !important;
 }
 video, canvas{
 	margin: 30px auto 10px auto;
@@ -96,4 +103,9 @@ nav .brand-logo {
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating):hover {
 
   color: #e57373;
+}
+@media screen and (min-width: 600px) {
+  .modal{
+    width: 100%;
+  }
 }

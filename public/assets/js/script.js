@@ -364,6 +364,11 @@
 
 			for (var i = 0; i < 9; i++) {
 
+				if(i % 3 === 0){
+ 			        var movieListRow = $("<div>").addClass("row");
+       			}
+
+
 				var movieDiv = $("<div>");
 
 				movieDiv.addClass("col s12 m4 movie-div");
@@ -382,8 +387,14 @@
 
 				movieDiv.attr("data-value", i);
 
-				$("#movieList").append(movieDiv);
-
+    			$("#movieList").append(movieDiv);
+       			movieListRow.append(movieDiv);
+ 
+       			if(i % 3 === 0){
+         			console.log("new row");
+         			$("#movieList").append(movieListRow);
+ 
+       			}
 			}
 		})
 
