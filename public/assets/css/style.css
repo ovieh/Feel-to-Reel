@@ -23,10 +23,7 @@
 video, canvas{
 	margin: 30px auto 10px auto;
 }
-.modal {
-  max-width: 45% !important;
 
-}
 .posterBtn{
 	position: relative;
 	top: 50px;
