@@ -154,6 +154,7 @@
 
 					dataURL = canvas.toDataURL("image/png");
 
+					//Binary Large Object
 					var makeblob = function (dataURL) {
 						var BASE64_MARKER = ';base64,';
 						if (dataURL.indexOf(BASE64_MARKER) == -1) {
@@ -204,9 +205,9 @@
 							data: makeblob(dataURL),
 							processData: false,
 
-
 						})
 						.done(function (data) {
+							console.log(data);
 							if (typeof data[0] !== "undefined") {
 								var scores = data[0].scores;
 								// Returns the highest index in the emotion object in emotion object
