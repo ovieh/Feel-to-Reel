@@ -17,7 +17,7 @@
 
 <body>
 	<!--Navbar-->
-	<div class="navbar-fixed">
+<!-- 	<div class="navbar-fixed">
 		<nav>
 			<div class="nav-wrapper grey darken-4">
 				<a href="index.html" class="brand-logo center">Feel to Reel</a>
@@ -41,25 +41,65 @@
 				</ul>
 			</div>
 		</nav>
-	</div>
-
+	</div> -->
+	 <nav>
+	    <div class="nav-wrapper grey darken-4">
+	      <a href="index" class="brand-logo center">Feel to Reel</a>
+	      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+	      <ul class="right hide-on-med-and-down">
+					<li>
+						<a class="waves-effect waves-light btn red disabled videoBtn">
+							<i class="small material-icons center">videocam</i>
+						</a>
+					</li>
+					<li>
+						<a class="waves-effect waves-light btn red infoBtn">
+							<i class="small material-icons center">info</i>
+						</a>
+					</li>
+					<li>
+						<a class="waves-effect waves-light btn red" id="sign-in">
+							<i class="small material-icons left">account_circle
+							</i>Sign-In</i>
+						</a>
+					</li>
+	      </ul>
+	      <ul class="side-nav right grey darken-4" id="mobile-demo">
+					<li>
+						<a class="waves-effect waves-light btn red videoBtn">
+							<i class="small material-icons center">videocam</i>Video Camera
+						</a>
+					</li>
+					<li>
+						<a class="waves-effect waves-light btn red infoBtn">
+							<i class="small material-icons center">info</i>Info
+						</a>
+					</li>
+					<li>
+						<a class="waves-effect waves-light btn red" id="sign-in-nav">
+							<i class="small material-icons left">account_circle
+							</i>Sign-In</i>
+						</a>
+					</li>
+	      </ul>
+	    </div>
+	  </nav>
 	<!-- Page Layout here -->
 	<div class="container">
 		<div class="row">
-			<div class="col s3"></div>
 
-			<!--Video canvas and snapshot col-->
-			<div class="col s6">
-				<video autoplay class=""></video>
-				<canvas class=""></canvas>
-				<div class="center">
-					<button class="btn waves-effect red center-align" id="snapshotBtn">
+			<!--Video img and snapshot col-->
+			<div class="col s10 m8 offset-s1 offset-m2 offset-l3">
+				<video autoplay class="responsive-video"></video>
+				<canvas class="hide-on-small-only"></canvas>
+			</div>
+			<div class="row">
+				<div class="col s12 offset-s6">
+					<button class="btn waves-effect red center-align snapshotBtn">
 						<i class="small material-icons">camera_alt</i>
 					</button>
 				</div>
-				<div class="col s3"></div>
 			</div>
-			<div class="col s3"></div>
 			<!--Movie recomendation row-->
 			<div class="row hide" id="movieListCol">
 		        <div class="col s12">
@@ -99,7 +139,7 @@
 			</div>
 		</div>
 		<!-- Info Modal Structure-->
-		<div id="modal2" class="modal">
+		<div id="modal2" class="modal col s10">
 			<div class="slider">
 	    		<ul class="slides">
 	      			<li>
@@ -112,17 +152,14 @@
 	      			<li>
 	        			<div class="caption center-align">
 	          				<h3>Tutorial</h3>
-	          				<br>
 	          				<h5 class="light grey-text text-lighten-3">
 	          					<b>Step 1:</b> Sign-In to your account
 								<i class="small material-icons">account_circle</i>
 	          				</h5>
-	          				<br>
 	        			   	<h5 class="light grey-text text-lighten-3">
 	          					<b>Step 2:</b> activate camera
 								<i class="small material-icons">videocam</i>
 	        			   	</h5>
-	          				<br>
 	          				<h5 class="light grey-text text-lighten-3">
 	        			   		<b>Step 3:</b> make a face
 								<i class="small material-icons">tag_faces</i>
@@ -137,13 +174,11 @@
 	          					<b>Step 4:</b> take a photo
 	          					<i class="small material-icons">camera_alt</i>
 	          				</h5>
-	          				<br>
 	          				<h5 class="light grey-text text-lighten-3">
 	          					<b>Step 5:</b> get a snack
 	          					<i class="small material-icons">local_pizza</i>
 	          				</h5>
 
-	          				<br>
 	          				<h5 class="light grey-text text-lighten-3">
 	          					<b>Step 6:</b> pick a movie
 	          					<i class="small material-icons">local_movies</i>

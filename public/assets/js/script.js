@@ -51,7 +51,7 @@
 	const database = firebase.database();
 
 	const btnSignIn = document.getElementById('sign-in');
-
+	const btnSignInNav = document.getElementById('sign-in-nav');
 	//Write to Firebase database
 	let writeUserData = (uid, emotion) => {
 		firebase.database().ref('users/' + uid).set({
@@ -72,6 +72,8 @@
 			firebase.auth().signOut();
 		}
 		btnSignIn.disabled = true;
+		btnSignInNav.disabled = true;
+	
 	}
 
 
@@ -110,11 +112,10 @@
 				var isAnonymous = user.isAnonymous;
 				uid = user.uid;
 				var providerData = user.providerData;
-
 				//Loads movies if user is logged in
 				if (highEmotion !== null) {
 					whichMovies(highEmotion);
-
+					console.log("null true??");
 				} else {
 					const usersRef = database.ref('users/');
 					usersRef.on("value", (snapshot) => {
@@ -122,8 +123,10 @@
 
 						if (user === null) {
 							videoObject.vidOn();
+							userAlreadyLogin = true;	
+							canvasAnimation();
 						}
-
+						console.log("user is??");
 						let emotion = user.emotion;
 						setEmotion(emotion);
 						if (userAlreadyLogin === false) {
@@ -133,14 +136,16 @@
 							MovieListAnimation();
 							canvasAnimation();
 							userAlreadyLogin = true;
+							console.log("test")
 						}
 					}, function (error) {
 						console.log("Error: " + error.code);
 					});
 				}
 				btnSignIn.textContent = 'Sign out';
-
-				var cameraBtn = document.querySelector("#snapshotBtn");
+				$("sign-in-nav").html('<i class="small material-icons left">exit_to_app</i>Sign out</i>');
+				//btnSignInNav.textContent = '<i class="small material-icons left">account_circle</i>Sign-In</i>';
+				var cameraBtn = document.querySelector(".snapshotBtn");
 				cameraBtn.onclick = function () {
 					canvas.width = video.videoWidth;
 					canvas.height = video.videoHeight;
@@ -257,17 +262,19 @@
 
 			} else {
 				btnSignIn.textContent = 'Sign-In';
+				btnSignInNav.textContent = 'Sign-In';
 				// Display First Time User Tutorial 
 				$("#modal2").modal("open");
-				
+				$('.slider').slider('next');
+				$('.slider').slider('prev');
 
 			}
 			btnSignIn.disabled = false;
-
+			btnSignInNav.disabled = false;
 
 		});
 		btnSignIn.addEventListener('click', toggleSignIn, false);
-
+		btnSignInNav.addEventListener('click', toggleSignIn, false);
 	}
 	// Empty variable to hold URL which will change depending on emotion detected
 	var queryURL = "";
@@ -505,8 +512,8 @@
 	}
 
 	function buttonAnimation() {
-		var snapBtn = $("#snapshotBtn");
-		var videoBtn = $("#videoBtn");
+		var snapBtn = $(".snapshotBtn");
+		var videoBtn = $(".videoBtn");
 
 		if (snapBtn.hasClass("hide")) {
 			snapBtn.removeClass("hide");
@@ -524,21 +531,27 @@
 		$(".modal").modal();
 		//start slider
 		$('.slider').slider();
+		$('.slider').slider('pause');
 
-		$(document).on("click", "#videoBtn", function () {
+
+
+		$(document).on("click", ".videoBtn", function () {
 			buttonAnimation();
 			MovieListAnimation();
 			videoAnimation();
 			videoObject.vidOn();
 		});
+
+
 		//Modal
 		$(document).on("click", ".movie-button", function () {
 			$("#modal1").modal("open");
 			displayModal($(this).parent().attr("data-value"));
 		});
-		$(document).on("click", "#infoBtn", function () {
-
+		$(document).on("click", ".infoBtn", function () {
 			$("#modal2").modal("open");
+			$('.slider').slider('next');
+			$('.slider').slider('prev');
 		});
 
 		initApp();
