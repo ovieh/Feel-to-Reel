@@ -104,8 +104,3 @@ nav .brand-logo {
 
   color: #e57373;
 }
-@media screen and (min-width: 600px) {
-  .modal{
-    width: 100%;
-  }
-}
