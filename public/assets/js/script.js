@@ -115,7 +115,6 @@
 				//Loads movies if user is logged in
 				if (highEmotion !== null) {
 					whichMovies(highEmotion);
-					console.log("null true??");
 				} else {
 					const usersRef = database.ref('users/');
 					usersRef.on("value", (snapshot) => {
@@ -126,7 +125,6 @@
 							userAlreadyLogin = true;	
 							canvasAnimation();
 						}
-						console.log("user is??");
 						let emotion = user.emotion;
 						setEmotion(emotion);
 						if (userAlreadyLogin === false) {
@@ -136,7 +134,6 @@
 							MovieListAnimation();
 							canvasAnimation();
 							userAlreadyLogin = true;
-							console.log("test")
 						}
 					}, function (error) {
 						console.log("Error: " + error.code);
