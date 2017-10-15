@@ -21,7 +21,9 @@ TODO: Describe the installation process
 
 ## Authors
 [Hector Candelaria](https://github.com/hcandelaria)
+
 [Ovieh Mosley](https://github.com/ovieh)
+
 [Tawny Cataldo](https://github.com/tawnycat)
 
 ## History
