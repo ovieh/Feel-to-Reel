@@ -19,6 +19,20 @@ TODO: Describe the installation process
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
+## Technologies Used
+[WebRTC](https://webrtc.org/)
+
+[Microsoft Azure Emotion API](https://azure.microsoft.com/en-us/services/cognitive-services/emotion/)
+
+[Movie DB](https://www.themoviedb.org/documentation/api)
+
+[Firebase](https://firebase.google.com/docs/)
+
+[Materialize](http://materializecss.com/)
+
+[Green Sock](https://greensock.com/docs)
+
+
 ## Authors
 [Hector Candelaria](https://github.com/hcandelaria)
 
