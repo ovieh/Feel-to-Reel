@@ -3,7 +3,7 @@
 Silent Sonics Group Project
 
 ---
-[![Build Status](https://travis-ci.org/ovieh/Movie-Feels.svg?branch=master)](https://travis-ci.org/ovieh/Movie-Feels)
+[![Build Status](https://travis-ci.org/ovieh/Feel-to-Reel.svg?branch=master)](https://travis-ci.org/ovieh/Movie-Feels)
 
 This is a movie recommendation application uses a still image of the user to determine their mood. The user's mood is used to deliver emotionally specific movie recommendations.
 
