@@ -2,6 +2,8 @@
 	//'use strict';
 
 	// Put variables in global scope to make them available to the browser console.
+	require('dotenv').config();
+	
 	var video = document.querySelector('video');
 	var canvas = window.canvas = document.querySelector('canvas');
 	canvas.width = 480;
@@ -12,6 +14,7 @@
 	var results;
 	var uid;
 	var userAlreadyLogin = false;
+	
 	var videoObject = {
 		constraints: {
 			audio: false,
@@ -38,7 +41,7 @@
 
 	// Initialize Firebae
 	var config = {
-		apiKey: "AIzaSyAynPxThM6T3tphifpPEvBGMdDb4xRHkRQ",
+		apiKey: process.env.FIREBASE_API_KEY,
 		authDomain: "feel-to-reel.firebaseapp.com",
 		databaseURL: "https://feel-to-reel.firebaseio.com",
 		projectId: "feel-to-reel",
@@ -194,7 +197,7 @@
 								xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
 
 								// NOTE: Replace the "Ocp-Apim-Subscription-Key" value with a valid subscription key.
-								xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "d8c7aa1767df41c0aa08d36223895b0c");
+								xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", process.env.AZURE_API_KEY);
 							},
 							type: "POST",
 							// Request body

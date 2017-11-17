@@ -1,0 +1,22 @@
+{
+  "name": "feel-to-reel",
+  "version": "0.0.1",
+  "description": "Silent Sonics Group Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ovieh/Feel-to-Reel.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ovieh/Feel-to-Reel/issues"
+  },
+  "homepage": "https://github.com/ovieh/Feel-to-Reel#readme",
+  "dependencies": {
+    "dotenv": "^4.0.0"
+  }
+}
