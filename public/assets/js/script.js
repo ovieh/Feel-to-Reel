@@ -2,7 +2,7 @@
 	//'use strict';
 
 	// Put variables in global scope to make them available to the browser console.
-	require('dotenv').config();
+	const functions = require('firebase-functions');
 	
 	var video = document.querySelector('video');
 	var canvas = window.canvas = document.querySelector('canvas');
@@ -41,7 +41,7 @@
 
 	// Initialize Firebae
 	var config = {
-		apiKey: process.env.FIREBASE_API_KEY,
+		apiKey: functions.config().fb.key,
 		authDomain: "feel-to-reel.firebaseapp.com",
 		databaseURL: "https://feel-to-reel.firebaseio.com",
 		projectId: "feel-to-reel",
@@ -197,7 +197,7 @@
 								xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
 
 								// NOTE: Replace the "Ocp-Apim-Subscription-Key" value with a valid subscription key.
-								xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", process.env.AZURE_API_KEY);
+								xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", functions.config().azure.key);
 							},
 							type: "POST",
 							// Request body
