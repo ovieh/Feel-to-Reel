@@ -1,15 +1,13 @@
 const path = require('path');
 // webpack.config.js 
 const Dotenv = require('dotenv-webpack');
-const ASSET_PATH = process.env.ASSET_PATH || '/';
 
 
 module.exports = {
   entry: './public/assets/js/script.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: ASSET_PATH
+    path: path.resolve(__dirname, './public/assets/js/'),
   },
   plugins: [
     new Dotenv({
