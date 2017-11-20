@@ -116,7 +116,6 @@
 		messagingSenderId: "817122802812"
 	};
 	firebase.initializeApp(config);
-	console.log("7fbe066f473a401086e779efd765a684");
 
 	// Get a reference to the database service
 	const database = firebase.database();
