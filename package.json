@@ -18,7 +18,13 @@
   "homepage": "https://github.com/ovieh/Feel-to-Reel#readme",
   "dependencies": {
     "dotenv": "^4.0.0",
-    "firebase-functions": "^0.7.3"
+    "dotenv-webpack": "^1.5.4",
+    "fast-crc32c": "^1.0.4",
+    "firebase-admin": "^5.5.0",
+    "firebase-functions": "^0.7.3",
+    "hash-stream-validation": "^0.2.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "webpack": "^3.8.1"
+  }
 }
