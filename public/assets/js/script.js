@@ -189,7 +189,7 @@
 							// NOTE: You must use the same location in your REST call as you used to obtain your subscription keys.
 							//   For example, if you obtained your subscription keys from westcentralus, replace "westus" in the 
 							//   URL below with "westcentralus".
-							url: "https://westus.api.cognitive.microsoft.com/emotion/v1.0" + $.param(params),
+							url: "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize?" + $.param(params),
 							beforeSend: function (xhrObj) {
 								// Request headers
 								xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
