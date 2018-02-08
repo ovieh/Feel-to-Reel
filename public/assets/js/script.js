@@ -39,7 +39,7 @@
 
 	// Initialize Firebae
 	var config = {
-		apiKey: process.env.FB_API_KEY,
+		apiKey: "AIzaSyAynPxThM6T3tphifpPEvBGMdDb4xRHkRQ",
 		authDomain: "feel-to-reel.firebaseapp.com",
 		databaseURL: "https://feel-to-reel.firebaseio.com",
 		projectId: "feel-to-reel",
