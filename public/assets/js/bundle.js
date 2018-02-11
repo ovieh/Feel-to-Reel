@@ -447,7 +447,7 @@
 
 				poster.addClass("responsive-img poster modal-trigger");
 
-				poster.attr("src", "https://image.tmdb.org/t/p/w640/" + results[i].poster_path);
+				poster.attr("src", "https://image.tmdb.org/t/p/w500/" + results[i].poster_path);
 
 				movieDiv.append(poster);
 
