@@ -69,7 +69,7 @@
 
 /* WEBPACK VAR INJECTION */(function(process) {(function () {
 	//'use strict';
-
+	console.log(process.env.AZURE_API_KEY, 'testingggsssss')
 	// Put variables in global scope to make them available to the browser console.
 	var video = document.querySelector('video');
 	var canvas = window.canvas = document.querySelector('canvas');
