@@ -409,7 +409,7 @@
 
 		$(".card-title-text").text("");
 
-		$("#backdrop-image").attr("src", "https://image.tmdb.org/t/p/w640" + results[x].backdrop_path);
+		$("#backdrop-image").attr("src", "https://image.tmdb.org/t/p/w500" + results[x].backdrop_path);
 
 		var title = results[x].title;
 		var bTag = $("<b>");
