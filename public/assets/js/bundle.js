@@ -81,6 +81,7 @@
 	var results;
 	var uid;
 	var userAlreadyLogin = false;
+	const AZURE_API_KEY = '926bc7da0711406cbc9a350f744b5dd2';
 
 	var videoObject = {
 		constraints: {
@@ -264,7 +265,7 @@
 								xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
 
 								// NOTE: Replace the "Ocp-Apim-Subscription-Key" value with a valid subscription key.
-								xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",process.env.AZURE_API_KEY);
+								xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", AZURE_API_KEY);
 							},
 							type: "POST", 
 							// Request body
