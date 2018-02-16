@@ -1,6 +1,5 @@
 (function () {
 	//'use strict';
-	console.log(process.env.AZURE_API_KEY, 'testingggsssss')
 	// Put variables in global scope to make them available to the browser console.
 	var video = document.querySelector('video');
 	var canvas = window.canvas = document.querySelector('canvas');
@@ -12,7 +11,7 @@
 	var results;
 	var uid;
 	var userAlreadyLogin = false;
-	const AZURE_API_KEY = '926bc7da0711406cbc9a350f744b5dd2';
+	const AZURE_API_KEY = '1f5af2e697b9439cbce82aa818d37116';
 
 	var videoObject = {
 		constraints: {
@@ -69,6 +68,25 @@
 
 			//Prompt user for sign in
 			firebase.auth().signInWithRedirect(provider);
+
+			firebase.auth().getRedirectResult().then(function(result) {
+				if (result.credential) {
+					// This gives you a GitHub Access Token. You can use it to access the GitHub API.
+					var token = result.credential.accessToken;
+					// ...
+				}
+				// The signed-in user info.
+				var user = result.user;
+			}).catch(function(error) {
+				// Handle Errors here.
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				// The email of the user's account used.
+				var email = error.email;
+				// The firebase.auth.AuthCredential type that was used.
+				var credential = error.credential;
+				// ...
+			});
 
 		} else {
 			firebase.auth().signOut();
@@ -184,13 +202,14 @@
 					// console.log(dataURL);
 					var params = {
 						// Request parameters
+            "returnFaceAttributes": "age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise",
 					};
 
 					$.ajax({
 							// NOTE: You must use the same location in your REST call as you used to obtain your subscription keys.
 							//   For example, if you obtained your subscription keys from westcentralus, replace "westus" in the 
 							//   URL below with "westcentralus".
-							url: "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize?" + $.param(params),
+							url: "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect?" + $.param(params),
 							beforeSend: function (xhrObj) {
 								// Request headers
 								xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
@@ -206,12 +225,14 @@
 
 						})
 						.done(function (data) {
-							console.log(data);
-							if (typeof data[0] !== "undefined") {
-								var scores = data[0].scores;
+							var emotion = data[0].faceAttributes.emotion
+							
+							console.log(emotion);
+							if (typeof emotion !== "undefined") {
+								// var scores = emotion;
 								// Returns the highest index in the emotion object in emotion object
-								highEmotion = Object.keys(scores).reduce((a, b) => {
-									return scores[a] > scores[b] ? a : b;
+								highEmotion = Object.keys(emotion).reduce((a, b) => {
+									return emotion[a] > emotion[b] ? a : b;
 								});
 								writeUserData(uid, highEmotion);
 								whichMovies(highEmotion);
