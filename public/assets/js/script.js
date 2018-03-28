@@ -11,7 +11,7 @@
 	var results;
 	var uid;
 	var userAlreadyLogin = false;
-	const AZURE_API_KEY = '1f5af2e697b9439cbce82aa818d37116';
+	const AZURE_API_KEY = '926bc7da0711406cbc9a350f744b5dd2';
 
 	var videoObject = {
 		constraints: {
