@@ -203,7 +203,7 @@
 					var params = {
 						// Request parameters
 						"returnFaceId": "false",
-						"eturnLandMarks": "false",
+						"returnLandMarks": "false",
             "returnFaceAttributes": "emotion"
 					};
 					
