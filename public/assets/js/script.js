@@ -11,7 +11,7 @@
 	var results;
 	var uid;
 	var userAlreadyLogin = false;
-	const AZURE_API_KEY = '926bc7da0711406cbc9a350f744b5dd2';
+	const AZURE_API_KEY = '17d4104031ab4495bf14e97ff07c55cf';
 
 	var videoObject = {
 		constraints: {
@@ -37,7 +37,7 @@
 		}
 	};
 
-	// Initialize Firebae
+	// Initialize Firebase
 	var config = {
 		apiKey: "AIzaSyAynPxThM6T3tphifpPEvBGMdDb4xRHkRQ",
 		authDomain: "feel-to-reel.firebaseapp.com",
@@ -202,14 +202,16 @@
 					// console.log(dataURL);
 					var params = {
 						// Request parameters
-            "returnFaceAttributes": "age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise",
+						"returnFaceId": "false",
+						"eturnLandMarks": "false",
+            "returnFaceAttributes": "emotion"
 					};
-
+					
 					$.ajax({
 							// NOTE: You must use the same location in your REST call as you used to obtain your subscription keys.
 							//   For example, if you obtained your subscription keys from westcentralus, replace "westus" in the 
 							//   URL below with "westcentralus".
-							url: "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect?" + $.param(params),
+							url: "https://eastus.api.cognitive.microsoft.com/face/v1.0/detect?" + $.param(params),
 							beforeSend: function (xhrObj) {
 								// Request headers
 								xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
@@ -226,8 +228,8 @@
 						})
 						.done(function (data) {
 							var emotion = data[0].faceAttributes.emotion
-							
-							console.log(emotion);
+							console.log(data)
+							// console.log(emotion);
 							if (typeof emotion !== "undefined") {
 								// var scores = emotion;
 								// Returns the highest index in the emotion object in emotion object
